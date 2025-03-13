@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 import { Observer, useLocalObservable } from 'mobx-react-lite';
 import { useCallback } from 'react';
@@ -8,6 +7,7 @@ import { useEffectOnce } from 'react-use';
 import { CenterXY } from './components'
 import { Button } from 'antd-mobile';
 import { StoreContext } from './contexts/store';
+import Router from './router.js'
 
 function App() {
   const local = useLocalObservable(() => ({
@@ -23,7 +23,7 @@ function App() {
     } else {
 
     }
-  }), [])
+  }))
   useEffectOnce(() => {
     biu();
     window.addEventListener('online', () => {
@@ -31,6 +31,9 @@ function App() {
         local.isError = false
         biu()
       }
+    })
+    window.addEventListener('orientationchange', () => {
+      store.app.orientation = window.screen.orientation.angle
     })
   })
   return (
@@ -53,7 +56,7 @@ function App() {
       } else {
         return (
           <StoreContext.Provider value={store}>
-
+            <Router />
           </StoreContext.Provider>
         )
       }

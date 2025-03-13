@@ -1,7 +1,7 @@
 import { types } from 'mobx-state-tree';
 
 const App = types.model('app', {
-  t: types.number,
+  t: types.optional(types.number, 0),
   isBooting: types.optional(types.boolean, false),
   debug: types.optional(types.boolean, false),
   fullscreen: types.optional(types.boolean, false),

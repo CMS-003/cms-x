@@ -10,7 +10,7 @@ const User = types.model('user', {
       self.refresh_token = ''
     },
     setAccessToken(token) {
-      self.access_token = toekn
+      self.access_token = token
     },
   }))
   .views(self => ({

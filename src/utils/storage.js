@@ -1,4 +1,4 @@
-export default {
+const storage = {
   prefix: '',
   setValue(key, value) {
     let type = 'string';
@@ -44,3 +44,5 @@ export default {
     window.localStorage.removeItem(this.prefix + key);
   },
 };
+
+export default storage;

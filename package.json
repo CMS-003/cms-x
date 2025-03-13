@@ -21,7 +21,7 @@
     "styled-components": "^6.1.15"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "PUBLIC_URL=/demo react-scripts start",
     "build": "react-scripts build"
   },
   "eslintConfig": {

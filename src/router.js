@@ -1,9 +1,16 @@
 import React, { Fragment, useEffect } from 'react';
 import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
 import store from './store';
+import { Observer } from 'mobx-react-lite';
 
 function Adaptor() {
-
+  return (
+    <Observer>{() => (
+      <Fragment>
+        layers
+      </Fragment>
+    )}</Observer>
+  )
 }
 
 function NoMatch() {

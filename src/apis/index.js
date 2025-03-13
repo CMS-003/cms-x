@@ -6,6 +6,8 @@ function boot() {
   });
 }
 
-export default {
+const apis = {
   boot,
 }
+
+export default apis;
