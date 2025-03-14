@@ -1,13 +1,13 @@
 import { shttp } from '../utils'
 
-function boot() {
+function getPageComponents() {
   return shttp({
     url: '/v1/public/boot',
   });
 }
 
 const apis = {
-  boot,
+  getPageComponents,
 }
 
 export default apis;

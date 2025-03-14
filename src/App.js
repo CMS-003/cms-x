@@ -6,7 +6,6 @@ import apis from './apis'
 import { useEffectOnce } from 'react-use';
 import { CenterXY } from './components'
 import { Button } from 'antd-mobile';
-import { StoreContext } from './contexts/store';
 import Router from './router.js'
 
 function App() {
@@ -15,7 +14,7 @@ function App() {
   }));
   const biu = useCallback((async () => {
     store.app.setBoot(true)
-    const resp = await apis.boot();
+    const resp = await apis.getPageComponents();
     store.app.setBoot(false)
     if (resp.code !== 0) {
       local.isError = true
@@ -23,7 +22,7 @@ function App() {
     } else {
 
     }
-  }))
+  }), [local])
   useEffectOnce(() => {
     biu();
     window.addEventListener('online', () => {
@@ -54,11 +53,7 @@ function App() {
           </Button>
         </CenterXY>
       } else {
-        return (
-          <StoreContext.Provider value={store}>
-            <Router />
-          </StoreContext.Provider>
-        )
+        return <Router />
       }
     }}</Observer>
   );

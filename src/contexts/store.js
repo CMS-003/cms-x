@@ -1,7 +1,4 @@
-import React, { useContext } from 'react';
+import React from 'react';
 
-export const StoreContext = React.createContext(null);
-
-export function useStore() {
-  return useContext(Context);
-}
+const StoreContext = React.createContext(null);
+export default StoreContext
