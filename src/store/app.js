@@ -15,7 +15,7 @@ const App = types
       self.baseURL = url;
     },
     setBoot(b) {
-      self.isBooting(b)
+      self.isBooting = b
     },
   }));
 

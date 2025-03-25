@@ -1,13 +1,16 @@
 import { types } from 'mobx-state-tree';
 
 const View = types
-  .model('view', {
-    views: types.array(types.string),
+  .model('views', {
+    views: types.array(types.model('view', {
+      view: types.string,
+      query: types.frozen({}),
+    })),
     current: types.optional(types.string, '/')
   })
   .actions(self => ({
-    pushView(view) {
-      self.views.push(view)
+    pushView(view, query = {}) {
+      self.views.push({ view, query })
       self.current = view
     },
     backView() {

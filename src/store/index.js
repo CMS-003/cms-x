@@ -1,7 +1,7 @@
 import { types } from 'mobx-state-tree';
 import User from './user';
 import App from './app'
-import { storage } from '../utils'
+import storage from '../utils/storage';
 
 storage.prefix = process.env.PUBLIC_URL
 
@@ -13,6 +13,7 @@ const Store = types.model('store', {
 const store = Store.create({
   app: {
     debug: true,
+    baseURL: 'http://localhost:3333'
   },
   user: {
     access_token: storage.getValue('access_token') || '',

@@ -1,10 +1,9 @@
 import axios from 'axios';
 import store from '../store';
-import Config from '../config';
-import services from '../services';
+import services from '../apis';
 
 const shttp = axios.create({
-  baseURL: '',
+  baseURL: store.app.baseURL,
   withCredentials: false,
   timeout: 20000,
 });

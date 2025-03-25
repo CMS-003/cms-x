@@ -1,5 +1,5 @@
 import React, { Fragment, useEffect } from 'react';
-import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Routes, Navigate } from 'react-router';
 import store from './store';
 import { Observer } from 'mobx-react-lite';
 
@@ -15,19 +15,19 @@ function Adaptor() {
 
 function NoMatch() {
   if (store.user.isLogin) {
-    return <Redirect to={'/home'}></Redirect>;
+    return <Navigate to={'/demo'}></Navigate>;
   } else {
-    return <Redirect to={'/auth/login'}></Redirect>;
+    return <Navigate to={'/demo/auth/login'}></Navigate>;
   }
 }
 
 export default function Router() {
   return (
-    <BrowserRouter basename={process.env.PUBLIC_URL}>
-      <Switch>
-        <Route path={'/*'} component={Adaptor}></Route>
-        <Route component={NoMatch} />
-      </Switch>
+    <BrowserRouter >
+      <Routes>
+        <Route path={'/demo'} element={<Adaptor />}></Route>
+        <Route element={<NoMatch />} />
+      </Routes>
     </BrowserRouter>
   );
 }

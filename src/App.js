@@ -1,4 +1,3 @@
-import './App.css';
 import { Observer, useLocalObservable } from 'mobx-react-lite';
 import { useCallback } from 'react';
 import store from './store';
@@ -14,14 +13,15 @@ function App() {
   }));
   const biu = useCallback((async () => {
     store.app.setBoot(true)
-    const resp = await apis.getPageComponents();
-    store.app.setBoot(false)
+    const resp = await apis.boot();
+    const respPage = await apis.getPageComponents('home', 1)
     if (resp.code !== 0) {
       local.isError = true
       console.log(resp, '启动失败')
     } else {
 
     }
+    store.app.setBoot(false)
   }), [local])
   useEffectOnce(() => {
     biu();
@@ -40,18 +40,16 @@ function App() {
       if (store.app.isBooting) {
         return <div>splash</div>
       } else if (local.isError) {
-        return <CenterXY>
-          <Button
-            style={{ width: 150 }}
-            type="primary"
-            onClick={() => {
-              biu();
-              local.isError = false;
-            }}
-          >
-            {navigator.onLine ? '点击重试' : '您处于离线状态'}
-          </Button>
-        </CenterXY>
+        return <Button
+          style={{ width: 150 }}
+          type="primary"
+          onClick={() => {
+            biu();
+            local.isError = false;
+          }}
+        >
+          {navigator.onLine ? '点击重试' : '您处于离线状态'}
+        </Button>
       } else {
         return <Router />
       }
