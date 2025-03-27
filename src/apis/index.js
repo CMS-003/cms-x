@@ -1,4 +1,4 @@
-import { shttp } from '../utils'
+import shttp from '../utils/shttp.js'
 
 function boot() {
   return shttp({

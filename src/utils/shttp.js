@@ -1,6 +1,5 @@
 import axios from 'axios';
 import store from '../store';
-import services from '../apis';
 
 const shttp = axios.create({
   baseURL: store.app.baseURL,
@@ -37,7 +36,7 @@ shttp.interceptors.response.use(
       ) {
         store.user.setAccessToken('')
         return new Promise(async (resolve) => {
-          const result = await services.refresh({
+          const result = await axios.post(`${store.app.baseURL}/v1/auth/refresh`, {
             authorization: store.user.refresh_token,
           });
           if (result && result.data) {

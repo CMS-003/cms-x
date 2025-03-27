@@ -1,5 +1,3 @@
-export { default as shttp } from './shttp'
-export { default as storage } from './storage'
 
 export function formatDuration(n) {
   let time = '',
