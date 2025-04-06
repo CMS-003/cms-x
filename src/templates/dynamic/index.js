@@ -9,25 +9,32 @@ export default function Dynamic(props) {
   const local = useLocalObservable(() => ({
     isLoading: false,
     template: null,
-    components: [],
     isError: false,
     page: 1,
   }));
   const getData = useCallback(async () => {
     local.isLoading = true;
-    console.log('??')
-    const resp = await apis.getPageComponents(id, local.page)
+    const resp = await apis.getTemplate(id)
     local.isLoading = false;
     if (resp.code === 0) {
-      local.template = resp.data.item;
-      local.components = resp.data.items;
+      local.template = resp.data;
     } else {
       local.isError = true;
     }
   }, [id, local])
+  // const getMore = useCallback(async () => {
+  //   local.isLoading = true;
+  //   const resp = await apis.getPageComponents(id, local.page)
+  //   local.isLoading = false;
+  //   if (resp.code === 0) {
+  //     local.components = resp.data.items;
+  //   } else {
+  //     local.isError = true;
+  //   }
+  // }, [id, local.page])
   useEffectOnce(() => {
     if (local.template === null && !local.isLoading) {
-      getData();
+      getData(id);
     }
     return () => {
 
@@ -37,9 +44,12 @@ export default function Dynamic(props) {
     if (local.isError) {
       return <div>error</div>
     }
+    if (!local.template) {
+      return <div>spin</div>
+    }
     return (
       <Fragment>
-        <Auto components={local.components} />
+        <Auto template={local.template} />
       </Fragment>
     )
   }}</Observer>

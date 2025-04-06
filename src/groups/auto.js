@@ -1,7 +1,7 @@
 import { Observer } from "mobx-react-lite";
 import Widgets from './index.js'
 
-function Component({ self }) {
+export function Component({ self }) {
   const Widget = Widgets[self.type];
   if (!Widget) {
     return <div>NotFound: {self.type}</div>
@@ -15,8 +15,8 @@ function Component({ self }) {
   )}</Observer>
 }
 
-export default function Auto({ components }) {
+export default function Auto({ template }) {
   return <Observer>{() => (
-    components.map(component => <Component key={component._id} self={component} />)
+    template.children.map(component => <Component key={component._id} self={component} />)
   )}</Observer>
 }

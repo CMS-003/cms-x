@@ -17,6 +17,9 @@ const App = types
     setBoot(b) {
       self.isBooting = b
     },
+    setOrientation(angel) {
+      self.orientation = angel
+    },
   }));
 
 export default App;

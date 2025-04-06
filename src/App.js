@@ -32,7 +32,7 @@ function App() {
       }
     })
     window.addEventListener('orientationchange', () => {
-      store.app.orientation = window.screen.orientation.angle
+      store.app.setOrientation(window.screen.orientation.angle)
     })
   })
   return (

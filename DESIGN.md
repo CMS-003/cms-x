@@ -8,3 +8,10 @@
 - groups 自动组装
 - pages 页面模板。template+其他定义模板
 - 页面缓存： 切换view，数据不存在则创建并缓存
+
+
+## TODO
+- Tabbar切换并缓存
+- Filter数据加载
+- Random请求数据
+- 组件分页加载设置

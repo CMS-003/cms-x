@@ -2,6 +2,8 @@ import React from 'react'
 
 import { types } from 'mobx-state-tree';
 import Dynamic from '../templates/dynamic'
+import Article from '../templates/article'
+import Video from '../templates/video'
 
 /**
  * 每个 view 由Template组成,界面显示由 view 控制
@@ -10,6 +12,8 @@ import Dynamic from '../templates/dynamic'
  */
 const Templates = {
   Dynamic,
+  Article,
+  Video,
 }
 const ViewPages = {
 
