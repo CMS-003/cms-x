@@ -4,6 +4,7 @@ import { types } from 'mobx-state-tree';
 import Dynamic from '../templates/dynamic'
 import Article from '../templates/article'
 import Video from '../templates/video'
+import _ from 'lodash'
 
 /**
  * 每个 view 由Template组成,界面显示由 view 控制
@@ -19,29 +20,54 @@ const ViewPages = {
 
 }
 
-const View = types
+export function getViews(location) {
+  let pathname = location.pathname;
+  if (pathname.startsWith(process.env.PUBLIC_URL)) {
+    pathname = pathname.substring(process.env.PUBLIC_URL.length)
+  }
+  const views = pathname.split('/').filter(p => p !== '');
+  const query = {};
+  (location.search.replace(/^[?]/, '')).split('&').map(v => {
+    const [name, value] = v.split('=');
+    _.set(query, name, value);
+  });
+  return views.map(view => ({ view, query: query[view] || {} }));
+}
+
+export const View = types
   .model('views', {
     views: types.array(types.model('view', {
       view: types.string,
       query: types.frozen({}),
     })),
-    current: types.optional(types.string, '/')
   })
   .actions(self => ({
     pushView(view, query = {}) {
       self.views.push({ view, query })
-      self.current = view
+      const url = self.getUrl();
+      window.history.pushState(null, '', url)
     },
     backView() {
-      if (self.views.length === 1) {
-        return;
-      } else {
-        self.views.pop();
-        self.current = self.views[self.views.length - 1].view
-      }
+      self.views.pop();
+      const url = self.getUrl();
+      window.history.pushState(null, '', url)
     },
   }))
   .views(self => ({
+    getUrl() {
+      const queries = [];
+      const views = self.views.map(v => {
+        if (v.query) {
+          for (let k in v.query) {
+            _.set(queries, `${v.view}.${k}`, v.query[k]);
+            queries.push(`${v.view}.${k}=${v.query[k]}`);
+          }
+        }
+        return v.view;
+      });
+      views.unshift('demo')
+      return `/${views.join('/')}${queries.length ? '?' + queries.join('&') : ''}`
+    },
     getViewPage(view, id) {
       const view_id = `${view}:${id}`
       console.log(view_id)
@@ -57,10 +83,6 @@ const View = types
     }
   }));
 
-export const router = View.create({
-  views: [{ view: 'Dynamic', query: { id: 'demo' } }],
-  current: 'Dynamic:demo'
-})
 const RouterContext = React.createContext(null);
 
 export default RouterContext

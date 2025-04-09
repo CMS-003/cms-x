@@ -11,13 +11,16 @@ export default function Dynamic(props) {
     template: null,
     isError: false,
     page: 1,
+    setValue(key, value) {
+      local[key] = value
+    }
   }));
   const getData = useCallback(async () => {
     local.isLoading = true;
     const resp = await apis.getTemplate(id)
     local.isLoading = false;
     if (resp.code === 0) {
-      local.template = resp.data;
+      local.setValue('template', resp.data);
     } else {
       local.isError = true;
     }

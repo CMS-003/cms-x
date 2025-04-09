@@ -21,10 +21,12 @@ const Layer = styled.div`
 
 function Adaptor() {
   const router = useContext(RouterContext);
+  const View = router.getViewPage && router.getViewPage('Dynamic', 'demo');
   return (
     <Observer>{() => (
       <LayerWrap>
         <AnimatePresence>
+          {View && <View id="demo" />}
           {router.views.map((view, n) => {
             const View = router.getViewPage(view.view, view.query['id'])
             return <motion.div
@@ -32,7 +34,7 @@ function Adaptor() {
               initial={{ left: '100%' }}
               animate={{ left: 0 }}
               exit={{ left: '100%' }}
-              style={{ zIndex: 10 + n, position: 'absolute', width: '100%', height: '100%', backgroundColor: '#eee' }}
+              style={{ zIndex: 10 + n, position: 'absolute', top: 0, width: '100%', height: '100%', backgroundColor: '#eee' }}
             >
               <View id={view.query.id} />
             </motion.div>
@@ -56,7 +58,7 @@ export default function Router() {
   return (
     <BrowserRouter >
       <Routes>
-        <Route path={'/demo'} element={<Adaptor />}></Route>
+        <Route path={'/demo/*'} element={<Adaptor />}></Route>
         <Route element={<NoMatch />} />
       </Routes>
     </BrowserRouter>

@@ -1,5 +1,6 @@
 import { Observer } from "mobx-react-lite";
 import Widgets from './index.js'
+import { toJS } from "mobx";
 
 export function Component({ self }) {
   const Widget = Widgets[self.type];
@@ -17,6 +18,8 @@ export function Component({ self }) {
 
 export default function Auto({ template }) {
   return <Observer>{() => (
-    template.children.map(component => <Component key={component._id} self={component} />)
+    <div style={toJS(template.style)}>
+      {template.children.map(component => <Component key={component._id} self={component} />)}
+    </div>
   )}</Observer>
 }

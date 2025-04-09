@@ -4,7 +4,7 @@ import { Observer, useLocalObservable } from "mobx-react-lite";
 import RouterContext from '../../contexts/router.js';
 import Auto from "../auto";
 
-export default function ({ self }) {
+export default function TabBarPage({ self }) {
   const router = useContext(RouterContext);
   const local = useLocalObservable(() => ({
     activeKey: self.children[0]._id,
@@ -12,8 +12,8 @@ export default function ({ self }) {
   }));
   const View = router.getViewPage('Dynamic', local.template_id);
   return <Observer>{() => (
-    <div style={{ height: '100%', width: '100%', display: 'flex', flexDirection: 'column' }}>
-      <div style={{ flex: 1, overflow: 'auto' }}>
+    <div style={{ height: '100%', width: '100%', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+      <div style={{ flex: 1, overflow: 'auto', display: 'flex', flexDirection: 'column' }}>
         <View id={local.template_id} />
       </div>
       <TabBar>

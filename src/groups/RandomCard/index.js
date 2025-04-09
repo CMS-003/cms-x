@@ -10,7 +10,7 @@ const Header = styled.div`
  color: #555;
 `
 const Wrap = styled.div`
-border-radius: 10px;
+border-radius: 4px;
 background-color: #eee;
 `
 const Content = styled.div`

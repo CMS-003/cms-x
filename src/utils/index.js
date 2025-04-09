@@ -1,10 +1,13 @@
+import * as bowser from 'bowser';
+
+const browser = bowser.getParser(window.navigator.userAgent);
 
 export function formatDuration(n) {
   let time = '',
     h = 0,
     m = 0,
     s = 0;
-  n = n.toFixed(0);
+  n = typeof n === 'number' ? n.toFixed(0) : 0;
   if (n > 3600) {
     h = (n / 3600).toFixed(0);
     if (h < 10) {
@@ -53,4 +56,16 @@ export function readableTime(date) {
     suffix = '';
   }
   return tips + suffix;
+}
+
+export function isPWAorMobile() {
+  const isChromeApp = window.matchMedia('(display-mode: standalone)').matches;
+  const isIosApp = window.navigator.standalone === true;
+  const platformType = browser.getPlatformType();
+  return platformType === 'mobile' ||
+    platformType === 'tablet' ||
+    isChromeApp ||
+    isIosApp
+    ? true
+    : false;
 }

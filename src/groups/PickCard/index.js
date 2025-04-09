@@ -11,7 +11,7 @@ const Header = styled.div`
  color: #555;
 `
 const Content = styled.div`
-  border-radius: 10px;
+  border-radius: 4px;
   background-color: #eee;
   padding: 10px 10px 0;
 `

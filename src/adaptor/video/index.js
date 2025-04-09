@@ -1,7 +1,6 @@
-import { useContext } from 'react';
 import { Observer } from 'mobx-react-lite';
 import styled from 'styled-components'
-import RouterContext from '@/contexts/router.js';
+import { useStore, useRouter } from '@/contexts';
 
 const ItemWrap = styled.div`
   width: 150px;
@@ -22,12 +21,13 @@ const ItemTitle = styled.div`
 `
 
 export default function Video({ item }) {
-  const router = useContext(RouterContext);
+  const router = useRouter();
+  const store = useStore();
   return <Observer>{() => (
     <ItemWrap onClick={() => {
       router.pushView('Video', { id: item._id })
     }}>
-      <div style={{ width: 120, height: 90, backgroundImage: `url(${"http://192.168.0.124" + (item.thumbnail || item.poster || '/images/poster/nocover.jpg')})`, backgroundSize: 'cover', backgroundPosition: 'center center' }}></div>
+      <div style={{ width: 120, height: 90, backgroundImage: `url(${store.app.imageLine + (item.thumbnail || item.poster || '/images/poster/nocover.jpg')})`, backgroundSize: 'cover', backgroundPosition: 'center center' }}></div>
       <ItemTitle >{item.title}</ItemTitle>
     </ItemWrap>
   )}</Observer>

@@ -6,6 +6,7 @@ import apis from "@/apis";
 import Player from "@/components/Player";
 import { toJS } from "mobx";
 import styled from "styled-components";
+import { useStore } from "@/contexts/index.js";
 
 const Title = styled.h1`
   font-size: 1.1em;
@@ -15,40 +16,40 @@ const Title = styled.h1`
 `
 
 export default function VideoPage(props) {
+  const store = useStore();
   const local = useLocalObservable(() => ({
     resource: null,
     loading: true,
     error: null,
+    setValue: function (key, value) {
+      local[key] = value;
+    }
   }));
   const getDetail = useCallback(async () => {
-    local.loading = true;
+    local.setValue('loading', true);
     try {
       const resp = await apis.getResourceDetail(props.id);
       if (resp && resp.code === 0) {
-        local.resource = resp.data;
+        local.setValue('resource', resp.data)
       } else {
-        local.error = { code: resp.code, message: resp.message }
+        local.setValue('error', { code: resp.code, message: resp.message })
       }
     } catch (e) {
-      local.error = e
+      local.setValue('error', e)
     } finally {
-      local.loading = false;
+      local.setValue('loading', false);
     }
 
-  })
+  }, [local, props.id])
   useEffect(() => {
     getDetail();
-  }, [props.id])
+  }, [getDetail])
   return <Observer>{() => (
     <FullHeight>
       <FullHeightFix style={{ flexDirection: 'column' }}>
-        <Nav
-          title={'视频详情'}
-          align="left"
-          style={{ position: 'absolute', zIndex: 10, background: 'linear-gradient(-180deg, #333, transparent)' }} />
         {local.resource && <Player
           resource={toJS(local.resource)}
-          srcpath={'http://192.168.0.124' + '/upload/videos/animate/2021-02-13/1.mp4'}
+          srcpath={store.app.videoLine + '/upload/big_buck_bunny.mp4'}
         />}
       </FullHeightFix>
       <FullHeightAuto>
