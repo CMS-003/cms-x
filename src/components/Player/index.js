@@ -134,7 +134,7 @@ const VError = styled.div`
 
 export default function Player({
   resource = {},
-  srcpath,
+  video = {},
   type,
   looktime,
   onTimeUpdate,
@@ -200,13 +200,21 @@ export default function Player({
     event
   }) => {
     event.preventDefault()
-    if (last) {
+    if (last && (Math.abs(mx) > 3) || (Math.abs(my) > 3)) {
       const angle = Math.atan2(mx, my) * 180 / Math.PI
-      console.log(angle, mx, my)
       if (angle >= -22.5 && angle < 22.5) console.log('下')
-      else if (angle >= 67.5 && angle < 112.5) console.log('右')
+      else if (angle >= 67.5 && angle < 112.5) {
+        console.log('右')
+        seekTo(local.realtime + 10)
+      }
       else if (angle >= 157.5 || angle < -157.5) console.log('上')
-      else if (angle >= -112.5 && angle < -67.5) console.log('左')
+      else if (angle >= -112.5 && angle < -67.5) {
+        console.log('左')
+        seekTo(local.realtime - 10)
+      }
+    }
+    if (last && mx === 0 && my === 0) {
+      local.setValue('showControl', !local.showControl)
     }
   })
   return <Observer>{() => (
@@ -241,7 +249,7 @@ export default function Player({
       }}>
         <ReactPlayer
           style={{ position: 'absolute', left: '50%', transform: 'translate(-50%, 0)', top: 0, zIndex: 2 }}
-          url={srcpath}
+          url={store.app.videoLine + video.path}
           ref={playerRef}
           loop={false}
           playing={local.playing}
@@ -266,11 +274,10 @@ export default function Player({
             local.setValue('duration', duration)
           }}
           onReady={(e) => {
-            console.log(e, 'onready')
+            // console.log(e, 'onready')
             // local.duration = e.getDuration() || 0;
             if (local.seeking) {
               local.setValue('seeking', false)
-              seekTo(local.dragtime)
             }
           }}
           onStart={(e) => {
@@ -404,7 +411,7 @@ export default function Player({
               const offsetX = e.clientX - parentRect.left;
               const time = local.duration * (offsetX / e.currentTarget.offsetWidth)
               local.setValue('realtime', time)
-              seekTo(time, 'seconds')
+              seekTo(time)
               local.setValue('seeking', true)
             }}>
               <div style={{ position: 'absolute', left: 0, top: 3, width: '100%', height: 4, backgroundColor: '#fff4' }}></div>
@@ -435,12 +442,12 @@ export default function Player({
                   e.preventDefault();
                   e.stopPropagation();
                   const time = local.dragtime
+                  console.log(local.realtime, time)
                   seekTo(time);
                   local.setValue('seeking', true)
                   local.setValue('realtime', time)
                   local.setValue('isDrag', false)
                   local.setValue('displayPercent', 0)
-                  local.setValue('dragtime', 0)
                 }}
               >
                 {local.isDrag && <Tip>{formatDuration(local.dragtime)}</Tip>}
