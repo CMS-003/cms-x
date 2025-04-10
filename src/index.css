@@ -24,6 +24,14 @@ body,
   height: 100%;
 }
 
+* {
+  scrollbar-width: none;
+}
+
+*::-webkit-scrollbar {
+  display: none;
+}
+
 .spin {
   transform: rotate(360deg);
   animation: spin 1s linear infinite;

@@ -1,3 +1,4 @@
+import qs from 'qs';
 import shttp from '../utils/shttp.js'
 
 function boot() {
@@ -23,6 +24,12 @@ function getResourceDetail(id) {
     url: `/api/v1/public/resource/${id}`,
   });
 }
+
+function getResourceList(query) {
+  return shttp({
+    url: `/api/v1/public/resources${qs.stringify(query, { addQueryPrefix: true })}`,
+  });
+}
 const apis = {
   boot,
   getTemplate,
@@ -33,6 +40,7 @@ const apis = {
     })
   },
   getResourceDetail,
+  getResourceList,
 }
 
 export default apis;

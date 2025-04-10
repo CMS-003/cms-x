@@ -156,7 +156,7 @@ export default function Player({
     playing: false,
     seeking: false,
     status: VIDEO_STATUS.CANPLAY,
-    duration: resource.size || 0,
+    duration: resource ? resource.size : 0,
     realtime: 0,
     buffertime: 0,
     dragtime: 0,
@@ -216,7 +216,7 @@ export default function Player({
     if (last && mx === 0 && my === 0) {
       local.setValue('showControl', !local.showControl)
     }
-  })
+  });
   return <Observer>{() => (
     <div
       ref={containerRef}
@@ -247,9 +247,9 @@ export default function Player({
         display: 'flex',
         justifyContent: 'center',
       }}>
-        <ReactPlayer
+        {resource && <ReactPlayer
           style={{ position: 'absolute', left: '50%', transform: 'translate(-50%, 0)', top: 0, zIndex: 2 }}
-          url={store.app.videoLine + video.path}
+          url={store.app.videoLine + '/upload/big_buck_bunny.mp4'}
           ref={playerRef}
           loop={false}
           playing={local.playing}
@@ -261,13 +261,21 @@ export default function Player({
           playbackRate={local.playbackRate}
           muted={local.muted}
           wrapper={'div'}
+          light={
+            <img
+              src={store.app.imageLine + (resource.poster || resource.thumbnail || '')}
+              alt="Video thumbnail"
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover'
+              }}
+            />
+          }
           config={{
             file: {
               forceHLS: type === 'hls',
               // tracks: subtitles.map((s, i) => ({ kind: 'subtitles', src: store.app.baseURL + s.path, srcLang: s.lang, default: i === 0 })),
-              attributes: {
-                poster: store.app.imageLine + (resource.poster || resource.thumbnail || ''),
-              }
             }
           }}
           onDuration={(duration) => {
@@ -275,7 +283,6 @@ export default function Player({
           }}
           onReady={(e) => {
             // console.log(e, 'onready')
-            // local.duration = e.getDuration() || 0;
             if (local.seeking) {
               local.setValue('seeking', false)
             }
@@ -327,7 +334,7 @@ export default function Player({
           onSeek={(time) => {
             console.log(time, 'onseeek', local.duration)
           }}
-        />
+        />}
         {local.showControl && (
           <VBack>
             <Rcon inline color='white' type="FaChevronLeft" onClick={() => {

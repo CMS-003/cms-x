@@ -3,6 +3,8 @@ import { Fragment, useCallback } from "react";
 import { useEffectOnce } from "react-use";
 import apis from '../../apis'
 import Auto from "../../groups/auto.js";
+import { CenterXY } from "@/components/style.js";
+import { SpinLoading } from 'antd-mobile'
 
 export default function Dynamic(props) {
   const id = props.id || '';
@@ -48,7 +50,9 @@ export default function Dynamic(props) {
       return <div>error</div>
     }
     if (!local.template) {
-      return <div>spin</div>
+      return <CenterXY>
+        <SpinLoading color='primary' />
+      </CenterXY>
     }
     return (
       <Fragment>

@@ -3,7 +3,7 @@ import { useCallback } from 'react';
 import store from './store';
 import apis from './apis'
 import { useEffectOnce } from 'react-use';
-import { CenterXY } from './components'
+import { CenterXY } from './components/style.js'
 import { Button } from 'antd-mobile';
 import Router from './router.js'
 
@@ -38,7 +38,11 @@ function App() {
   return (
     <Observer>{() => {
       if (store.app.isBooting) {
-        return <div>splash</div>
+        return <CenterXY style={{
+          backgroundImage: `url(/demo/logo.png)`
+        }}>
+
+        </CenterXY>
       } else if (local.isError) {
         return <Button
           style={{ width: 150 }}

@@ -8,6 +8,8 @@ import { toJS } from "mobx";
 import styled from "styled-components";
 import { useStore } from "@/contexts/index.js";
 import Visible from "@/components/Visible";
+import { Space } from "antd-mobile";
+import ResourceItem from "@/adaptor/index.js";
 
 const Title = styled.h1`
   font-size: 1.1em;
@@ -20,8 +22,8 @@ export const Epsode = styled.span`
   margin: 2px 3px;
   padding: 2px;
   position: relative;
-  display: inline-block;
   font-size: 12px;
+  white-space: nowrap;
   &::before {
     content: '';
     position: absolute;
@@ -46,6 +48,7 @@ export default function VideoPage(props) {
     loading: true,
     error: null,
     video: null,
+    recommends: [],
     setValue: function (key, value) {
       local[key] = value;
     }
@@ -67,18 +70,21 @@ export default function VideoPage(props) {
     }
 
   }, [local, props.id])
+  const getRecommends = () => {
+
+  }
   useEffect(() => {
     getDetail();
   }, [getDetail])
   return <Observer>{() => (
     <FullHeight>
       <FullHeightFix style={{ flexDirection: 'column' }}>
-        {local.resource && local.video && <Player
-          resource={toJS(local.resource)}
-          video={toJS(local.video)}
+        <Player
+          resource={local.resource}
+          video={local.video}
           looktime={0}
           type="mp4"
-        />}
+        />
       </FullHeightFix>
       <FullHeightAuto>
         <Title>{local.resource && local.resource.title}</Title>
@@ -87,12 +93,12 @@ export default function VideoPage(props) {
             style={{
               fontWeight: 'bolder',
               margin: 0,
-              padding: '5px 0',
+              padding: 5,
             }}
           >
-            播放列表:
+            播放列表
           </p>
-          <div>
+          <FullWidth style={{ alignItems: 'baseline', overflow: 'auto' }}>
             {local.resource && local.resource.videos.map((child) => (
               <Epsode
                 key={child.path}
@@ -102,13 +108,16 @@ export default function VideoPage(props) {
                     local.looktime = 0;
                   }
                 }}
-                selected={local.video && local.video._d === child._id}
+                selected={local.video && local.video._id === child._id}
               >
                 {child.title || `第${child.nth}集`}
               </Epsode>
             ))}
-          </div>
+          </FullWidth>
         </Visible>
+        {local.recommends.map(v => (
+          <ResourceItem key={v._id} item={v} type="LPRT" />
+        ))}
       </FullHeightAuto>
     </FullHeight>
   )}</Observer>

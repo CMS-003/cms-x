@@ -1,8 +1,13 @@
-import { FullHeight, FullHeightAuto, FullHeightFix } from '../../components/style'
+import _ from 'lodash'
+import { useCallback } from 'react';
+import { useEffectOnce } from 'react-use';
 import { toJS } from 'mobx';
 import { Observer, useLocalObservable } from 'mobx-react-lite';
-import { useCallback } from 'react';
+import ResourceItem from '@/adaptor/index.js';
 import styled from 'styled-components';
+import { Space } from 'antd-mobile';
+import { FullHeight, FullHeightAuto, FullHeightFix, FullWidth } from '../../components/style'
+import apis from '@/apis/index.js';
 
 const Wrap = styled.div`
   display: flex;
@@ -30,10 +35,38 @@ export default function CFilter({ self }) {
     resources: [],
     page: 1,
     hasMore: true,
+    getQuery() {
+      const ids = [self._id];
+      self.children.forEach(child => {
+        child.children.forEach(sun => {
+          if (sun.attrs.selected) {
+            ids.push(sun._id)
+          }
+        });
+      });
+      return ids.join(',');
+    },
+    setResources(resources) {
+      local.resources = resources;
+    }
   }));
   const getData = useCallback(async () => {
-    console.log(self.api)
-  }, [local.page]);
+    const qid = local.getQuery()
+    try {
+      local.loading = true;
+      const resp = await apis.getResourceList({ qid, page: local.page, size: 20 });
+      if (resp.code === 0) {
+        local.setResources(resp.data.items)
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }, []);
+  useEffectOnce(() => {
+    if (local.resources.length === 0) {
+      getData();
+    }
+  })
   return <Observer>
     {() => (
       <FullHeight style={toJS(self.style)}>
@@ -45,6 +78,7 @@ export default function CFilter({ self }) {
                   child.children.forEach(v => {
                     v.attrs.selected = v._id === sun._id
                   });
+                  local.page = 1;
                   getData();
                 }}>{sun.title}</Tag>
               ))}
@@ -52,7 +86,13 @@ export default function CFilter({ self }) {
           ))}
         </FullHeightFix>
         <FullHeightAuto>
-          resources
+          {local.resources.length}
+          {_.chunk(local.resources, 2).map((rs, i) => (
+            <FullWidth key={i} style={{ gap: 10 }}>
+              <ResourceItem key={rs[0]._id} item={rs[0]} type={'half'} />
+              <ResourceItem key={rs[1]._id} item={rs[1]} type={'half'} />
+            </FullWidth>
+          ))}
         </FullHeightAuto>
       </FullHeight>
     )}
