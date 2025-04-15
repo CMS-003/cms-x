@@ -53,3 +53,12 @@ body,
   bottom: 0;
   height: 100%;
 }
+
+.react-player__shadow,
+.react-player__play-icon {
+  display: none;
+}
+
+.adm-list-item-content-main {
+  padding: 0;
+}

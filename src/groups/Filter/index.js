@@ -3,11 +3,10 @@ import { useCallback } from 'react';
 import { useEffectOnce } from 'react-use';
 import { toJS } from 'mobx';
 import { Observer, useLocalObservable } from 'mobx-react-lite';
-import ResourceItem from '@/adaptor/index.js';
 import styled from 'styled-components';
-import { Space } from 'antd-mobile';
-import { FullHeight, FullHeightAuto, FullHeightFix, FullWidth } from '../../components/style'
+import { FullHeight, FullHeightAuto, FullHeightFix } from '../../components/style'
 import apis from '@/apis/index.js';
+import List from '@/components/List';
 
 const Wrap = styled.div`
   display: flex;
@@ -56,12 +55,20 @@ export default function CFilter({ self }) {
       local.loading = true;
       const resp = await apis.getResourceList({ qid, page: local.page, size: 20 });
       if (resp.code === 0) {
-        local.setResources(resp.data.items)
+        local.page === 1 ? local.setResources(resp.data.items) : local.setResources(local.resources.concat(resp.data.items))
+        local.hasMore = resp.data.items.length > 0;
       }
     } catch (e) {
       console.log(e);
+    } finally {
+      local.loading = false
     }
   }, []);
+  const getMore = useCallback(async () => {
+    if (local.loading) return;
+    local.page++;
+    await getData();
+  }, [])
   useEffectOnce(() => {
     if (local.resources.length === 0) {
       getData();
@@ -86,13 +93,16 @@ export default function CFilter({ self }) {
           ))}
         </FullHeightFix>
         <FullHeightAuto>
-          {local.resources.length}
-          {_.chunk(local.resources, 2).map((rs, i) => (
-            <FullWidth key={i} style={{ gap: 10 }}>
-              <ResourceItem key={rs[0]._id} item={rs[0]} type={'half'} />
-              <ResourceItem key={rs[1]._id} item={rs[1]} type={'half'} />
-            </FullWidth>
-          ))}
+          <List
+            multi={true}
+            items={_.chunk(local.resources, 2)}
+            onRefresh={async () => {
+              local.page = 1;
+              await getData();
+            }}
+            loadMore={getMore}
+            hasMore={local.hasMore}
+          />
         </FullHeightAuto>
       </FullHeight>
     )}

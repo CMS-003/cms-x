@@ -27,6 +27,16 @@ export const Icon = styled.img`
   height: 32px;
   margin: 0 5px;
 `;
+const VWrapper = styled.div`
+ position: absolute;
+ left: 0;
+ top: 0;
+ z-index: 2;
+ & > video {
+  width: 100%;
+  height: 100%;
+ }
+`
 const VPeek = styled.div`
   position: absolute;
   left: 50%;
@@ -131,7 +141,8 @@ const VError = styled.div`
   text-align: center;
   box-sizing: border-box;
 `
-
+let tap_timer = null;
+let auto_hidden_timer = null;
 export default function Player({
   resource = {},
   video = {},
@@ -180,7 +191,24 @@ export default function Player({
     },
     setValue(key, value) {
       this[key] = value;
-    }
+    },
+    autoHiddenControl() {
+      if (auto_hidden_timer) {
+        clearTimeout(auto_hidden_timer);
+        auto_hidden_timer = null;
+      }
+      if (local.showControl) {
+        auto_hidden_timer = setTimeout(() => {
+          local.playing && local.setValue('showControl', false)
+        }, 4000);
+      }
+    },
+    onTap() {
+      local.showControl = !local.showControl;
+    },
+    onDTap() {
+      local.playing = !local.playing
+    },
   }));
   const seekTo = useCallback((time) => {
     if (playerRef.current) {
@@ -212,9 +240,22 @@ export default function Player({
         console.log('左')
         seekTo(local.realtime - 10)
       }
+      local.autoHiddenControl();
     }
     if (last && mx === 0 && my === 0) {
-      local.setValue('showControl', !local.showControl)
+      if (!tap_timer) {
+        tap_timer = setTimeout(() => {
+          local.onTap()
+          local.autoHiddenControl();
+          clearTimeout(tap_timer);
+          tap_timer = null;
+        }, 200)
+      } else {
+        clearTimeout(tap_timer);
+        tap_timer = null;
+        local.onDTap()
+        local.autoHiddenControl();
+      }
     }
   });
   return <Observer>{() => (
@@ -247,9 +288,8 @@ export default function Player({
         display: 'flex',
         justifyContent: 'center',
       }}>
-        {resource && <ReactPlayer
-          style={{ position: 'absolute', left: '50%', transform: 'translate(-50%, 0)', top: 0, zIndex: 2 }}
-          url={store.app.videoLine + '/upload/big_buck_bunny.mp4'}
+        {resource && video && <ReactPlayer
+          url={store.app.videoLine + video.path}
           ref={playerRef}
           loop={false}
           playing={local.playing}
@@ -260,21 +300,29 @@ export default function Player({
           playsinline={local.playsinline}
           playbackRate={local.playbackRate}
           muted={local.muted}
-          wrapper={'div'}
-          light={
-            <img
-              src={store.app.imageLine + (resource.poster || resource.thumbnail || '')}
-              alt="Video thumbnail"
-              style={{
-                width: '100%',
-                height: '100%',
-                objectFit: 'cover'
-              }}
-            />
-          }
+          wrapper={VWrapper}
+          // light={
+          //   <img
+          //     src={store.app.imageLine + (resource.poster || resource.thumbnail || '')}
+          //     alt="Video thumbnail"
+          //     style={{
+          //       width: '100%',
+          //       height: '100%',
+          //       objectFit: 'cover'
+          //     }}
+          //   />
+          // }
           config={{
             file: {
               forceHLS: type === 'hls',
+              attributes: {
+                poster: store.app.imageLine + (resource.poster || resource.thumbnail || ''),
+                style: {
+                  width: '100%',
+                  height: '100%',
+                  objectFit: 'cover'
+                }
+              }
               // tracks: subtitles.map((s, i) => ({ kind: 'subtitles', src: store.app.baseURL + s.path, srcLang: s.lang, default: i === 0 })),
             }
           }}
@@ -350,6 +398,9 @@ export default function Player({
           <VGestrue
             {...bind()}
           >
+            {/* {local.status === VIDEO_STATUS.CANPLAY && !local.playing && <Icon src={svgPlay} onClick={() => {
+              local.playing = true
+            }} />} */}
             {local.status === VIDEO_STATUS.BUFFERING && <Icon className='spin-slow' src={svgLoading} />}
           </VGestrue>
         </Visible>
