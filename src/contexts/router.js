@@ -4,6 +4,7 @@ import { types } from 'mobx-state-tree';
 import Dynamic from '../templates/dynamic'
 import Article from '../templates/article'
 import Video from '../templates/video'
+import Gallery from '../templates/gallery'
 import _ from 'lodash'
 
 /**
@@ -15,6 +16,7 @@ const Templates = {
   Dynamic,
   Article,
   Video,
+  Gallery,
 }
 const ViewPages = {
 

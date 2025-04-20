@@ -11,12 +11,13 @@ export default function PageList({ items, onRefresh, loadMore, multi = false, ha
         "--padding-left": 0,
         "--padding-right": 0,
         "--border-inner": "none",
+        "--adm-color-background": "transparent"
       }}>
         {items.map((item, i) => (
           <List.Item key={i}>
             {
               multi
-                ? <FullWidth style={{ gap: 10 }}>
+                ? <FullWidth style={{ gap: 10, margin: '5px 0' }}>
                   {item.map(v => <ResourceItem key={v._id} item={v} type="half" />)}
                 </FullWidth>
                 : <ResourceItem key={item._id} item={item} />

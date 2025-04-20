@@ -59,6 +59,6 @@ body,
   display: none;
 }
 
-.adm-list-item-content-main {
+.adm-list-item .adm-list-item-content-main {
   padding: 0;
 }

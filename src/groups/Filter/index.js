@@ -35,11 +35,11 @@ export default function CFilter({ self }) {
     page: 1,
     hasMore: true,
     getQuery() {
-      const ids = [self._id];
+      const ids = [...self.queries];
       self.children.forEach(child => {
         child.children.forEach(sun => {
           if (sun.attrs.selected) {
-            ids.push(sun._id)
+            ids.push(...sun.queries)
           }
         });
       });
@@ -93,7 +93,7 @@ export default function CFilter({ self }) {
           ))}
         </FullHeightFix>
         <FullHeightAuto>
-          <List
+          <List 
             multi={true}
             items={_.chunk(local.resources, 2)}
             onRefresh={async () => {

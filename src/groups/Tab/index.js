@@ -10,7 +10,7 @@ export default function Tab({ self, children }) {
   const router = useContext(RouterContext);
   return <Observer>{() => (
     <div style={toJS(self.style)}>
-      <Tabs>
+      <Tabs style={{ '--content-padding': 0 }}>
         {self.children.map(child => {
           const template_id = child.attrs.template_id;
           const View = template_id ? router.getViewPage('Dynamic', template_id) : null;

@@ -1,28 +1,29 @@
 import { FullHeight, FullHeightAuto, FullHeightFix, FullWidth } from "@/components/style";
 import { Observer, useLocalObservable } from "mobx-react-lite";
 import Nav from "@/components/Nav";
-import { useCallback, useEffect } from "react";
+import { Fragment, useCallback, useEffect } from "react";
 import apis from "@/apis";
 import Player from "@/components/Player";
 import { toJS } from "mobx";
 import styled from "styled-components";
 import { useStore } from "@/contexts/index.js";
 import Visible from "@/components/Visible";
-import { Space } from "antd-mobile";
+import { Ellipsis, Space, Tag } from "antd-mobile";
 import ResourceItem from "@/adaptor/index.js";
+import { default as dayjs } from "dayjs";
 
 const Title = styled.h1`
-  font-size: 1.1em;
-  font-weight: 500;
+  font-size: 1.4em;
+  font-weight: 550;
   margin: 0;
   padding: 10px;
 `
 export const Epsode = styled.span`
   color: ${({ selected }) => (selected ? 'rgb(0 165 253)' : '#888')};
   margin: 2px 3px;
-  padding: 2px;
+  padding: 3px 4px;
   position: relative;
-  font-size: 12px;
+  font-size: 11px;
   white-space: nowrap;
   &::before {
     content: '';
@@ -87,34 +88,51 @@ export default function VideoPage(props) {
         />
       </FullHeightFix>
       <FullHeightAuto>
-        <Title>{local.resource && local.resource.title}</Title>
-        <Visible visible={local.resource && local.resource.videos.length > 1}>
-          <p
-            style={{
-              fontWeight: 'bolder',
-              margin: 0,
-              padding: 5,
-            }}
-          >
-            播放列表
-          </p>
-          <FullWidth style={{ alignItems: 'baseline', overflow: 'auto' }}>
-            {local.resource && local.resource.videos.map((child) => (
-              <Epsode
-                key={child.path}
-                onClick={() => {
-                  if (local.vid !== child._id) {
-                    local.video = child;
-                    local.looktime = 0;
-                  }
+        {
+          local.resource ? (<Fragment>
+            <Title>{local.resource.title}</Title>
+            <span style={{ padding: '0 8px 8px', display: 'inline-block' }}>{dayjs(local.resource.publishedAt).format('YYYY年MM月日DD HH:mm')}</span>
+            <Ellipsis content={local.resource.content} rows={2}
+              expandText='展开'
+              collapseText='收起' />
+            <FullWidth style={{ alignItems: 'baseline', overflow: 'auto' }}>
+              <Space style={{ padding: '0 10px' }}>
+                {local.resource.tags.map(tag => (
+                  <Tag key={tag} round color='#2db7f5' style={{ padding: '4px 6px' }}>
+                    {tag}
+                  </Tag>
+                ))}
+              </Space>
+            </FullWidth>
+            <Visible visible={local.resource.videos.length > 1}>
+              <p
+                style={{
+                  fontWeight: 'bolder',
+                  margin: 0,
+                  padding: '10px 10px 5px',
                 }}
-                selected={local.video && local.video._id === child._id}
               >
-                {child.title || `第${child.nth}集`}
-              </Epsode>
-            ))}
-          </FullWidth>
-        </Visible>
+                播放列表
+              </p>
+              <FullWidth style={{ alignItems: 'baseline', overflow: 'auto', paddingLeft: 5 }}>
+                {local.resource.videos.map((child) => (
+                  <Epsode
+                    key={child.path}
+                    onClick={() => {
+                      if (local.vid !== child._id) {
+                        local.video = child;
+                        local.looktime = 0;
+                      }
+                    }}
+                    selected={local.video && local.video._id === child._id}
+                  >
+                    {child.title || `第${child.nth}集`}
+                  </Epsode>
+                ))}
+              </FullWidth>
+            </Visible>
+          </Fragment>) : null
+        }
         {local.recommends.map(v => (
           <ResourceItem key={v._id} item={v} type="LPRT" />
         ))}
