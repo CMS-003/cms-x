@@ -50,7 +50,7 @@ function NoMatch() {
   if (store.user.isLogin) {
     return <Navigate to={'/demo'}></Navigate>;
   } else {
-    return <Navigate to={'/demo/auth/login'}></Navigate>;
+    return <Navigate to={'/demo/login'}></Navigate>;
   }
 }
 

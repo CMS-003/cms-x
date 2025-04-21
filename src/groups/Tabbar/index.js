@@ -3,6 +3,7 @@ import { TabBar } from "antd-mobile";
 import { Observer, useLocalObservable } from "mobx-react-lite";
 import RouterContext from '../../contexts/router.js';
 import Auto from "../auto";
+import Acon from '@/components/Acon/index.js';
 
 export default function TabBarPage({ self }) {
   const router = useContext(RouterContext);
@@ -21,6 +22,7 @@ export default function TabBarPage({ self }) {
           <TabBar.Item
             key={child._id}
             title={child.title}
+            icon={child.icon ? <Acon icon={child.icon} /> : null}
             onClick={e => {
               console.log(e, child)
             }}

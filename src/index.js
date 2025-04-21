@@ -7,6 +7,7 @@ import { Observer } from 'mobx-react-lite';
 import RouterContext, { router, View, getViews } from './contexts/router.js';
 import store from './store'
 import { useEffectOnce } from 'react-use';
+import SafeArea from './components/SafeArea/index.js';
 
 function Context({ children }) {
   const [routes, setRoutes] = useState({ views: [] })
@@ -17,9 +18,11 @@ function Context({ children }) {
   return (
     <Observer>{() => (
       <StoreContext.Provider value={store}>
-        <RouterContext.Provider value={routes}>
-          {children}
-        </RouterContext.Provider>
+        <SafeArea>
+          <RouterContext.Provider value={routes}>
+            {children}
+          </RouterContext.Provider>
+        </SafeArea>
       </StoreContext.Provider>
     )}</Observer>
   )

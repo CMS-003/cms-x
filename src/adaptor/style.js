@@ -18,14 +18,17 @@ export const ItemTitle = styled.div`
   display: -webkit-box; 
   -webkit-box-orient: vertical; 
   -webkit-line-clamp: 2;
-  line-height: 17px;
-  height: 34px;
+  line-height: 14px;
+  height: 28px;
   margin: 5px;
-  font-size: 14px;
+  font-size: 13px;
 `
 
 export const Uname = styled.div`
   color: #999;
-  font-size: 11px;
-  padding: 5px;
+  font-size: 13px;
+  padding: 0 5px 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `

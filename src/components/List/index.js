@@ -17,7 +17,7 @@ export default function PageList({ items, onRefresh, loadMore, multi = false, ha
           <List.Item key={i}>
             {
               multi
-                ? <FullWidth style={{ gap: 10, margin: '5px 0' }}>
+                ? <FullWidth style={{ gap: 8, marginTop: 8 }}>
                   {item.map(v => <ResourceItem key={v._id} item={v} type="half" />)}
                 </FullWidth>
                 : <ResourceItem key={item._id} item={item} />

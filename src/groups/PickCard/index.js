@@ -7,13 +7,12 @@ import ResourceItem from "@/adaptor";
 const Header = styled.div`
  font-weight: 600;
  font-size: 16px;
- padding: 5px;
+ padding: 10px;
  color: #555;
 `
 const Content = styled.div`
   border-radius: 4px;
-  background-color: #eee;
-  padding: 10px 10px 0;
+  padding: 0 10px;
 `
 const ScrollWrap = styled.div`
   display: flex;
@@ -32,7 +31,7 @@ const ScrollWrap = styled.div`
   }
 `;
 const ItemWrap = styled.div`
-  width: 150px;
+  width: 120px;
   display: flex;
   flex-direction: column;
   margin-left: 10px;
@@ -72,7 +71,9 @@ export default function CCard({ self, children }) {
       <Content>
         <ScrollWrap>
           {self.resources?.map(item => (<Fragment key={item._id}>
-            <ResourceItem item={item} />
+            <ItemWrap>
+              <ResourceItem item={item} />
+            </ItemWrap>
           </Fragment>))}
         </ScrollWrap>
       </Content>

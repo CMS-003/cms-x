@@ -11,7 +11,6 @@ const Header = styled.div`
 `
 const Wrap = styled.div`
 border-radius: 4px;
-background-color: #eee;
 `
 const Content = styled.div`
   min-height: 120px;
