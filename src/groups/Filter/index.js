@@ -81,7 +81,7 @@ export default function CFilter({ self }) {
           {self.children.map(child => (
             <Wrap key={child._id}>
               {child.children.map(sun => (
-                <Tag key={sun._id} style={sun.attrs.selected ? { color: 'white', backgroundColor: '#3498db', border: '1px solid #3498db' } : { color: '#bbb', backgroundColor: 'white', border: '1px solid #bbb' }} onClick={() => {
+                <Tag key={sun._id} style={sun.attrs.selected ? { color: 'white', backgroundColor: '#3498db' } : { color: '#bbb', backgroundColor: 'white' }} onClick={() => {
                   child.children.forEach(v => {
                     v.attrs.selected = v._id === sun._id
                   });
@@ -93,7 +93,7 @@ export default function CFilter({ self }) {
           ))}
         </FullHeightFix>
         <FullHeightAuto>
-          <List 
+          <List
             multi={true}
             items={_.chunk(local.resources, 2)}
             onRefresh={async () => {

@@ -51,24 +51,25 @@ export default function GalleryPage(props) {
   return <Observer>{() => (
     <FullHeight>
       <FullHeightFix>
-        <Nav title={''} />
+        <Nav title={local.resource ? local.resource.title : ''} align="left" style={{ color: 'initial', backgroundColor: 'transparent' }} />
       </FullHeightFix>
       <FullHeightAuto>
         {local.resource ? <Fragment>
-          <Title>{local.resource.title}</Title>
           <span style={{ padding: '0 8px 8px', display: 'inline-block' }}>{dayjs(local.resource.publishedAt).format('YYYY年MM月日DD HH:mm')}</span>
-
-          <FullWidth style={{ alignItems: 'baseline', overflow: 'auto' }}>
-            <Space style={{ padding: '0 10px' }}>
-              {local.resource.tags.map(tag => (
-                <Tag key={tag} round color='#2db7f5' style={{ padding: '4px 6px' }}>
-                  {tag}
-                </Tag>
-              ))}
-            </Space>
-          </FullWidth>
+          {local.resource.images.map(image => (
+            <img src={store.app.imageLine + image.path} style={{ width: '100%' }} />
+          ))}
         </Fragment> : null}
       </FullHeightAuto>
+      <FullWidth style={{ alignItems: 'baseline', overflow: 'auto', margin: 10 }}>
+        <Space>
+          {(local?.resource?.tags || []).map(tag => (
+            <Tag key={tag} round color='#2db7f5' style={{ padding: '4px 6px' }}>
+              {tag}
+            </Tag>
+          ))}
+        </Space>
+      </FullWidth>
     </FullHeight>
   )}</Observer>
 }

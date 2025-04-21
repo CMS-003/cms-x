@@ -12,7 +12,7 @@ const Tag = styled.span`
 
 export default function ComponentFilterTag({ self, ...props }) {
   return <Observer>{() => (
-    <Tag style={self.attrs.selected ? { color: 'white', backgroundColor: '#3498db', border: '1px solid #3498db' } : { color: '#bbb', backgroundColor: 'white', border: '1px solid #bbb' }} onClick={() => {
+    <Tag style={self.attrs.selected ? { color: 'white', backgroundColor: '#3498db' } : { color: '#bbb', backgroundColor: 'white' }} onClick={() => {
       if ((props).onSelect) {
         (props).onSelect(self._id);
       }

@@ -5,7 +5,7 @@ import Video from './video'
 
 export default function ResourceItem({ item, type }) {
   return <Observer>{() => {
-    switch (item.source_type) {
+    switch (item.type) {
       case 'article':
         return <Article item={item} type={type} />;
       case 'video':
@@ -13,6 +13,8 @@ export default function ResourceItem({ item, type }) {
       case 'animation':
         return <Video item={item} type={type} />;
       case 'image':
+        return <Gallery item={item} type={type} />;
+      case 'pixiv':
         return <Gallery item={item} type={type} />;
       case 'gallery':
         return <Gallery item={item} type={type} />;
