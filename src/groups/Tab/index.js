@@ -16,7 +16,7 @@ export default function Tab({ self, children }) {
           const View = template_id ? router.getViewPage('Dynamic', template_id) : null;
           return (
             <Tabs.Tab key={child._id} title={child.title}>
-              <div style={{ width: '100%', height: '100%' }}>
+              <div style={{ width: '100%', height: '100%', overscrollBehavior: 'auto', overflowY: 'auto' }}>
                 {template_id ? <View id={template_id} /> : <Component self={child} />}
               </div>
             </Tabs.Tab>

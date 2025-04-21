@@ -14,7 +14,7 @@ export default function TabBarPage({ self }) {
   const View = router.getViewPage('Dynamic', local.template_id);
   return <Observer>{() => (
     <div style={{ height: '100%', width: '100%', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
-      <div style={{ flex: 1, overflow: 'auto', display: 'flex', flexDirection: 'column' }}>
+      <div style={{ flex: 1, overflow: 'auto', display: 'flex', flexDirection: 'column', overscrollBehavior: 'none' }}>
         <View id={local.template_id} />
       </div>
       <TabBar>

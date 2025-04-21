@@ -14,11 +14,7 @@ export default function SafeArea({
     <FullHeight style={{
       position: 'relative',
       width: '100%',
-      // height: '100dvh',
-      // paddingTop: top,
-      // paddingBottom: bot,
-      background: '#fff',
-      boxSizing: 'border-box'
+      boxSizing: 'border-box',
     }}>
       <FullHeightFix style={{ paddingTop: top, background: topBGC, }} />
       <div style={{ flex: 1, display: 'flex', height: `calc(100dvh - ${top} - ${bot})`, overflow: 'auto', flexDirection: 'column' }}>

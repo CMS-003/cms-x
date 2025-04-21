@@ -18,7 +18,7 @@ export function Component({ self }) {
 
 export default function Auto({ template }) {
   return <Observer>{() => (
-    <div style={toJS(template.style)}>
+    <div style={toJS(template.style)} data-tid={template._id}>
       {template.children.map(component => <Component key={component._id} self={component} />)}
     </div>
   )}</Observer>
