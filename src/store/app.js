@@ -9,7 +9,7 @@ const Line = types.model('line', {
 const App = types
   .model('app', {
     t: types.optional(types.number, 0),
-    isBooting: types.optional(types.boolean, false),
+    isBooting: types.optional(types.boolean, true),
     debug: types.optional(types.boolean, false),
     fullscreen: types.optional(types.boolean, false),
     orientation: types.optional(types.number, 0),

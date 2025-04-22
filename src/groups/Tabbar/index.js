@@ -1,21 +1,23 @@
-import React, { Fragment, useContext } from 'react';
+import React, { Fragment, useContext, useMemo, memo } from 'react';
 import { TabBar } from "antd-mobile";
 import { Observer, useLocalObservable } from "mobx-react-lite";
-import RouterContext from '../../contexts/router.js';
-import Auto from "../auto";
 import Acon from '@/components/Acon/index.js';
+import Visible from '@/components/Visible/index.js';
+import Template from '@/templates/index.js';
+import { FullHeight } from '@/components/style.js';
 
 export default function TabBarPage({ self }) {
-  const router = useContext(RouterContext);
   const local = useLocalObservable(() => ({
     activeKey: self.children[0]._id,
-    template_id: self.children[0].attrs.template_id,
   }));
-  const View = router.getViewPage('Dynamic', local.template_id);
   return <Observer>{() => (
     <div style={{ height: '100%', width: '100%', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
       <div style={{ flex: 1, overflow: 'auto', display: 'flex', flexDirection: 'column', overscrollBehavior: 'none' }}>
-        <View id={local.template_id} />
+        {self.children.map(child => (
+          <Visible key={child._id} visible={local.activeKey === child._id}>
+            {child.attrs.template_id ? <Template id={child.attrs.template_id} /> : <FullHeight>{self.title}</FullHeight>}
+          </Visible>
+        ))}
       </div>
       <TabBar>
         {self.children.map(child => (
@@ -24,7 +26,7 @@ export default function TabBarPage({ self }) {
             title={child.title}
             icon={child.icon ? <Acon icon={child.icon} /> : null}
             onClick={e => {
-              console.log(e, child)
+              local.activeKey = child._id;
             }}
           />
         ))}

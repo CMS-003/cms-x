@@ -65,7 +65,7 @@ export default function CFilter({ self }) {
     }
   }, []);
   const getMore = useCallback(async () => {
-    if (local.loading) return;
+    if (local.loading || !local.hasMore) return;
     local.page++;
     await getData();
   }, [])

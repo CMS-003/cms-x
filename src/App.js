@@ -14,7 +14,6 @@ function App() {
   const biu = useCallback((async () => {
     store.app.setBoot(true)
     const resp = await apis.boot();
-    const respPage = await apis.getPageComponents('demo', 1)
     if (resp.code !== 0) {
       local.isError = true
       console.log(resp, '启动失败')

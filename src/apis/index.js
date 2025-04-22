@@ -27,7 +27,7 @@ function getResourceDetail(id) {
 
 function getResourceList(query) {
   return shttp({
-    url: `/api/v1/public/resources${qs.stringify(query, { addQueryPrefix: true })}`,
+    url: `/api/v1/public/demo/resources${qs.stringify(query, { addQueryPrefix: true })}`,
   });
 }
 const apis = {

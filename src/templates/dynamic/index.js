@@ -10,7 +10,7 @@ export default function Dynamic(props) {
   const id = props.id || '';
   const local = useLocalObservable(() => ({
     isLoading: false,
-    template: null,
+    template: props.template,
     isError: false,
     page: 1,
     setValue(key, value) {
@@ -20,25 +20,15 @@ export default function Dynamic(props) {
   const getData = useCallback(async () => {
     local.isLoading = true;
     const resp = await apis.getTemplate(id)
-    local.isLoading = false;
     if (resp.code === 0) {
       local.setValue('template', resp.data);
     } else {
       local.isError = true;
     }
+    local.isLoading = false;
   }, [id, local])
-  // const getMore = useCallback(async () => {
-  //   local.isLoading = true;
-  //   const resp = await apis.getPageComponents(id, local.page)
-  //   local.isLoading = false;
-  //   if (resp.code === 0) {
-  //     local.components = resp.data.items;
-  //   } else {
-  //     local.isError = true;
-  //   }
-  // }, [id, local.page])
   useEffectOnce(() => {
-    if (local.template === null && !local.isLoading) {
+    if (!local.template && !local.isLoading) {
       getData(id);
     }
     return () => {

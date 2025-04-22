@@ -1,10 +1,12 @@
-import React, { Fragment, useContext } from 'react';
+import React, { Fragment, useContext, useMemo } from 'react';
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router';
 import store from './store';
 import { Observer } from 'mobx-react-lite';
 import RouterContext from './contexts/router.js';
 import styled from 'styled-components';
 import { motion, AnimatePresence } from "motion/react"
+import Template from './templates/index.js';
+import Dynamic from './templates/dynamic/index.js';
 
 const LayerWrap = styled.div`
   position: relative;
@@ -21,13 +23,15 @@ const Layer = styled.div`
 
 function Adaptor() {
   const router = useContext(RouterContext);
-  const View = router.getViewPage && router.getViewPage('Dynamic', 'demo');
   return (
     <Observer>{() => (
       <LayerWrap>
+        <Template id={'demo'} />
         <AnimatePresence>
-          {View && <View id="demo" />}
           {router.views.map((view, n) => {
+            if (n === 0) {
+              return null;
+            }
             const View = router.getViewPage(view.view, view.query['id'])
             return <motion.div
               key={n}
@@ -48,7 +52,7 @@ function Adaptor() {
 
 function NoMatch() {
   if (store.user.isLogin) {
-    return <Navigate to={'/demo'}></Navigate>;
+    return <Navigate to={'/demo/home'}></Navigate>;
   } else {
     return <Navigate to={'/demo/login'}></Navigate>;
   }
