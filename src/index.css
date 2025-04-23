@@ -83,3 +83,8 @@ body,
 .adm-list-item .adm-list-item-content-main {
   padding: 0;
 }
+
+.adm-tabs-content {
+  flex: 1;
+  overflow: auto;
+}

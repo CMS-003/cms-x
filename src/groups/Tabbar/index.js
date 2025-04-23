@@ -6,17 +6,28 @@ import Visible from '@/components/Visible/index.js';
 import Template from '@/templates/index.js';
 import { FullHeight } from '@/components/style.js';
 
+export function Hidden({ visible, children }) {
+  return (
+    <Observer>
+      {() => {
+        return <div style={{ position: 'absolute', left: 0, top: 0, height: '100%', width: '100%', overflow: 'hidden auto', visibility: visible ? 'visible' : 'hidden', zIndex: visible ? 2 : 1 }}>{children}</div>;
+      }}
+    </Observer>
+  );
+}
+
+
 export default function TabBarPage({ self }) {
   const local = useLocalObservable(() => ({
     activeKey: self.children[0]._id,
   }));
   return <Observer>{() => (
     <div style={{ height: '100%', width: '100%', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
-      <div style={{ flex: 1, overflow: 'auto', display: 'flex', flexDirection: 'column', overscrollBehavior: 'none' }}>
+      <div style={{ position: 'relative', flex: 1, overflow: 'hidden', display: 'flex', flexDirection: 'column', overscrollBehavior: 'none' }}>
         {self.children.map(child => (
-          <Visible key={child._id} visible={local.activeKey === child._id}>
+          <Hidden key={child._id} visible={local.activeKey === child._id}>
             {child.attrs.template_id ? <Template id={child.attrs.template_id} /> : <FullHeight>{self.title}</FullHeight>}
-          </Visible>
+          </Hidden>
         ))}
       </div>
       <TabBar>
