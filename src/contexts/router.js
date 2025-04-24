@@ -24,9 +24,6 @@ const ViewPages = {
 
 export function getViews(location) {
   let pathname = location.pathname;
-  if (pathname.startsWith(process.env.PUBLIC_URL)) {
-    pathname = pathname.substring(process.env.PUBLIC_URL.length)
-  }
   const views = pathname.split('/').filter(p => p !== '');
   const query = {};
   (location.search.replace(/^[?]/, '')).split('&').map(v => {
@@ -36,7 +33,7 @@ export function getViews(location) {
   return views.map(view => ({ view, query: query[view] || {} }));
 }
 
-export const View = types
+const View = types
   .model('views', {
     views: types.array(types.model('view', {
       view: types.string,
@@ -44,6 +41,9 @@ export const View = types
     })),
   })
   .actions(self => ({
+    setViews(views) {
+      self.views = views;
+    },
     pushView(view, query = {}) {
       self.views.push({ view, query })
       const url = self.getUrl();
@@ -67,7 +67,6 @@ export const View = types
         }
         return v.view;
       });
-      views.unshift('demo')
       return `/${views.join('/')}${queries.length ? '?' + queries.join('&') : ''}`
     },
     getViewPage(view, id) {
@@ -85,6 +84,6 @@ export const View = types
     }
   }));
 
-const RouterContext = React.createContext(null);
+const RouterContext = React.createContext(View.create({ views: [] }));
 
 export default RouterContext

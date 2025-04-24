@@ -26,11 +26,10 @@ function Adaptor() {
   return (
     <Observer>{() => (
       <LayerWrap>
-        <Template id={'demo'} />
         <AnimatePresence>
           {router.views.map((view, n) => {
             if (n === 0) {
-              return null;
+              return <Template id={'demo'} key={n} />;
             }
             const View = router.getViewPage(view.view, view.query['id'])
             return <motion.div

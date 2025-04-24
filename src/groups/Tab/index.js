@@ -4,7 +4,11 @@ import { Tabs } from 'antd-mobile'
 import RouterContext from '../../contexts/router.js';
 import { Component } from '../auto'
 import { toJS } from 'mobx';
+import styled from 'styled-components';
 
+const NotFound = styled.div`
+
+`
 
 export default function Tab({ self, children }) {
   const router = useContext(RouterContext);
@@ -13,7 +17,7 @@ export default function Tab({ self, children }) {
       <Tabs style={{ '--content-padding': 0, '--title-font-size': '16px', height: '100%', display: 'flex', flexDirection: 'column' }} className='sticky-tabs-header'>
         {self.children.map(child => {
           const template_id = child.attrs.template_id;
-          const View = template_id ? router.getViewPage('Dynamic', template_id) : null;
+          const View = template_id ? router.getViewPage('Dynamic', template_id) : NotFound;
           return (
             <Tabs.Tab key={child._id} title={child.title}>
               <div style={{ width: '100%', height: '100%', overscrollBehavior: 'auto', overflowY: 'auto' }}>

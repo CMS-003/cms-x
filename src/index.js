@@ -6,22 +6,26 @@ import StoreContext from './contexts/store';
 import { Observer } from 'mobx-react-lite';
 import RouterContext, { router, View, getViews } from './contexts/router.js';
 import store from './store'
-import { useEffectOnce } from 'react-use';
 import SafeArea from './components/SafeArea/index.js';
 
 function Context({ children }) {
-  const [routes, setRoutes] = useState({ views: [] })
-  useEffectOnce(() => {
-    const views = getViews(window.location);
-    setRoutes((View.create({ views })))
-  })
+  const router = useContext(RouterContext);
+  const [inited, setInited] = useState(false)
+  useEffect(() => {
+    if (!/^\/demo/.test(window.location.pathname)) {
+      window.history.pushState(null, '', '/demo')
+    }
+    if (!inited) {
+      const views = getViews(window.location);
+      setInited(true)
+      router.setViews(views);
+    }
+  }, [window.location.pathname])
   return (
     <Observer>{() => (
       <StoreContext.Provider value={store}>
         <SafeArea>
-          <RouterContext.Provider value={routes}>
-            {children}
-          </RouterContext.Provider>
+          {children}
         </SafeArea>
       </StoreContext.Provider>
     )}</Observer>
