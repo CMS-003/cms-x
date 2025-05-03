@@ -37,23 +37,41 @@ const View = types
   .model('views', {
     views: types.array(types.model('view', {
       view: types.string,
+      animate: types.optional(types.boolean, true),
       query: types.frozen({}),
     })),
+    clicked: types.optional(types.boolean, false),
   })
   .actions(self => ({
     setViews(views) {
       self.views = views;
     },
-    pushView(view, query = {}) {
-      self.views.push({ view, query })
+    pop() {
+      self.views.pop();
+    },
+    pushView(view, query = {}, animate = true) {
+      self.clicked = true;
+      self.views.push({ view, query, animate })
       const url = self.getUrl();
-      window.history.pushState(null, '', url)
+      window.history.pushState({ direction: 'forward' }, '', url)
+      setTimeout(() => {
+        self.setClicked(false)
+      }, 100)
+    },
+    popView() {
+      self.views[self.views.length - 1].animate = false;
+      setTimeout(() => {
+        self.pop();
+      }, 0)
     },
     backView() {
+      self.clicked = true;
       self.views.pop();
-      const url = self.getUrl();
-      window.history.pushState(null, '', url)
+      window.history.back()
     },
+    setClicked(b) {
+      self.clicked = b;
+    }
   }))
   .views(self => ({
     getUrl() {
@@ -71,7 +89,6 @@ const View = types
     },
     getViewPage(view, id) {
       const view_id = `${view}:${id}`
-      console.log(view_id)
       if (ViewPages[view_id]) {
         return ViewPages[view_id]
       }

@@ -42,6 +42,8 @@ import {
   ApiOutlined,
   RadarChartOutlined,
   MessageOutlined,
+  StarOutlined,
+  StarFilled,
 } from '@ant-design/icons'
 import React from 'react';
 import styled from 'styled-components'
@@ -115,6 +117,8 @@ const icons = {
   ApiOutlined,
   Api: ApiOutlined,
   spider: RadarChartOutlined,
+  unstar: StarOutlined,
+  stared: StarFilled,
 }
 const Wrap = styled.span`
   display: flex;

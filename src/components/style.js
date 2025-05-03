@@ -33,6 +33,12 @@ export const AlignAround = styled.div`
   align-items: center;
 `;
 
+export const AlignCenter = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`
+
 export const AlignVertical = styled.div`
   display: flex;
   justify-content: space-around;

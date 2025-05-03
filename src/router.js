@@ -1,12 +1,11 @@
-import React, { Fragment, useContext, useMemo } from 'react';
-import { BrowserRouter, Route, Routes, Navigate } from 'react-router';
+import React, { useContext, useEffect } from 'react';
+import { BrowserRouter, Route, Routes, Navigate, useNavigate } from 'react-router';
 import store from './store';
 import { Observer } from 'mobx-react-lite';
 import RouterContext from './contexts/router.js';
 import styled from 'styled-components';
 import { motion, AnimatePresence } from "motion/react"
 import Template from './templates/index.js';
-import Dynamic from './templates/dynamic/index.js';
 
 const LayerWrap = styled.div`
   position: relative;
@@ -14,15 +13,29 @@ const LayerWrap = styled.div`
   height: 100%;
   overflow: hidden;
 `
-const Layer = styled.div`
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background-color: white;
-`
 
 function Adaptor() {
   const router = useContext(RouterContext);
+  const navigate = useNavigate();
+  useEffect(() => {
+    // 监听 popstate 事件（后退/前进）
+    const handleBack = (event) => {
+      // console.log('是否手动返回：', router.clicked);
+      if (!router.clicked) {
+        router.popView()
+      }
+      setTimeout(() => {
+        router.setClicked(false)
+      }, 200)
+    };
+
+    window.addEventListener('popstate', handleBack);
+
+    return () => {
+      window.removeEventListener('popstate', handleBack);
+    };
+  }, [navigate]);
+
   return (
     <Observer>{() => (
       <LayerWrap>
@@ -36,8 +49,8 @@ function Adaptor() {
               key={n}
               initial={{ left: '100%' }}
               animate={{ left: 0 }}
-              exit={{ left: '100%' }}
-              style={{ zIndex: 10 + n, position: 'absolute', top: 0, width: '100%', height: '100%', backgroundColor: '#eee' }}
+              exit={view.animate ? { left: '100%' } : false}
+              style={{ zIndex: 10 + n, position: 'absolute', top: 0, width: '100%', height: '100dvh', overflow: 'hidden', backgroundColor: '#eee' }}
             >
               <View id={view.query.id} />
             </motion.div>
@@ -51,9 +64,9 @@ function Adaptor() {
 
 function NoMatch() {
   if (store.user.isLogin) {
-    return <Navigate to={'/demo/home'}></Navigate>;
+    return <Navigate replace={'/demo/home'}></Navigate>;
   } else {
-    return <Navigate to={'/demo/login'}></Navigate>;
+    return <Navigate replace={'/demo/login'}></Navigate>;
   }
 }
 

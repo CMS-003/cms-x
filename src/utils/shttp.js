@@ -12,7 +12,7 @@ shttp.interceptors.request.use(
     if (store.app.debug) {
       console.log(`${config.method} ${config.url}`);
     }
-    config.headers['Authorization'] = store.user.access_token;
+    config.headers['Authorization'] = 'Bearer ' + store.user.access_token;
     return config;
   },
   (error) => {

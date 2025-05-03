@@ -1,16 +1,16 @@
 import { FullHeight, FullHeightAuto, FullHeightFix, FullWidth } from "@/components/style";
 import { Observer, useLocalObservable } from "mobx-react-lite";
-import Nav from "@/components/Nav";
 import { Fragment, useCallback, useEffect } from "react";
 import apis from "@/apis";
 import Player from "@/components/Player";
-import { toJS } from "mobx";
+import { runInAction } from "mobx";
 import styled from "styled-components";
 import { useStore } from "@/contexts/index.js";
 import Visible from "@/components/Visible";
 import { Ellipsis, Space, Tag } from "antd-mobile";
 import ResourceItem from "@/adaptor/index.js";
 import { default as dayjs } from "dayjs";
+import Acon from "@/components/Acon";
 
 const Title = styled.h1`
   font-size: 1.4em;
@@ -91,7 +91,36 @@ export default function VideoPage(props) {
         {
           local.resource ? (<Fragment>
             <Title>{local.resource.title}</Title>
-            <span style={{ padding: '0 8px 8px', display: 'inline-block' }}>{dayjs(local.resource.publishedAt).format('YYYY年MM月日DD HH:mm')}</span>
+            <FullWidth style={{ padding: '0 10px 10px', gap: 8, justifyContent: 'flex-start' }}>
+              <span>{dayjs(local.resource.publishedAt).format('YYYY年MM月日DD HH:mm')}</span>
+              <Acon icon={local.resource.counter.collected ? 'stared' : 'unstar'} color='pink' size={24} onClick={async () => {
+                const collected = local.resource.counter.collected
+                try {
+                  runInAction(() => {
+                    local.resource.counter.collected = !collected
+                  })
+                  const resp = collected
+                    ? await apis.fetchAPI('post', '/api/gatling/pJFc2GC9W', { resource_id: local.resource._id })
+                    : await apis.fetchAPI('post', '/api/gatling/jw-KAgBzI', {
+                      resource_id: local.resource._id,
+                      resource_type: local.resource.type,
+                      title: local.resource.title,
+                      cover: local.resource.poster,
+                    });
+                  if (resp.code === 0) {
+
+                  } else {
+                    runInAction(() => {
+                      local.resource.counter.collected = collected
+                    })
+                  }
+                } catch (e) {
+                  runInAction(() => {
+                    local.resource.counter.collected = collected
+                  })
+                }
+              }} />
+            </FullWidth>
             <Ellipsis content={local.resource.content} rows={2}
               expandText='展开'
               collapseText='收起' />
@@ -114,7 +143,7 @@ export default function VideoPage(props) {
               >
                 播放列表
               </p>
-              <FullWidth style={{ alignItems: 'baseline', overflow: 'auto', paddingLeft: 5 }}>
+              <FullWidth style={{ alignItems: 'baseline', overflow: 'auto', padding: '0 8px' }}>
                 {local.resource.videos.map((child) => (
                   <Epsode
                     key={child.path}

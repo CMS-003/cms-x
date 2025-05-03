@@ -30,6 +30,15 @@ function getResourceList(query) {
     url: `/api/v1/public/demo/resources${qs.stringify(query, { addQueryPrefix: true })}`,
   });
 }
+
+function fetchAPI(method, url, data) {
+  return shttp({
+    method,
+    url: url,
+    data,
+  })
+}
+
 const apis = {
   boot,
   getTemplate,
@@ -41,6 +50,7 @@ const apis = {
   },
   getResourceDetail,
   getResourceList,
+  fetchAPI,
 }
 
 export default apis;

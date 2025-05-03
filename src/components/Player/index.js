@@ -33,7 +33,6 @@ const VWrapper = styled.div`
  top: 0;
  z-index: 2;
  & > video {
-  width: 100%;
   height: 100%;
  }
 `
@@ -295,6 +294,7 @@ export default function Player({
           playing={local.playing}
           width={'100%'}
           height={'100%'}
+          style={{ display: 'flex', justifyContent: 'center' }}
           pip={true}
           controls={local.controls}
           playsinline={local.playsinline}
@@ -318,7 +318,7 @@ export default function Player({
               attributes: {
                 poster: store.app.imageLine + (resource.poster || resource.thumbnail || ''),
                 style: {
-                  width: '100%',
+                  // width: '100%',
                   height: '100%',
                   objectFit: 'cover'
                 }
@@ -435,14 +435,14 @@ export default function Player({
                   local.setValue('playing', false)
                   local.setValue('status', VIDEO_STATUS.CANPLAY)
                 }}
-                onClick={e => {
-                  e.stopPropagation();
-                  if (local.status === VIDEO_STATUS.BUFFERING) {
-                    return;
-                  }
-                  local.setValue('playing', false)
-                  local.setValue('status', VIDEO_STATUS.CANPLAY)
-                }}
+                // onClick={e => {
+                //   e.stopPropagation();
+                //   if (local.status === VIDEO_STATUS.BUFFERING) {
+                //     return;
+                //   }
+                //   local.setValue('playing', false)
+                //   local.setValue('status', VIDEO_STATUS.CANPLAY)
+                // }}
                 src={svgSuspended}
               />
               : <Icon
@@ -455,13 +455,13 @@ export default function Player({
                   }
                   local.setValue('playing', true)
                 }}
-                onClick={e => {
-                  e.stopPropagation();
-                  if (local.status === VIDEO_STATUS.BUFFERING) {
-                    return;
-                  }
-                  local.setValue('playing', true)
-                }}
+                // onClick={e => {
+                //   e.stopPropagation();
+                //   if (local.status === VIDEO_STATUS.BUFFERING) {
+                //     return;
+                //   }
+                //   local.setValue('playing', true)
+                // }}
               />}
             <ProgressWrap className='progress' onClickCapture={e => {
               e.stopPropagation();

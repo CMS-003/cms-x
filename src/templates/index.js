@@ -26,7 +26,6 @@ export default function Template({ id }) {
     template: null,
     isError: false,
     setValue: action((key, value) => {
-      console.log('fuck')
       if (key === 'template') {
         local.template = value;
       }

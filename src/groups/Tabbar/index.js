@@ -2,9 +2,9 @@ import React, { Fragment, useContext, useMemo, memo } from 'react';
 import { TabBar } from "antd-mobile";
 import { Observer, useLocalObservable } from "mobx-react-lite";
 import Acon from '@/components/Acon/index.js';
-import Visible from '@/components/Visible/index.js';
 import Template from '@/templates/index.js';
 import { FullHeight } from '@/components/style.js';
+import { runInAction } from 'mobx';
 
 export function Hidden({ visible, children }) {
   return (
@@ -37,7 +37,9 @@ export default function TabBarPage({ self }) {
             title={child.title}
             icon={child.icon ? <Acon icon={child.icon} /> : null}
             onClick={e => {
-              local.activeKey = child._id;
+              runInAction(() => {
+                local.activeKey = child._id;
+              })
             }}
           />
         ))}
