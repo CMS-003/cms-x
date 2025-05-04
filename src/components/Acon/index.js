@@ -48,6 +48,7 @@ import {
 import React from 'react';
 import styled from 'styled-components'
 import { IconSVG } from '../style';
+import { browser } from '@/utils';
 
 const icons = {
   home: HomeOutlined,
@@ -132,7 +133,7 @@ const Wrap = styled.span`
 export default function Acon(prop) {
   const Image = icons[prop.icon]
   if (Image && !prop.hidden) {
-    return <Wrap style={{ ...prop.style, color: prop.color, fontSize: prop.size }} onClick={prop.onClick}>
+    return <Wrap style={{ ...prop.style, color: prop.color, fontSize: prop.size }} {...(browser.getPlatformType() === 'pc' ? { onClick: prop.onClick } : { onTouchEnd: prop.onTouchEnd })} >
       <Image style={{ transform: `rotate(${prop.rotate || 0})` }} />
     </Wrap>
   }

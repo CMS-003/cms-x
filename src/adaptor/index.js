@@ -2,6 +2,7 @@ import { Observer } from "mobx-react-lite";
 import Article from './article'
 import Gallery from './gallery'
 import Video from './video'
+import Post from "./poster";
 
 export default function ResourceItem({ item, type }) {
   return <Observer>{() => {
@@ -18,6 +19,8 @@ export default function ResourceItem({ item, type }) {
         return <Gallery item={item} type={type} />;
       case 'gallery':
         return <Gallery item={item} type={type} />;
+      case 'post':
+        return <Post item={item} type={type} />
       default:
         return <Video item={item} type={type} />;
     }

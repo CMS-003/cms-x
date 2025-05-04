@@ -5,6 +5,7 @@ import Dynamic from '../templates/dynamic'
 import Article from '../templates/article'
 import Video from '../templates/video'
 import Gallery from '../templates/gallery'
+import Post from '../templates/post'
 import _ from 'lodash'
 
 /**
@@ -17,6 +18,7 @@ const Templates = {
   Article,
   Video,
   Gallery,
+  Post,
 }
 const ViewPages = {
 

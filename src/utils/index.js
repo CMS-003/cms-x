@@ -1,6 +1,6 @@
 import * as bowser from 'bowser';
 
-const browser = bowser.getParser(window.navigator.userAgent);
+export const browser = bowser.getParser(window.navigator.userAgent);
 
 export function formatDuration(n) {
   let time = '',

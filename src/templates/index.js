@@ -7,10 +7,11 @@ import { SpinLoading } from 'antd-mobile'
 import { action } from "mobx";
 
 import Dynamic from "./dynamic/index.js";
-import Article from "@/adaptor/article/index.js";
-import Video from "@/adaptor/video/index.js";
-import Gallery from "@/adaptor/gallery/index.js";
+import Article from "./article/index.js";
+import Video from "./video/index.js";
+import Gallery from "./gallery/index.js";
 import Channel from "./channel/index.js";
+import Post from "./post/index.js";
 
 const pages = {
   Dynamic,
@@ -18,6 +19,7 @@ const pages = {
   Video,
   Gallery,
   Channel,
+  Post,
 }
 
 export default function Template({ id }) {

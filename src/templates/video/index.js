@@ -11,6 +11,7 @@ import { Ellipsis, Space, Tag } from "antd-mobile";
 import ResourceItem from "@/adaptor/index.js";
 import { default as dayjs } from "dayjs";
 import Acon from "@/components/Acon";
+import { browser } from "@/utils";
 
 const Title = styled.h1`
   font-size: 1.4em;
@@ -71,6 +72,33 @@ export default function VideoPage(props) {
     }
 
   }, [local, props.id])
+  const toggleStar = useCallback(async () => {
+    const collected = local.resource.counter.collected
+    try {
+      runInAction(() => {
+        local.resource.counter.collected = !collected
+      })
+      const resp = collected
+        ? await apis.fetchAPI('post', '/api/gatling/pJFc2GC9W', { resource_id: local.resource._id })
+        : await apis.fetchAPI('post', '/api/gatling/jw-KAgBzI', {
+          resource_id: local.resource._id,
+          resource_type: local.resource.type,
+          title: local.resource.title,
+          cover: local.resource.poster,
+        });
+      if (resp.code === 0) {
+
+      } else {
+        runInAction(() => {
+          local.resource.counter.collected = collected
+        })
+      }
+    } catch (e) {
+      runInAction(() => {
+        local.resource.counter.collected = collected
+      })
+    }
+  }, [])
   const getRecommends = () => {
 
   }
@@ -93,33 +121,7 @@ export default function VideoPage(props) {
             <Title>{local.resource.title}</Title>
             <FullWidth style={{ padding: '0 10px 10px', gap: 8, justifyContent: 'flex-start' }}>
               <span>{dayjs(local.resource.publishedAt).format('YYYY年MM月日DD HH:mm')}</span>
-              <Acon icon={local.resource.counter.collected ? 'stared' : 'unstar'} color='pink' size={24} onClick={async () => {
-                const collected = local.resource.counter.collected
-                try {
-                  runInAction(() => {
-                    local.resource.counter.collected = !collected
-                  })
-                  const resp = collected
-                    ? await apis.fetchAPI('post', '/api/gatling/pJFc2GC9W', { resource_id: local.resource._id })
-                    : await apis.fetchAPI('post', '/api/gatling/jw-KAgBzI', {
-                      resource_id: local.resource._id,
-                      resource_type: local.resource.type,
-                      title: local.resource.title,
-                      cover: local.resource.poster,
-                    });
-                  if (resp.code === 0) {
-
-                  } else {
-                    runInAction(() => {
-                      local.resource.counter.collected = collected
-                    })
-                  }
-                } catch (e) {
-                  runInAction(() => {
-                    local.resource.counter.collected = collected
-                  })
-                }
-              }} />
+              <Acon icon={local.resource.counter.collected ? 'stared' : 'unstar'} color='pink' size={24} {...(browser.getPlatformType() === 'pc' ? { onClick: toggleStar } : { onTouchEnd: toggleStar })} />
             </FullWidth>
             <Ellipsis content={local.resource.content} rows={2}
               expandText='展开'

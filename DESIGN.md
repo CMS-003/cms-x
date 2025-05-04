@@ -15,3 +15,5 @@
 - Filter数据加载
 - Random请求数据
 - 组件分页加载设置
+- ipad 支持touch和click两种事件导致播放按钮失效
+- attrs属性：align，layout，flex，path，selected_id，selected，left，right，holder，template_id，gap，content_type，confirm，style,columns

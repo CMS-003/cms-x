@@ -140,8 +140,8 @@ export default function CFilter({ self }) {
             </ShortWrap>
           </div>
           <List
-            multi={true}
-            items={_.chunk(local.resources, 2)}
+            multi={self.attrs.columns !== 1}
+            items={_.chunk(local.resources, self.attrs.columns)}
             onRefresh={async () => {
               local.page = 1;
               await getData();
