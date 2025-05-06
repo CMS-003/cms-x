@@ -39,6 +39,20 @@ function fetchAPI(method, url, data) {
   })
 }
 
+function signIn(data) {
+  return shttp({
+    method: 'post',
+    data,
+    url: `/api/v1/oauth/sign-in`
+  })
+}
+
+function getProfile() {
+  return shttp({
+    url: `/api/v1/users/profile`
+  })
+}
+
 const apis = {
   boot,
   getTemplate,
@@ -51,6 +65,8 @@ const apis = {
   getResourceDetail,
   getResourceList,
   fetchAPI,
+  signIn,
+  getProfile,
 }
 
 export default apis;

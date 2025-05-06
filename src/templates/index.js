@@ -12,14 +12,18 @@ import Video from "./video/index.js";
 import Gallery from "./gallery/index.js";
 import Channel from "./channel/index.js";
 import Post from "./post/index.js";
+import mine from "./mine/index.js";
 
-const pages = {
+
+
+const Templates = {
   Dynamic,
   Article,
   Video,
   Gallery,
   Channel,
   Post,
+  mine,
 }
 
 export default function Template({ id }) {
@@ -53,7 +57,7 @@ export default function Template({ id }) {
   }, [id])
 
   return <Observer>{() => {
-    const Page = !local.template ? null : (pages[local.template.type] || Dynamic);
+    const T = !local.template ? null : (Templates[local.template.name] || Templates[local.template.type] || Dynamic);
     if (local.isError) {
       return <div>error</div>
     }
@@ -62,7 +66,7 @@ export default function Template({ id }) {
         <SpinLoading color='primary' />
       </CenterXY>
     } else {
-      return Page ? <Page id={id} template={local.template} /> : null
+      return T ? <T id={id} template={local.template} /> : null
     }
   }}</Observer>
 }

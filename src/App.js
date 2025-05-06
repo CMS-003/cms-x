@@ -13,12 +13,21 @@ function App() {
   }));
   const biu = useCallback((async () => {
     store.app.setBoot(true)
-    const resp = await apis.boot();
-    if (resp.code !== 0) {
+    try {
+      const resp = await apis.boot();
+      if (resp.code !== 0) {
+        local.isError = true
+        console.log(resp, '启动失败')
+      } else {
+        if (store.user.access_token) {
+          const resp_profile = await apis.getProfile()
+          if (resp_profile) {
+            store.user.setInfo(resp_profile.data.item)
+          }
+        }
+      }
+    } catch (e) {
       local.isError = true
-      console.log(resp, '启动失败')
-    } else {
-
     }
     store.app.setBoot(false)
   }), [local])

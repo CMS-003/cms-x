@@ -6,6 +6,7 @@ import RouterContext from './contexts/router.js';
 import styled from 'styled-components';
 import { motion, AnimatePresence } from "motion/react"
 import Template from './templates/index.js';
+import SignIn from './pages/SignIn/index.js';
 
 const LayerWrap = styled.div`
   position: relative;
@@ -35,7 +36,6 @@ function Adaptor() {
       window.removeEventListener('popstate', handleBack);
     };
   }, [navigate]);
-
   return (
     <Observer>{() => (
       <LayerWrap>
@@ -74,6 +74,7 @@ export default function Router() {
   return (
     <BrowserRouter >
       <Routes>
+        <Route path={'/demo/sign-in'} element={<SignIn />}></Route>
         <Route path={'/demo/*'} element={<Adaptor />}></Route>
         <Route element={<NoMatch />} />
       </Routes>
