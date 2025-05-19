@@ -4,7 +4,7 @@ import App from './app'
 // import View from './view.js'
 import storage from '../utils/storage';
 
-storage.prefix = process.env.PUBLIC_URL
+storage.prefix = `${APP}_`
 
 const Store = types.model('store', {
   app: App,

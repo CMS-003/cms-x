@@ -38,7 +38,7 @@ function App() {
     <Observer>{() => {
       if (store.app.isBooting) {
         return <CenterXY style={{
-          backgroundImage: `url(/demo/logo.png)`
+          backgroundImage: `url(/${APP}/logo.png)`
         }}>
 
         </CenterXY>

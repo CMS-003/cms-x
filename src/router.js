@@ -42,7 +42,7 @@ function Adaptor() {
         <AnimatePresence>
           {router.views.map((view, n) => {
             if (n === 0) {
-              return <Template id={'demo'} key={n} />;
+              return <Template id={APP} key={n} />;
             }
             const View = router.getViewPage(view.view, view.query['id'])
             return <motion.div
@@ -64,9 +64,9 @@ function Adaptor() {
 
 function NoMatch() {
   if (store.user.isLogin) {
-    return <Navigate replace={'/demo/home'}></Navigate>;
+    return <Navigate replace={process.env.PUBLIC_URL + '/home'}></Navigate>;
   } else {
-    return <Navigate replace={'/demo/login'}></Navigate>;
+    return <Navigate replace={process.env.PUBLIC_URL + '/login'}></Navigate>;
   }
 }
 
@@ -74,7 +74,7 @@ export default function Router() {
   return (
     <BrowserRouter >
       <Routes>
-        <Route path={'/demo/*'} element={<Adaptor />}></Route>
+        <Route path={process.env.PUBLIC_URL + '/*'} element={<Adaptor />}></Route>
         <Route element={<NoMatch />} />
       </Routes>
     </BrowserRouter>

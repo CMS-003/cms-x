@@ -12,8 +12,8 @@ function Context({ children }) {
   const router = useContext(RouterContext);
   const [inited, setInited] = useState(false)
   useEffect(() => {
-    if (!/^\/demo/.test(window.location.pathname)) {
-      window.history.pushState(null, '', '/demo')
+    if (!window.location.pathname.startsWith(process.env.PUBLIC_URL)) {
+      window.history.pushState(null, '', process.env.PUBLIC_URL)
     }
     if (!inited) {
       const views = getViews(window.location);
