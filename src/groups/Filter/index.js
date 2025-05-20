@@ -1,6 +1,5 @@
 import _ from 'lodash'
-import { Fragment, useCallback, useRef } from 'react';
-import { useEffectOnce } from 'react-use';
+import { Fragment, useCallback, useEffect } from 'react';
 import { action, toJS } from 'mobx';
 import { Observer, useLocalObservable } from 'mobx-react-lite';
 import styled from 'styled-components';
@@ -93,11 +92,11 @@ export default function CFilter({ self }) {
     local.page++;
     await getData();
   }, [])
-  useEffectOnce(() => {
+  useEffect(() => {
     if (local.resources.length === 0) {
       getData();
     }
-  })
+  }, [])
   return <Observer>
     {() => (
       <div style={{ height: '100%', position: 'relative' }}>

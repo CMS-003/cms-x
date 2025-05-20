@@ -1,12 +1,15 @@
 import React from 'react'
 
+import _ from 'lodash'
 import { types } from 'mobx-state-tree';
+
 import Dynamic from '../templates/dynamic'
 import Article from '../templates/article'
-import Video from '../templates/video'
 import Gallery from '../templates/gallery'
+import Video from '../templates/video'
 import Post from '../templates/post'
-import _ from 'lodash'
+
+import SignIn from '@/pages/SignIn/index.js';
 
 /**
  * 每个 view 由Template组成,界面显示由 view 控制
@@ -19,6 +22,7 @@ const Templates = {
   Video,
   Gallery,
   Post,
+  'sign-in': SignIn
 }
 const ViewPages = {
 
@@ -28,7 +32,7 @@ export function getViews(location) {
   let pathname = location.pathname;
   const views = pathname.split('/').filter(p => p !== '');
   const query = {};
-  (location.search.replace(/^[?]/, '')).split('&').map(v => {
+  (location.search.replace(/^[?]/, '')).split('&').forEach(v => {
     const [name, value] = v.split('=');
     _.set(query, name, value);
   });
@@ -89,7 +93,7 @@ const View = types
       });
       return `/${views.join('/')}${queries.length ? '?' + queries.join('&') : ''}`
     },
-    getViewPage(view, id) {
+    getViewPage(view, id = '') {
       const view_id = `${view}:${id}`
       if (ViewPages[view_id]) {
         return ViewPages[view_id]

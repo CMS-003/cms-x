@@ -5,8 +5,10 @@ import Acon from "@/components/Acon/index.js";
 import apis from "@/apis/index.js";
 import store from "@/store/index.js";
 import { useNavigate } from "react-router";
+import { useRouter } from "@/contexts/index.js";
 
 export default function SignIn() {
+  const router = useRouter();
   const navigate = useNavigate()
   const local = useLocalObservable(() => ({
     loading: false,
@@ -59,7 +61,7 @@ export default function SignIn() {
                   const resp_profile = await apis.getProfile();
                   if (resp_profile.code === 0) {
                     store.user.setInfo(resp_profile.data.item)
-                    navigate('/demo/')
+                    router.backView()
                   }
                 }
               } catch (e) {

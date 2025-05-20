@@ -14,7 +14,7 @@ const Store = types.model('store', {
 const store = Store.create({
   app: {
     debug: true,
-    baseURL: 'http://localhost:3333'
+    baseURL: ''
   },
   user: {
     access_token: storage.getValue('access_token') || '',

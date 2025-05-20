@@ -25,7 +25,8 @@ export default function Mine() {
         </AlignCenter>
         <FullWidthAuto>
           {store.user.isLogin ? store.user.info.name : <Button type='button' onClick={() => {
-            navigate('/demo/sign-in');
+            // navigate('/demo/sign-in');
+            router.pushView('sign-in')
           }}>登陆</Button>}
         </FullWidthAuto>
       </FullWidth>

@@ -1,8 +1,8 @@
 const path = require('path');
 const webpack = require('webpack');
-const { override, addWebpackAlias, addWebpackPlugin, } = require('customize-cra');
+const { override, addWebpackAlias, addWebpackPlugin, overrideDevServer } = require('customize-cra');
 
-module.exports = override(
+const webpackConfig = override(
   addWebpackAlias({
     "@": path.resolve(__dirname, "src")
   }),
@@ -12,3 +12,35 @@ module.exports = override(
     })
   ),
 );
+
+const devServerConfig = overrideDevServer(
+  (config) => ({
+    ...config,
+    port: 3000,
+    open: true,
+    hot: true,
+    proxy: {
+      '/api': {
+        target: 'https://u67631x482.vicp.fun/gw/manager',
+        changeOrigin: true,
+        // pathRewrite: { '^/api': '' },
+      },
+      '/images': {
+        target: 'https://u67631x482.vicp.fun/',
+        changeOrigin: true,
+      },
+    },
+    client: {
+      overlay: {
+        errors: true,
+        warnings: false,
+      },
+    },
+  })
+);
+
+// 合并配置
+module.exports = {
+  webpack: webpackConfig,
+  devServer: devServerConfig,
+};

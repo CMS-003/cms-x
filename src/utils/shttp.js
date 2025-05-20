@@ -26,17 +26,17 @@ shttp.interceptors.response.use(
     if (store.app.debug) {
       console.log(response.status, response.data);
     }
-    const res = response.data;
+    const body = response.data;
     // 干点什么
-    if (res.code !== 0) {
+    if (body.code !== 0) {
       if (
-        res.code === 10110 &&
+        body.code === 101010 &&
         response.config.url !==
-        response.config.baseURL + '/v1/auth/user/refresh'
+        response.config.baseURL + '/api/v1/auth/user/refresh'
       ) {
         store.user.setAccessToken('')
-        return new Promise(async (resolve) => {
-          const result = await axios.post(`${store.app.baseURL}/v1/auth/refresh`, {
+        new Promise(async (resolve) => {
+          const result = await axios.post(`${store.app.baseURL}/api/v1/auth/refresh`, {
             authorization: store.user.refresh_token,
           });
           if (result && result.data) {
@@ -49,12 +49,14 @@ shttp.interceptors.response.use(
           } else {
             resolve({});
           }
+        }).then(resp => {
+
         });
       } else {
         // Modal.alert('请求失败', res.message);
       }
     }
-    return res;
+    return body;
   },
   (error) => {
     console.log(error, 'response error');

@@ -56,8 +56,8 @@ export default function GalleryPage(props) {
       <FullHeightAuto>
         {local.resource ? <Fragment>
           <span style={{ padding: '0 8px 8px', display: 'inline-block' }}>{dayjs(local.resource.publishedAt).format('YYYY年MM月日DD HH:mm')}</span>
-          {local.resource.images.map(image => (
-            <img src={store.app.imageLine + image.path} style={{ width: '100%' }} />
+          {local.resource.images.map((image, i) => (
+            <img key={i} src={store.app.imageLine + image.path} style={{ width: '100%' }} />
           ))}
         </Fragment> : null}
       </FullHeightAuto>

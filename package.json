@@ -50,6 +50,8 @@
   "devDependencies": {
     "cross-env": "^7.0.3",
     "customize-cra": "^1.0.0",
+    "eslint-plugin-react": "7.37.5",
+    "eslint-plugin-react-hooks": "5.2.0",
     "react-app-rewired": "^2.2.1"
   }
 }

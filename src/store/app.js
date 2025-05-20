@@ -30,7 +30,7 @@ const App = types
   }))
   .views(self => ({
     get imageLine() {
-      return 'https://u67631x482.vicp.fun';
+      return '';
     },
     get videoLine() {
       return '';
