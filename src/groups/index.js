@@ -8,6 +8,7 @@ import RandomCard from './RandomCard'
 import Filter from './Filter'
 import FilterRow from './FilterRow'
 import FilterTag from './FilterTag'
+import HotArea from './HotArea'
 
 export default {
   Tabbar,
@@ -20,4 +21,5 @@ export default {
   Filter,
   FilterRow,
   FilterTag,
+  HotArea,
 }

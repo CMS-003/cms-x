@@ -3,7 +3,7 @@ import User from './user';
 import App from './app'
 import storage from '../utils/storage';
 
-storage.prefix = process.env.PUBLIC_URL.replace('/', '') + '_'
+storage.prefix = `${APP}_`
 
 const Store = types.model('store', {
   app: App,

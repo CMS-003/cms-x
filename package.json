@@ -26,8 +26,8 @@
     "styled-components": "^6.1.15"
   },
   "scripts": {
-    "start": "PUBLIC_URL=/demo react-app-rewired start",
-    "dev": "cross-env PUBLIC_URL=/demo react-app-rewired start",
+    "start": "react-app-rewired start",
+    "dev": "react-app-rewired start",
     "build": "react-app-rewired build"
   },
   "eslintConfig": {

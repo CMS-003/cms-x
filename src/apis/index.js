@@ -3,7 +3,7 @@ import shttp from '../utils/shttp.js'
 
 function boot() {
   return shttp({
-    url: '/api/v1/public/boot/demo'
+    url: '/api/v1/public/boot/' + APP
   })
 }
 
@@ -27,7 +27,7 @@ function getResourceDetail(id) {
 
 function getResourceList(query) {
   return shttp({
-    url: `/api/v1/public/demo/resources${qs.stringify(query, { addQueryPrefix: true })}`,
+    url: `/api/v1/public/${APP}/resources${qs.stringify(query, { addQueryPrefix: true })}`,
   });
 }
 

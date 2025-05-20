@@ -21,12 +21,12 @@ export const ItemTitle = styled.div`
   line-height: 14px;
   height: 28px;
   margin: 5px;
-  font-size: 13px;
+  font-size: 12px;
 `
 
 export const Uname = styled.div`
   color: #999;
-  font-size: 13px;
+  font-size: 12px;
   padding: 0 5px 5px;
   white-space: nowrap;
   overflow: hidden;
