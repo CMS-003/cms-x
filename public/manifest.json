@@ -1,5 +1,6 @@
 {
   "short_name": "demo",
+  "orientation": "portrait",
   "name": "demo",
   "icons": [
     {
@@ -18,8 +19,10 @@
       "sizes": "512x512"
     }
   ],
-  "start_url": "./",
-  "display": "standalone",
+  "start_url": "/demo/",
+  "id": "demo",
+  "scope": "/demo/",
+  "display": "fullscreen",
   "theme_color": "#000000",
   "background_color": "#ffffff"
 }

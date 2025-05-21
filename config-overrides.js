@@ -20,7 +20,7 @@ const devServerConfig = overrideDevServer(
     open: true,
     hot: true,
     proxy: {
-      '/api': {
+      '/gw/manager/api': {
         target: 'https://u67631x482.vicp.fun/gw/manager',
         changeOrigin: true,
         // pathRewrite: { '^/api': '' },
