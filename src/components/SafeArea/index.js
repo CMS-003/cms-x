@@ -17,7 +17,7 @@ export default function SafeArea({
       boxSizing: 'border-box',
     }}>
       <FullHeightFix style={{ paddingTop: top, background: topBGC, }} />
-      <div style={{ flex: 1, display: 'flex', height: `calc(100dvh - ${top} - ${bot})`, overflow: 'auto', flexDirection: 'column' }}>
+      <div style={{ flex: 1, display: 'flex', overflow: 'auto', flexDirection: 'column' }}>
         {children}
       </div>
       <FullHeightFix style={{ paddingBottom: bot, backgroundColor: botBGC }} />

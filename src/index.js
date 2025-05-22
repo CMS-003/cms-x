@@ -4,9 +4,9 @@ import './index.css';
 import App from './App';
 import StoreContext from './contexts/store';
 import { Observer } from 'mobx-react-lite';
-import RouterContext, { router, View, getViews } from './contexts/router.js';
+import RouterContext, { getViews } from './contexts/router.js';
 import store from './store'
-import SafeArea from './components/SafeArea/index.js';
+import { isPWA, isPWAorMobile } from './utils';
 
 function Context({ children }) {
   const router = useContext(RouterContext);
@@ -24,14 +24,12 @@ function Context({ children }) {
   return (
     <Observer>{() => (
       <StoreContext.Provider value={store}>
-        <SafeArea>
-          {children}
-        </SafeArea>
+        {children}
       </StoreContext.Provider>
     )}</Observer>
   )
 }
-
+document.getElementById('root').classList.add(isPWA() ? 'is-pwa' : (isPWAorMobile() ? 'is-mobile' : ''));
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.Fragment>

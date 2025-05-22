@@ -69,3 +69,9 @@ export function isPWAorMobile() {
     ? true
     : false;
 }
+
+export function isPWA() {
+  const isChromeApp = window.matchMedia('(display-mode: standalone)').matches;
+  const isIosApp = window.navigator.standalone === true;
+  return isChromeApp || isIosApp;
+}

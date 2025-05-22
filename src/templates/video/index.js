@@ -12,6 +12,7 @@ import ResourceItem from "@/adaptor/index.js";
 import { default as dayjs } from "dayjs";
 import Acon from "@/components/Acon";
 import { browser } from "@/utils";
+import SafeArea from "@/components/SafeArea";
 
 const Title = styled.h1`
   font-size: 1.4em;
@@ -106,68 +107,70 @@ export default function VideoPage(props) {
     getDetail();
   }, [getDetail])
   return <Observer>{() => (
-    <FullHeight>
-      <FullHeightFix style={{ flexDirection: 'column' }}>
-        <Player
-          resource={local.resource}
-          video={local.video}
-          looktime={0}
-          type="mp4"
-        />
-      </FullHeightFix>
-      <FullHeightAuto>
-        {
-          local.resource ? (<Fragment>
-            <Title>{local.resource.title}</Title>
-            <FullWidth style={{ padding: '0 10px 10px', gap: 8, justifyContent: 'flex-start' }}>
-              <span>{dayjs(local.resource.publishedAt).format('YYYY年MM月日DD HH:mm')}</span>
-              <Acon icon={local.resource.counter.collected ? 'stared' : 'unstar'} color='pink' size={24} {...(browser.getPlatformType() === 'pc' ? { onClick: toggleStar } : { onTouchEnd: toggleStar })} />
-            </FullWidth>
-            <Ellipsis content={local.resource.content} rows={2}
-              expandText='展开'
-              collapseText='收起' />
-            <FullWidth style={{ alignItems: 'baseline', overflow: 'auto' }}>
-              <Space style={{ padding: '0 10px' }}>
-                {local.resource.tags.map(tag => (
-                  <Tag key={tag} round color='#2db7f5' style={{ padding: '4px 6px' }}>
-                    {tag}
-                  </Tag>
-                ))}
-              </Space>
-            </FullWidth>
-            <Visible visible={local.resource.videos.length > 1}>
-              <p
-                style={{
-                  fontWeight: 'bolder',
-                  margin: 0,
-                  padding: '10px 10px 5px',
-                }}
-              >
-                播放列表
-              </p>
-              <FullWidth style={{ alignItems: 'baseline', overflow: 'auto', padding: '0 8px' }}>
-                {local.resource.videos.map((child) => (
-                  <Epsode
-                    key={child.path}
-                    onClick={() => {
-                      if (local.vid !== child._id) {
-                        local.video = child;
-                        local.looktime = 0;
-                      }
-                    }}
-                    selected={local.video && local.video._id === child._id}
-                  >
-                    {child.title || `第${child.nth}集`}
-                  </Epsode>
-                ))}
+    <SafeArea topBGC="black" botBGC="black">
+      <FullHeight style={{ position: 'relative' }}>
+        <FullHeightFix style={{ flexDirection: 'column', }}>
+          <Player
+            resource={local.resource}
+            video={local.video}
+            looktime={0}
+            type="mp4"
+          />
+        </FullHeightFix>
+        <FullHeightAuto>
+          {
+            local.resource ? (<Fragment>
+              <Title>{local.resource.title}</Title>
+              <FullWidth style={{ padding: '0 10px 10px', gap: 8, justifyContent: 'flex-start' }}>
+                <span>{dayjs(local.resource.publishedAt).format('YYYY年MM月日DD HH:mm')}</span>
+                <Acon icon={local.resource.counter.collected ? 'stared' : 'unstar'} color='pink' size={24} {...(browser.getPlatformType() === 'pc' ? { onClick: toggleStar } : { onTouchEnd: toggleStar })} />
               </FullWidth>
-            </Visible>
-          </Fragment>) : null
-        }
-        {local.recommends.map(v => (
-          <ResourceItem key={v._id} item={v} type="LPRT" />
-        ))}
-      </FullHeightAuto>
-    </FullHeight>
+              <Ellipsis content={local.resource.content} rows={2}
+                expandText='展开'
+                collapseText='收起' />
+              <FullWidth style={{ alignItems: 'baseline', overflow: 'auto' }}>
+                <Space style={{ padding: '0 10px' }}>
+                  {local.resource.tags.map(tag => (
+                    <Tag key={tag} round color='#2db7f5' style={{ padding: '4px 6px' }}>
+                      {tag}
+                    </Tag>
+                  ))}
+                </Space>
+              </FullWidth>
+              <Visible visible={local.resource.videos.length > 1}>
+                <p
+                  style={{
+                    fontWeight: 'bolder',
+                    margin: 0,
+                    padding: '10px 10px 5px',
+                  }}
+                >
+                  播放列表
+                </p>
+                <FullWidth style={{ alignItems: 'baseline', overflow: 'auto', padding: '0 8px' }}>
+                  {local.resource.videos.map((child) => (
+                    <Epsode
+                      key={child.path}
+                      onClick={() => {
+                        if (local.vid !== child._id) {
+                          local.video = child;
+                          local.looktime = 0;
+                        }
+                      }}
+                      selected={local.video && local.video._id === child._id}
+                    >
+                      {child.title || `第${child.nth}集`}
+                    </Epsode>
+                  ))}
+                </FullWidth>
+              </Visible>
+            </Fragment>) : null
+          }
+          {local.recommends.map(v => (
+            <ResourceItem key={v._id} item={v} type="LPRT" />
+          ))}
+        </FullHeightAuto>
+      </FullHeight>
+    </SafeArea>
   )}</Observer>
 }
