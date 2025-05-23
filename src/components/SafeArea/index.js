@@ -5,8 +5,8 @@ import { FullHeight, FullHeightAuto, FullHeightFix } from "../style.js";
 export default function SafeArea({
   top = 'env(safe-area-inset-top)',
   bot = 'env(safe-area-inset-bottom)',
-  topBGC = '#fff',
-  botBGC = '#fff',
+  topBGC = 'transparent',
+  botBGC = 'transparent',
   children,
 }) {
   const store = useStore()

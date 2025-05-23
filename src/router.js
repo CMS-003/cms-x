@@ -49,7 +49,7 @@ function Adaptor() {
               initial={{ left: '100%' }}
               animate={{ left: 0 }}
               exit={view.animate ? { left: '100%' } : false}
-              style={{ zIndex: 10 + n, position: 'absolute', top: 0, width: '100%', height: '100dvh', overflow: 'hidden', backgroundColor: '#eee' }}
+              style={{ zIndex: 10 + n, position: 'absolute', top: 0, width: '100%', height: '100%', overflow: 'hidden', backgroundColor: '#eee' }}
             >
               <View id={view.query.id} />
             </motion.div>

@@ -107,7 +107,7 @@ export default function VideoPage(props) {
     getDetail();
   }, [getDetail])
   return <Observer>{() => (
-    <SafeArea topBGC="black" botBGC="black">
+    <SafeArea topBGC="black">
       <FullHeight style={{ position: 'relative' }}>
         <FullHeightFix style={{ flexDirection: 'column', }}>
           <Player

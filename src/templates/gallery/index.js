@@ -7,6 +7,7 @@ import Nav from "@/components/Nav";
 import apis from "@/apis";
 import styled from "styled-components";
 import { default as dayjs } from "dayjs";
+import SafeArea from "@/components/SafeArea/index.js";
 
 const Title = styled.h1`
   font-size: 1.4em;
@@ -49,27 +50,29 @@ export default function GalleryPage(props) {
     getDetail();
   }, [getDetail])
   return <Observer>{() => (
-    <FullHeight>
-      <FullHeightFix>
-        <Nav title={local.resource ? local.resource.title : ''} align="left" style={{ color: 'initial', backgroundColor: 'transparent' }} />
-      </FullHeightFix>
-      <FullHeightAuto>
-        {local.resource ? <Fragment>
-          <span style={{ padding: '0 8px 8px', display: 'inline-block' }}>{dayjs(local.resource.publishedAt).format('YYYY年MM月日DD HH:mm')}</span>
-          {local.resource.images.map((image, i) => (
-            <img key={i} src={store.app.imageLine + image.path} style={{ width: '100%' }} />
-          ))}
-        </Fragment> : null}
-      </FullHeightAuto>
-      <FullWidth style={{ alignItems: 'baseline', overflow: 'auto', margin: 10 }}>
-        <Space>
-          {(local?.resource?.tags || []).map(tag => (
-            <Tag key={tag} round color='#2db7f5' style={{ padding: '4px 6px' }}>
-              {tag}
-            </Tag>
-          ))}
-        </Space>
-      </FullWidth>
-    </FullHeight>
+    <SafeArea>
+      <FullHeight>
+        <FullHeightFix>
+          <Nav title={local.resource ? local.resource.title : ''} align="left" style={{ color: 'initial', backgroundColor: 'transparent' }} />
+        </FullHeightFix>
+        <FullHeightAuto>
+          {local.resource ? <Fragment>
+            <span style={{ padding: '0 8px 8px', display: 'inline-block' }}>{dayjs(local.resource.publishedAt).format('YYYY年MM月日DD HH:mm')}</span>
+            {local.resource.images.map((image, i) => (
+              <img key={i} src={store.app.imageLine + image.path} style={{ width: '100%' }} />
+            ))}
+          </Fragment> : null}
+        </FullHeightAuto>
+        <FullWidth style={{ alignItems: 'baseline', overflow: 'auto', margin: 10 }}>
+          <Space>
+            {(local?.resource?.tags || []).map(tag => (
+              <Tag key={tag} round color='#2db7f5' style={{ padding: '4px 6px' }}>
+                {tag}
+              </Tag>
+            ))}
+          </Space>
+        </FullWidth>
+      </FullHeight>
+    </SafeArea>
   )}</Observer>
 }
