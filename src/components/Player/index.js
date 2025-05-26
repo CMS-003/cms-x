@@ -80,6 +80,7 @@ const VControl = styled.div`
   color: white;
   background: linear-gradient(0deg,#00000080,#fdfdfd00);
   padding: 5px;
+  padding-bottom: ${prop => prop.fullscreen ? 'var(--safe-padding-bottom)' : '5px'};
   box-sizing: border-box;
 `
 export const ProgressWrap = styled.div`
@@ -278,14 +279,11 @@ export default function Player({
       }}>
       <div style={{
         position: 'relative',
-        width: local.fullscreen ? 'calc(100% - env(safe-area-inset-left) - env(safe-area-inset-right))' : '100%',
-        height: local.fullscreen ? 'calc(100% - env(safe-area-inset-bottom))' : (local.isMobile ? 'auto' : 480),
-        paddingTop: local.isMobile ? '56.25%' : 0,
+        width: 'calc(100% - env(safe-area-inset-left) - env(safe-area-inset-right))',
         boxSizing: 'border-box',
-        marginLeft: 'env(safe-area-inset-left)',
-        marginRight: 'env(safe-area-inset-right)',
         display: 'flex',
         justifyContent: 'center',
+        aspectRatio: '16 / 9',
       }}>
         {resource && video && <ReactPlayer
           url={store.app.videoLine + video.path}
@@ -422,7 +420,7 @@ export default function Player({
           <VError>{local.error}</VError>
         </Visible>
         <Visible visible={local.showControl}>
-          <VControl ref={controlRef}>
+          <VControl fullscreen={local.fullscreen} ref={controlRef}>
             {/* 播放中,已暂停,缓冲中 */}
             {local.playing
               ? <Icon
@@ -455,13 +453,13 @@ export default function Player({
                   }
                   local.setValue('playing', true)
                 }}
-                // onClick={e => {
-                //   e.stopPropagation();
-                //   if (local.status === VIDEO_STATUS.BUFFERING) {
-                //     return;
-                //   }
-                //   local.setValue('playing', true)
-                // }}
+              // onClick={e => {
+              //   e.stopPropagation();
+              //   if (local.status === VIDEO_STATUS.BUFFERING) {
+              //     return;
+              //   }
+              //   local.setValue('playing', true)
+              // }}
               />}
             <ProgressWrap className='progress' onClickCapture={e => {
               e.stopPropagation();

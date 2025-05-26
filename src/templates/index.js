@@ -10,7 +10,7 @@ import Dynamic from "./dynamic/index.js";
 import Article from "./article/index.js";
 import Video from "./video/index.js";
 import Gallery from "./gallery/index.js";
-import Channel from "./channel/index.js";
+import channel from "./channel/index.js";
 import Post from "./post/index.js";
 import mine from "./mine/index.js";
 
@@ -21,8 +21,8 @@ const Templates = {
   Article,
   Video,
   Gallery,
-  Channel,
   Post,
+  channel,
   mine,
 }
 

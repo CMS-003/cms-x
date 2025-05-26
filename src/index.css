@@ -64,6 +64,14 @@ body,
   bottom: 0;
 }
 
+/* 默认竖屏使用底部 inset */
+:root {
+  --safe-padding-top: env(safe-area-inset-top);
+  --safe-padding-bottom: env(safe-area-inset-bottom);
+  --safe-padding-left: env(safe-area-inset-left);
+  --safe-padding-right: env(safe-area-inset-right);
+}
+
 .react-player__shadow,
 .react-player__play-icon {
   display: none;
@@ -90,6 +98,11 @@ body,
 /* 覆盖默认padding */
 .adm-list-item .adm-list-item-content-main {
   padding: 0;
+}
+
+.adm-list-item-content-main {
+  flex: 0;
+  overflow-x: hidden;
 }
 
 .adm-tabs-content {

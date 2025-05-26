@@ -133,7 +133,7 @@ const Wrap = styled.span`
 export default function Acon(prop) {
   const Image = icons[prop.icon]
   if (Image && !prop.hidden) {
-    return <Wrap style={{ ...prop.style, color: prop.color, fontSize: prop.size }} {...(browser.getPlatformType() === 'pc' ? { onClick: prop.onClick } : { onTouchEnd: prop.onTouchEnd })} >
+    return <Wrap style={{ fontSize: prop.size, color: prop.color, ...prop.style }} {...(browser.getPlatformType() === 'pc' ? { onClick: prop.onClick } : { onTouchEnd: prop.onTouchEnd })} >
       <Image style={{ transform: `rotate(${prop.rotate || 0})` }} />
     </Wrap>
   }

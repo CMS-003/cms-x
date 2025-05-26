@@ -61,6 +61,8 @@ export default function CCard({ self, children }) {
     <div
       style={{
         flex: 0,
+        margin: '10px 10px 0',
+        backgroundColor: '#fff',
         ...self.style,
       }}
     >

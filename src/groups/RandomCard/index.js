@@ -18,7 +18,12 @@ const Content = styled.div`
 export default function CRandom({ self, mode, drag, dnd, children }) {
   return <Observer>{() => (
     <div
-      style={{ flex: 0, ...self.style, }}
+      style={{
+        flex: 0,
+        margin: '10px 10px 0',
+        backgroundColor: '#fff',
+        ...self.style,
+      }}
     >
       {children}
       <Header>

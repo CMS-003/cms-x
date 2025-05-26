@@ -13,9 +13,9 @@ function getTemplate(id) {
   });
 }
 
-function getPageComponents(id, page = 1) {
+function getPageComponents(id, page = 1, size = 8) {
   return shttp({
-    url: `/api/v1/public/page/${id}/components?page=${page}`,
+    url: `/api/v1/public/page/${id}/components?page=${page}&size=${size}`,
   });
 }
 

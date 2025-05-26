@@ -17,6 +17,7 @@ module.exports = {
     'jsx-a11y/anchor-is-valid': 'off', // 关闭 Next.js/Link 的特定检查
     'no-unused-vars': 'off', // 未使用的变量警告（非错误）
     'no-mixed-operators': 'off',
+    "react-hooks/exhaustive-deps": "off"
   },
   globals: {
     APP: "readonly"

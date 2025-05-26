@@ -12,7 +12,6 @@ export default function Dynamic(props) {
     isLoading: false,
     template: props.template,
     isError: false,
-    page: 1,
     setValue(key, value) {
       local[key] = value
     }

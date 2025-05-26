@@ -9,7 +9,11 @@ const ChannelWrap = styled.div`
 `
 const ChannelItem = styled.div`
   display: flex;
+  flex: 1;
   flex-direction: column;
+  line-height: 60px;
+  justify-content: center;
+  align-items: center;
 `
 
 export default function ChannelPage() {
@@ -35,9 +39,6 @@ export default function ChannelPage() {
   }))
   return <Observer>{() => (
     <FullHeight>
-      <FullHeightFix>
-        <Nav title={'频道'} />
-      </FullHeightFix>
       <FullHeightAuto>
         {_.chunk(local.channels, 4).map((channels, i) => (
           <ChannelWrap key={i}>
