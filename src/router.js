@@ -41,7 +41,7 @@ function Adaptor() {
         <AnimatePresence>
           {router.views.map((view, n) => {
             if (n === 0) {
-              return <Template id={APP} key={n} />;
+              return <Template view={APP} key={n} />;
             }
             const View = router.getViewPage(view.view, view.query['id'])
             return <motion.div

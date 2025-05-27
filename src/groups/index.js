@@ -10,7 +10,7 @@ import FilterRow from './FilterRow'
 import FilterTag from './FilterTag'
 import HotArea from './HotArea'
 
-export default {
+const groups = {
   Tabbar,
   Layout,
   Icon,
@@ -23,3 +23,4 @@ export default {
   FilterTag,
   HotArea,
 }
+export default groups;

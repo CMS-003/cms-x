@@ -1,4 +1,4 @@
-import { AlignCenter, FullHeight, FullWidth, FullWidthAuto } from "@/components/style.js";
+import { AlignCenter, FullHeight, FullHeightAuto, FullWidth, FullWidthAuto } from "@/components/style.js";
 import { Observer } from "mobx-react-lite";
 import store from "@/store/index.js";
 import { Button } from "antd-mobile";
@@ -6,6 +6,7 @@ import RouterContext from "@/contexts/router.js";
 import { useContext } from "react";
 import { useNavigate } from "react-router";
 import styled from "styled-components";
+import Auto from "@/groups/auto.js";
 
 const Btn = styled.div`
   background-color: lightblue;
@@ -16,7 +17,7 @@ const Btn = styled.div`
   font-size: 14px;
 `
 
-export default function Mine() {
+export default function Mine({ template }) {
   const router = useContext(RouterContext)
   const navigate = useNavigate()
   return <Observer>{() => (
@@ -38,6 +39,9 @@ export default function Mine() {
         </FullWidthAuto>
         <Btn style={{ marginRight: 20 }} onClick={() => window.location.reload()}>刷新</Btn>
       </FullWidth>
+      <FullHeightAuto style={{ overflow: 'hidden auto' }}>
+        <Auto template={template} />
+      </FullHeightAuto>
     </FullHeight>
   )}</Observer>
 }

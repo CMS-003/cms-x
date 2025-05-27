@@ -94,7 +94,10 @@ body,
   z-index: 2;
   background-color: #fff;
 }
-
+/* 我的页面刷新 */
+.adm-pull-to-refresh {
+  height: 100%;
+}
 /* 覆盖默认padding */
 .adm-list-item .adm-list-item-content-main {
   padding: 0;

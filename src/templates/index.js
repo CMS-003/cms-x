@@ -13,10 +13,11 @@ import Gallery from "./gallery/index.js";
 import channel from "./channel/index.js";
 import Post from "./post/index.js";
 import mine from "./mine/index.js";
+import Notify from "./notify";
 
+import SignIn from "@/pages/SignIn/index.js";
 
-
-const Templates = {
+export const Templates = {
   Dynamic,
   Article,
   Video,
@@ -24,9 +25,11 @@ const Templates = {
   Post,
   channel,
   mine,
+  Notify,
+  'sign-in': SignIn
 }
 
-export default function Template({ id }) {
+export default function Template({ view, id }) {
   const local = useLocalObservable(() => ({
     isLoading: false,
     template: null,
@@ -39,7 +42,8 @@ export default function Template({ id }) {
   }));
   const getData = useCallback(async () => {
     local.isLoading = true;
-    const resp = await apis.getTemplate(id)
+    const resp = await apis.getTemplate(view)
+
     if (resp.code === 0) {
       local.setValue('template', resp.data);
     } else {
@@ -66,7 +70,7 @@ export default function Template({ id }) {
         <SpinLoading color='primary' />
       </CenterXY>
     } else {
-      return T ? <T id={id} template={local.template} /> : null
+      return T ? <T id={id} template={local.template} /> : <div>404</div>
     }
   }}</Observer>
 }

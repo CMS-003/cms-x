@@ -123,7 +123,7 @@ export default function VideoPage(props) {
               <Title>{local.resource.title}</Title>
               <FullWidth style={{ padding: '0 10px 10px', gap: 8, justifyContent: 'flex-start' }}>
                 <span>{dayjs(local.resource.publishedAt).format('YYYY年MM月日DD HH:mm')}</span>
-                <Acon icon={local.resource.counter.collected ? 'stared' : 'unstar'} color='pink' size={24} {...(browser.getPlatformType() === 'pc' ? { onClick: toggleStar } : { onTouchEnd: toggleStar })} />
+                <Acon icon={local.resource.counter.collected ? 'stared' : 'unstar'} color='pink' size={24} onTouchEnd={toggleStar} />
               </FullWidth>
               <Ellipsis content={local.resource.content} rows={2}
                 expandText='展开'

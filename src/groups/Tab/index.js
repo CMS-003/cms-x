@@ -17,7 +17,7 @@ export default function Tab({ self, children }) {
       <Tabs style={{ '--content-padding': 0, '--title-font-size': '16px', height: '100%', display: 'flex', flexDirection: 'column' }} className='sticky-tabs-header'>
         {self.children.map(child => {
           const template_id = child.attrs.template_id;
-          const View = template_id ? router.getViewPage('Dynamic', template_id) : NotFound;
+          const View = template_id ? router.getViewPage(template_id) : NotFound;
           return (
             <Tabs.Tab key={child._id} title={child.title}>
               <div style={{ width: '100%', height: '100%', overscrollBehavior: 'auto', overflowY: 'auto', backgroundColor: '#eee' }}>

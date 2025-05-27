@@ -1,4 +1,4 @@
-import {
+import Icon, {
   HomeOutlined,
   DeleteOutlined,
   FormOutlined,
@@ -44,11 +44,20 @@ import {
   MessageOutlined,
   StarOutlined,
   StarFilled,
+  MailOutlined,
+  FieldTimeOutlined,
+  ThunderboltOutlined,
+  LikeOutlined,
+  NotificationOutlined,
 } from '@ant-design/icons'
 import React from 'react';
 import styled from 'styled-components'
-import { IconSVG } from '../style';
 import { browser } from '@/utils';
+import { ReactComponent as svgSystem } from '@/theme/icon/system.svg'
+import { ReactComponent as svgAt } from '@/theme/icon/at.svg'
+
+const System = (props) => <Icon component={svgSystem} {...props} />;
+const At = (props) => <Icon component={svgAt} {...props} />;
 
 const icons = {
   home: HomeOutlined,
@@ -120,9 +129,21 @@ const icons = {
   spider: RadarChartOutlined,
   unstar: StarOutlined,
   stared: StarFilled,
+  notify: MailOutlined,
+  history: FieldTimeOutlined,
+  thunder: ThunderboltOutlined,
+  like: LikeOutlined,
+  NotificationOutlined,
+  System,
+  At,
 }
+
+
 const Wrap = styled.span`
   display: flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
   cursor: pointer;
     cursor:pointer;
   &:hover { 
@@ -130,11 +151,11 @@ const Wrap = styled.span`
     color: var(--ant-primary-color-hover);
   }
 `;
-export default function Acon(prop) {
-  const Image = icons[prop.icon]
-  if (Image && !prop.hidden) {
-    return <Wrap style={{ fontSize: prop.size, color: prop.color, ...prop.style }} {...(browser.getPlatformType() === 'pc' ? { onClick: prop.onClick } : { onTouchEnd: prop.onTouchEnd })} >
-      <Image style={{ transform: `rotate(${prop.rotate || 0})` }} />
+export default function Acon({ icon, size = 24, color, rotate, title, hidden, onClick, ...props }) {
+  const Image = icons[icon]
+  if (Image && !hidden) {
+    return <Wrap style={{ fontSize: size, ...props.style }} {...(browser.getPlatformType() === 'pc' ? { onClick: onClick } : { onTouchEnd: onClick })} >
+      <Image style={{ color: color, transform: `rotate(${rotate || 0})` }} />{title && <span style={{ fontSize: size / 2 }}>{title}</span>}
     </Wrap>
   }
   return null;

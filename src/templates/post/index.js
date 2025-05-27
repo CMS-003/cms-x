@@ -60,7 +60,7 @@ export default function PostPage(props) {
             <span style={{ padding: '0 8px 8px', display: 'inline-block' }}>{dayjs(local.resource.publishedAt).format('YYYY年MM月日DD HH:mm')}</span>
             <p style={{ padding: '0 10px' }} dangerouslySetInnerHTML={{ __html: local.resource.content }}></p>
             {local.resource.images.map(image => (
-              <img key={image._id} src={store.app.imageLine + image.path} style={{ width: '100%' }} />
+              <img key={image._id} src={store.app.imageLine + image.path} style={{ width: '100%' }} alt=""/>
             ))}
             {local.resource.videos.map(video => (
               <video key={video._id} src={store.app.videoLine + video.path} controls style={{ width: '100%' }} />

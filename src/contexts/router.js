@@ -2,28 +2,8 @@ import React from 'react'
 
 import _ from 'lodash'
 import { types } from 'mobx-state-tree';
+import Template from '@/templates/index.js';
 
-import Dynamic from '../templates/dynamic'
-import Article from '../templates/article'
-import Gallery from '../templates/gallery'
-import Video from '../templates/video'
-import Post from '../templates/post'
-
-import SignIn from '@/pages/SignIn/index.js';
-
-/**
- * 每个 view 由Template组成,界面显示由 view 控制
- * 监听 history 变化并修改 view,view 变化会修改 history
- * 缓存 Template 通过 id 判断实例
- */
-const Templates = {
-  Dynamic,
-  Article,
-  Video,
-  Gallery,
-  Post,
-  'sign-in': SignIn
-}
 const ViewPages = {
 
 }
@@ -93,17 +73,13 @@ const View = types
       });
       return `/${views.join('/')}${queries.length ? '?' + queries.join('&') : ''}`
     },
-    getViewPage(view, id = '') {
+    getViewPage(view = 'Dynamic', id = '') {
       const view_id = `${view}:${id}`
       if (ViewPages[view_id]) {
         return ViewPages[view_id]
       }
-      if (Templates[view]) {
-        const ViewPage = Templates[view];
-        ViewPages[view_id] = ViewPage
-        return ViewPages[view_id]
-      }
-      return () => <div>404</div>;
+      ViewPages[view_id] = () => <Template view={view} id={id} />
+      return ViewPages[view_id]
     }
   }));
 
