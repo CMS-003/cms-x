@@ -55,6 +55,8 @@ export default function Auto({ template }) {
       {local.infinite
         ? <PullToRefresh onRefresh={local.onRefresh}>
           <List style={{
+            "--border-top": "none",
+            "--border-bottom": "none",
             "--padding-left": 0,
             "--padding-right": 0,
             "--border-inner": "none",

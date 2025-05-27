@@ -37,7 +37,7 @@ export default function TabBarPage({ self }) {
           {self.children.map(child => (
             <Fragment key={child._id}>
               <div style={{ position: 'absolute', left: 0, top: 0, height: '100%', width: '100%', overflow: 'hidden auto', visibility: local.activeKey === child._id ? 'visible' : 'hidden', zIndex: local.activeKey === child._id ? 2 : 1 }}>
-                {child.attrs.template_id && local.mount_ids[child._id] ? <Template id={child.attrs.template_id} /> : <CenterXY><Loading /></CenterXY>}
+                {child.attrs.template_id && local.mount_ids[child._id] ? <Template view={child.attrs.template_id} /> : <CenterXY><Loading /></CenterXY>}
               </div>
             </Fragment>
           ))}
