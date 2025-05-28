@@ -73,7 +73,7 @@ const View = types
       });
       return `/${views.join('/')}${queries.length ? '?' + queries.join('&') : ''}`
     },
-    getViewPage(view = 'Dynamic', id = '') {
+    getViewPage(view = 'dynamic', id = '') {
       const view_id = `${view}:${id}`
       if (ViewPages[view_id]) {
         return ViewPages[view_id]

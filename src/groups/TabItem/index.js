@@ -8,7 +8,7 @@ export default function TabItem({ self, children }) {
   const local = useLocalObservable(() => ({
     template_id: self.attrs.template_id,
   }));
-  const View = local.template_id ? router.getViewPage('Dynamic', local.template_id) : null;
+  const View = local.template_id ? router.getViewPage('dynamic', local.template_id) : null;
   return <Observer>{() => (
     View ? <View id={local.template_id} /> : children
   )}</Observer>

@@ -31,7 +31,7 @@ export default function Post({ item }) {
   const store = useStore();
   return <Observer>{() => (
     <ItemWrap onClick={() => {
-      router.pushView('Post', { id: item._id })
+      router.pushView('post', { id: item._id })
     }}>
       <ScrollWrap>
         {item.images.map(image => (

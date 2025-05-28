@@ -7,8 +7,8 @@ import Nav from "@/components/Nav";
 export default function Notify({ template }) {
   const router = useRouter();
   return <Observer>{() => (
-    <SafeArea>
-      <Nav title={template.title} />
+    <SafeArea topBGC="lightblue">
+      <Nav title={template.title} style={{ backgroundColor: 'lightblue' }} />
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: 20 }}>
         <Acon icon="messages" />
         <Acon icon="like" />

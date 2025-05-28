@@ -6,26 +6,26 @@ import { CenterXY } from "@/components/style.js";
 import { SpinLoading } from 'antd-mobile'
 import { action } from "mobx";
 
-import Dynamic from "./dynamic/index.js";
-import Article from "./article/index.js";
-import Video from "./video/index.js";
-import Gallery from "./gallery/index.js";
+import dynamic from "./dynamic/index.js";
+import article from "./article/index.js";
+import video from "./video/index.js";
+import gallery from "./gallery/index.js";
 import channel from "./channel/index.js";
-import Post from "./post/index.js";
+import post from "./post/index.js";
 import mine from "./mine/index.js";
-import Notify from "./notify";
+import notify from "./notify";
 
 import SignIn from "@/pages/SignIn/index.js";
 
 export const Templates = {
-  Dynamic,
-  Article,
-  Video,
-  Gallery,
-  Post,
+  dynamic,
+  article,
+  video,
+  gallery,
+  post,
   channel,
   mine,
-  Notify,
+  notify,
   'sign-in': SignIn
 }
 
@@ -61,7 +61,7 @@ export default function Template({ view, id }) {
   }, [id])
 
   return <Observer>{() => {
-    const T = !local.template ? null : (Templates[local.template.name] || Templates[local.template.type] || Dynamic);
+    const T = !local.template ? null : (Templates[local.template.name] || Templates[local.template.type] || dynamic);
     if (local.isError) {
       return <div>error</div>
     }

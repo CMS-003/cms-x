@@ -7,7 +7,7 @@ export default function VideoHalf({ item }) {
   const store = useStore();
   return <Observer>{() => (
     <ItemWrap onClick={() => {
-      router.pushView('Video', { id: item._id })
+      router.pushView('video', { id: item._id })
     }}>
       {/* <div style={{ height: 120, backgroundImage: `url(${store.app.imageLine + (item.thumbnail || item.poster || '/images/poster/nocover.jpg')})`, backgroundSize: 'cover', backgroundPosition: 'center center' }}></div> */}
       <ItemImage style={{ height: 120, backgroundImage: `url(${store.app.imageLine + (item.thumbnail || item.poster || '/images/poster/nocover.jpg')})`, backgroundSize: 'cover', backgroundPosition: 'center center' }} />
