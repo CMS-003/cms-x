@@ -8,6 +8,19 @@ import RouterContext, { getViews } from './contexts/router.js';
 import store from './store'
 import { isPWA, isPWAorMobile } from './utils';
 
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker
+      .register(`/${APP}/service-worker.js`)
+      .then(registration => {
+        console.log('✅ SW registered:', registration);
+      })
+      .catch(error => {
+        console.error('❌ SW registration failed:', error);
+      });
+  });
+}
+
 function Context({ children }) {
   const router = useContext(RouterContext);
   const [inited, setInited] = useState(false)

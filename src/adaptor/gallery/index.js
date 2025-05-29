@@ -1,18 +1,15 @@
 import { Observer } from 'mobx-react-lite';
-import { ItemWrap, ItemTitle, Uname } from '../style'
-import store from '@/store';
-import { useStore, useRouter } from '@/contexts';
+import Card from './card.js'
+import LPRT from './LPRT.js'
 
-export default function Gallery({ item }) {
-  const router = useRouter();
-  const store = useStore();
-  return <Observer>{() => (
-    <ItemWrap onClick={() => {
-      router.pushView('gallery', { id: item._id })
-    }}>
-      <div style={{ height: 90, backgroundImage: `url(${store.app.imageLine + (item.cover || item.poster || item.thumbnail || '/images/poster/nocover.jpg')})`, backgroundSize: 'cover', backgroundPosition: 'center center' }}></div>
-      <ItemTitle >{item.title}</ItemTitle>
-      <Uname>{item.uname || '匿名'}</Uname>
-    </ItemWrap>
-  )}</Observer>
+export default function Video({ item, type }) {
+  return <Observer>{() => {
+    if (type === 'card') {
+      return <Card item={item} />
+    } else if (type === 'lprt') {
+      return <LPRT item={item} />
+    } else {
+      return <Card item={item} />
+    }
+  }}</Observer>
 }

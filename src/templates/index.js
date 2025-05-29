@@ -47,7 +47,8 @@ export default function Template({ view, id }) {
     if (resp.code === 0) {
       local.setValue('template', resp.data);
     } else {
-      local.isError = true;
+      local.setValue('template', { attrs: {}, name: view })
+      // local.isError = true;
     }
     local.isLoading = false;
   }, [id])

@@ -1,5 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
+const WorkboxPlugin = require('workbox-webpack-plugin');
 const { override, addWebpackAlias, addWebpackPlugin, overrideDevServer } = require('customize-cra');
 
 const webpackConfig = override(
@@ -11,6 +12,12 @@ const webpackConfig = override(
       APP: JSON.stringify(process.env.REACT_APP_NAME),
     })
   ),
+  addWebpackPlugin(
+    new WorkboxPlugin.InjectManifest({
+      swSrc: path.resolve(__dirname, 'src/service-worker.js'),
+      swDest: '/demo/service-worker.js',
+    })
+  )
 );
 
 const devServerConfig = overrideDevServer(
