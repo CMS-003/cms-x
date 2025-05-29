@@ -10,7 +10,7 @@ const NotFound = styled.div`
 
 `
 
-export default function Tab({ self, children }) {
+export default function Tab({ self }) {
   const router = useContext(RouterContext);
   return <Observer>{() => (
     <div style={toJS(self.style)}>

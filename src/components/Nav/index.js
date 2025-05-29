@@ -23,7 +23,7 @@ export default function Nav({ style, title, align = 'center', left }) {
       }}
     >
       <CenterXY
-        style={{ paddingLeft: 30, position: 'relative', flex: 1 }}
+        style={{ padding: '0 30px', position: 'relative', flex: 1 }}
         onClick={() => {
           router.backView();
         }}
@@ -35,7 +35,6 @@ export default function Nav({ style, title, align = 'center', left }) {
         <div
           className="txt-omit"
           style={{
-            marginLeft: -30,
             flex: 1,
             textAlign: align,
             fontSize: 16,

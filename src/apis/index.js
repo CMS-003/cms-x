@@ -53,7 +53,30 @@ function getProfile() {
   })
 }
 
+function getApi(rawUrl, additionalQuery) {
+  // 判断是否为完整 URL（包含协议）
+  const hasProtocol = /^[a-zA-Z][a-zA-Z\d+\-.]*:\/\//.test(rawUrl);
+
+  // 构造 URL 对象：相对路径需要提供一个 base（location.href 可用）
+  const base = window.location.origin;
+  const url = hasProtocol ? new URL(rawUrl) : new URL(rawUrl, base);
+
+  // 合并 query 参数
+  const params = new URLSearchParams(url.search);
+  for (const [key, value] of Object.entries(additionalQuery)) {
+    params.set(key, value); // 会覆盖已有 key
+  }
+
+  url.search = params.toString();
+
+  // 返回
+  return hasProtocol
+    ? url.toString()                         // 完整 URL：返回完整的带 host 的 URL
+    : url.pathname + url.search;            // 相对路径：去掉 host，只保留路径和 query
+}
+
 const apis = {
+  getApi,
   boot,
   getTemplate,
   getPageComponents,
