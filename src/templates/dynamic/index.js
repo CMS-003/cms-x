@@ -5,6 +5,8 @@ import apis from '../../apis'
 import Auto from "../../groups/auto.js";
 import { CenterXY } from "@/components/style.js";
 import { SpinLoading } from 'antd-mobile'
+import SafeArea from "@/components/SafeArea";
+import Nav from "@/components/Nav";
 
 export default function Dynamic(props) {
   const id = props.id || '';
@@ -45,7 +47,15 @@ export default function Dynamic(props) {
     }
     return (
       <Fragment>
-        <Auto template={local.template} />
+        {local.template.attrs.embed === 0
+          ? (
+            <SafeArea>
+              <Nav title={local.template.title}/>
+              <Auto template={local.template} />
+            </SafeArea>
+          )
+          : <Auto template={local.template} />}
+
       </Fragment>
     )
   }}</Observer>

@@ -55,9 +55,13 @@ import styled from 'styled-components'
 import { browser } from '@/utils';
 import { ReactComponent as svgSystem } from '@/theme/icon/system.svg'
 import { ReactComponent as svgAt } from '@/theme/icon/at.svg'
+import { ReactComponent as svgComment } from '@/theme/icon/comment.svg'
+import { ReactComponent as svgThumb } from '@/theme/icon/thumb.svg'
 
 const System = (props) => <Icon component={svgSystem} {...props} />;
 const At = (props) => <Icon component={svgAt} {...props} />;
+const Thumb = (props) => <Icon component={svgThumb} {...props} />;
+const Comment = (props) => <Icon component={svgComment} {...props} />;
 
 const icons = {
   home: HomeOutlined,
@@ -136,6 +140,8 @@ const icons = {
   NotificationOutlined,
   System,
   At,
+  Comment,
+  Thumb,
 }
 
 
