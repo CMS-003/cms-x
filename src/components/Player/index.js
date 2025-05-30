@@ -5,7 +5,7 @@ import { useGesture, useDrag } from '@use-gesture/react'
 import Visible from "@/components/Visible";
 import styled from "styled-components";
 import { useRouter, useStore } from "@/contexts";
-import Rcon from "@/components/Rcon/";
+import Acon from '../Acon';
 import { formatDuration, isPWAorMobile } from "@/utils";
 import storage from "@/utils/storage";
 
@@ -383,7 +383,7 @@ export default function Player({
         />}
         {local.showControl && (
           <VBack>
-            <Rcon inline color='white' type="FaChevronLeft" onClick={() => {
+            <Acon icon="LeftOutlined" onClick={() => {
               if (local.fullscreen) {
                 local.setValue('fullscreen', false)
               } else {

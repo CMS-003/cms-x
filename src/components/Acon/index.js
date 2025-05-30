@@ -49,14 +49,30 @@ import Icon, {
   ThunderboltOutlined,
   LikeOutlined,
   NotificationOutlined,
-} from '@ant-design/icons'
+} from '@ant-design/icons';
 import React from 'react';
 import styled from 'styled-components'
 import { browser } from '@/utils';
+
 import { ReactComponent as svgSystem } from '@/theme/icon/system.svg'
 import { ReactComponent as svgAt } from '@/theme/icon/at.svg'
 import { ReactComponent as svgComment } from '@/theme/icon/comment.svg'
 import { ReactComponent as svgThumb } from '@/theme/icon/thumb.svg'
+
+import { ReactComponent as fanjuSVG } from '@/theme/channel/fanju.svg'
+import { ReactComponent as movieSVG } from '@/theme/channel/movie.svg'
+import { ReactComponent as animeSVG } from '@/theme/channel/video.svg'
+import { ReactComponent as imageSVG } from '@/theme/channel/image.svg'
+import { ReactComponent as novelSVG } from '@/theme/channel/novel.svg'
+import { ReactComponent as videoSVG } from '@/theme/channel/video.svg'
+import { ReactComponent as postsSVG } from '@/theme/channel/posts.svg'
+import { ReactComponent as musicSVG } from '@/theme/channel/music.svg'
+import { ReactComponent as zixunSVG } from '@/theme/channel/news.svg'
+import { ReactComponent as foodsSVG } from '@/theme/channel/foods.svg'
+import { ReactComponent as comicSVG } from '@/theme/channel/comic.svg'
+import { ReactComponent as lifeSVG } from '@/theme/channel/life.svg'
+import { ReactComponent as personSVG } from '@/theme/channel/person.svg'
+import { ReactComponent as pixivSVG } from '@/theme/channel/pixiv.svg'
 
 const System = (props) => <Icon component={svgSystem} {...props} />;
 const At = (props) => <Icon component={svgAt} {...props} />;
@@ -142,6 +158,20 @@ const icons = {
   At,
   Comment,
   Thumb,
+  fanju: fanjuSVG,
+  movie: movieSVG,
+  video: videoSVG,
+  anime: animeSVG,
+  image: imageSVG,
+  novel: novelSVG,
+  posts: postsSVG,
+  music: musicSVG,
+  zixun: zixunSVG,
+  foods: foodsSVG,
+  person: personSVG,
+  life: lifeSVG,
+  comic: comicSVG,
+  pixiv: pixivSVG,
 }
 
 

@@ -1,7 +1,10 @@
 const path = require('path');
 const webpack = require('webpack');
 const WorkboxPlugin = require('workbox-webpack-plugin');
-const { override, addWebpackAlias, addWebpackPlugin, overrideDevServer } = require('customize-cra');
+const { override, addWebpackAlias, addWebpackPlugin, overrideDevServer, } = require('customize-cra');
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
+
+const isAnalyze = process.env.ANALYZE === 'true';
 
 const webpackConfig = override(
   addWebpackAlias({
@@ -12,12 +15,12 @@ const webpackConfig = override(
       APP: JSON.stringify(process.env.REACT_APP_NAME),
     })
   ),
-  addWebpackPlugin(
-    new WorkboxPlugin.InjectManifest({
-      swSrc: path.resolve(__dirname, 'src/service-worker.js'),
-      swDest: '/demo/service-worker.js',
-    })
-  )
+  addWebpackPlugin(isAnalyze
+    ? new BundleAnalyzerPlugin()
+    : new WorkboxPlugin.InjectManifest({
+      swSrc: path.resolve(__dirname, 'service-worker.js'),
+      swDest: 'service-worker.js',
+    })),
 );
 
 const devServerConfig = overrideDevServer(

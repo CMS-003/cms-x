@@ -5,7 +5,7 @@ import { registerRoute } from 'workbox-routing';
 import { StaleWhileRevalidate, NetworkFirst, CacheFirst } from 'workbox-strategies';
 
 // ⏱️ 预缓存构建时的资源
-precacheAndRoute(self.__WB_MANIFEST || []);
+precacheAndRoute(self.__WB_MANIFEST);
 
 // 📁 缓存静态资源（CSS、JS、图片等）
 registerRoute(

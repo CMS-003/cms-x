@@ -14,6 +14,7 @@ import channel from "./channel/index.js";
 import post from "./post/index.js";
 import mine from "./mine/index.js";
 import notify from "./notify";
+import search from "./search";
 
 import SignIn from "@/pages/SignIn/index.js";
 
@@ -26,6 +27,7 @@ export const Templates = {
   channel,
   mine,
   notify,
+  search,
   'sign-in': SignIn
 }
 

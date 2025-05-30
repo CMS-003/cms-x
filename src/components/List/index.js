@@ -3,9 +3,9 @@ import { Observer } from 'mobx-react-lite'
 import ResourceItem from '@/adaptor'
 import { FullWidth } from '../style'
 
-export default function PageList({ display = '', items, onRefresh, loadMore, multi = false, hasMore = false, infinite = true, renderItems }) {
+export default function PageList({ disabled = false, display = '', items, onRefresh, loadMore, hasMore = false, infinite = true, renderItems }) {
   return <Observer>{() => (
-    <PullToRefresh onRefresh={onRefresh}>
+    <PullToRefresh disabled={disabled} onRefresh={onRefresh}>
       <List style={{
         "--padding-left": 0,
         "--padding-right": 0,

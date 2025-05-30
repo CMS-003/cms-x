@@ -1,4 +1,4 @@
-import _ from 'lodash'
+import { chunk } from 'lodash'
 import { Fragment, useCallback, useEffect } from 'react';
 import { action, toJS } from 'mobx';
 import { Observer, useLocalObservable } from 'mobx-react-lite';
@@ -141,7 +141,7 @@ export default function CFilter({ self }) {
           <List
             display={self.attrs.display}
             multi={self.attrs.columns !== 1}
-            items={_.chunk(local.resources, self.attrs.columns)}
+            items={chunk(local.resources, self.attrs.columns)}
             onRefresh={async () => {
               local.page = 1;
               await getData();

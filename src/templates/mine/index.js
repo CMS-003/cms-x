@@ -25,7 +25,7 @@ export default function Mine({ template }) {
       <FullWidth>
         <AlignCenter style={{ width: 50, height: 50, padding: 20 }}>
           <img
-            src={store.user.isLogin ? store.user.info.avatar || "/logo.jpg" : "/logo.jpg"}
+            src={store.user.isLogin ? store.user.info.avatar || "/demo/logo.png" : "/demo/logo.png"}
             style={{
               borderRadius: '50%',
               width: '100%',

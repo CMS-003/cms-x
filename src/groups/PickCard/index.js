@@ -1,6 +1,5 @@
 import { Observer, useLocalObservable } from "mobx-react-lite";
 import styled from 'styled-components'
-import _ from 'lodash'
 import { Fragment } from 'react'
 import ResourceItem from "@/adaptor";
 

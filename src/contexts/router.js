@@ -1,6 +1,6 @@
 import React from 'react'
 
-import _ from 'lodash'
+import { set } from 'lodash'
 import { types } from 'mobx-state-tree';
 import Template from '@/templates/index.js';
 
@@ -14,7 +14,7 @@ export function getViews(location) {
   const query = {};
   (location.search.replace(/^[?]/, '')).split('&').forEach(v => {
     const [name, value] = v.split('=');
-    _.set(query, name, value);
+    set(query, name, value);
   });
   return views.map(view => ({ view, query: query[view] || {} }));
 }
@@ -65,7 +65,7 @@ const View = types
       const views = self.views.map(v => {
         if (v.query) {
           for (let k in v.query) {
-            _.set(queries, `${v.view}.${k}`, v.query[k]);
+            set(queries, `${v.view}.${k}`, v.query[k]);
             queries.push(`${v.view}.${k}=${v.query[k]}`);
           }
         }

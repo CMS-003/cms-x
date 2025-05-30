@@ -13,6 +13,7 @@ import { default as dayjs } from "dayjs";
 import Acon from "@/components/Acon";
 import { browser } from "@/utils";
 import SafeArea from "@/components/SafeArea";
+import PageList from "@/components/List/index.js";
 
 const Title = styled.h1`
   font-size: 1.4em;
@@ -63,6 +64,7 @@ export default function VideoPage(props) {
       if (resp && resp.code === 0) {
         local.setValue('resource', resp.data)
         local.setValue('video', resp.data.videos[0] || null)
+        getRecommends();
       } else {
         local.setValue('error', { code: resp.code, message: resp.message })
       }
@@ -100,14 +102,21 @@ export default function VideoPage(props) {
       })
     }
   }, [])
-  const getRecommends = () => {
+  const getRecommends = useCallback(async () => {
+    try {
+      const resp = await apis.fetchAPI('get', '/api/gatling/XKjvJJ6rV')
+      if (resp.code === 0) {
+        local.recommends = resp.data.items;
+      }
+    } catch (e) {
 
-  }
+    }
+  });
   useEffect(() => {
     getDetail();
   }, [getDetail])
   return <Observer>{() => (
-    <SafeArea topBGC="black" bot="0">
+    <SafeArea topBGC="black">
       <FullHeight style={{ position: 'relative' }}>
         <FullHeightFix style={{ flexDirection: 'column', }}>
           <Player
@@ -166,9 +175,18 @@ export default function VideoPage(props) {
               </Visible>
             </Fragment>) : null
           }
-          {local.recommends.map(v => (
-            <ResourceItem key={v._id} item={v} type="LPRT" />
-          ))}
+          <div style={{ fontSize: 16, fontWeight: 600, margin: '10px 10px 0' }}>推荐</div>
+          <PageList
+            disabled={true}
+            display="lprt"
+            items={local.recommends}
+            infinite={false}
+            renderItems={(items) => items.map(v => (
+              <div key={v._id} style={{ margin: '10px 5px' }}>
+                <ResourceItem item={v} type="lprt" />
+              </div>
+            ))}
+          />
         </FullHeightAuto>
       </FullHeight>
     </SafeArea>

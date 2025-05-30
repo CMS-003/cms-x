@@ -22,17 +22,15 @@ export default function Nav({ style, title, align = 'center', left }) {
         ...style,
       }}
     >
-      <CenterXY
-        style={{ padding: '0 30px', position: 'relative', flex: 1 }}
-        onClick={() => {
-          router.backView();
-        }}
-      >
-        <div style={{ position: 'absolute', left: 10, top: '50%', transform: 'translateY(-50%)', display: 'flex', margin: '0 4px' }}>
+      <CenterXY style={{ paddingLeft: 30, position: 'relative', flex: 1 }}>
+        <div style={{ position: 'absolute', left: 10, top: '50%', transform: 'translateY(-50%)', display: 'flex', margin: '0 4px' }}
+          onClick={() => {
+            router.backView();
+          }}>
           <Acon icon="LeftOutlined" size={18} />
         </div>
-        <div>{left}</div>
-        <div
+        {left && <div style={{ flex: 1, boxSizing: 'border-box' }}>{left}</div>}
+        {title && <div
           className="txt-omit"
           style={{
             flex: 1,
@@ -42,7 +40,7 @@ export default function Nav({ style, title, align = 'center', left }) {
           }}
         >
           {title}
-        </div>
+        </div>}
       </CenterXY>
     </AlignSide>
   );
