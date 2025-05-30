@@ -14,9 +14,12 @@ export default function Notify({ template }) {
     list: [],
     loading: false,
     hasMore: true,
+    setData(key, v) {
+      local[key] = v;
+    }
   }));
   const getList = useCallback(async () => {
-    local.hasMore = false;
+    local.setData('hasMore', false)
   });
   useEffect(() => {
     if (local.list.length === 0 && local.hasMore === true) {
@@ -40,19 +43,19 @@ export default function Notify({ template }) {
             infinite={true}
             hasMore={local.hasMore}
             onRefresh={async () => {
-              local.page = 1;
-              local.loading = true;
+              local.setData('page', 1)
+              local.setData('loading', true)
               await getList();
-              local.loading = false;
+              local.setData('loading', false)
             }}
             loadMore={async () => {
               if (local.loading || !local.hasMore) {
                 return;
               }
-              local.page++;
-              local.loading = true;
+              local.setData('page', local.page++)
+              local.setData('loading', true)
               await getList();
-              local.loading = false;
+              local.setData('loading', false)
             }}
             renderItems={(items) => {
               return items.map(item => (

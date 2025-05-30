@@ -62,38 +62,32 @@ export default function CFilter({ self }) {
     setResources(resources) {
       local.resources = resources;
     },
-    setHeadHeight: action((height) => {
-      local.headHeight = height;
-    }),
-    setHeadStatus: action((status) => {
-      local.headStatus = status;
-    }),
-    setHasMore: action((has) => {
-      local.hasMore = has;
-    }),
+    setData(key, value) {
+      local[key] = value;
+    },
   }));
   const getData = useCallback(async () => {
     const qid = local.getQuery()
     try {
-      local.loading = true;
+      local.setData('loading', true)
       const resp = self.widget.action === 'FETCH' ? await apis.fetchAPI(self.widget.method, apis.getApi(self.url, { page: local.page })) : await apis.getResourceList({ qid, page: local.page, size: 20 });
       if (resp.code === 0) {
         local.page === 1 ? local.setResources(resp.data.items) : local.setResources(local.resources.concat(resp.data.items))
-        local.setHasMore(resp.data.items.length > 0)
+        local.setData('hasMore', resp.data.items.length > 0)
       }
     } catch (e) {
-      local.hasMore = false;
+      local.setData('hasMore', false)
     } finally {
-      local.loading = false
+      local.setData('loading', false)
     }
   }, []);
   const getMore = useCallback(async () => {
-    if (local.loading || !local.hasMore) return;
-    local.page++;
+    if (local.loading) return;
+    local.setData('page', local.page++)
     await getData();
   }, [])
   useEffect(() => {
-    if (local.resources.length === 0) {
+    if (local.resources.length === 0 && local.hasMore) {
       getData();
     }
   }, [])
@@ -102,16 +96,16 @@ export default function CFilter({ self }) {
       <div style={{ height: '100%', position: 'relative' }}>
         <div style={{ height: '100%', overflow: 'auto', ...toJS(self.style) }} onScroll={e => {
           if (local.headHeight !== 'auto') {
-            local.setHeadStatus(e.currentTarget.scrollTop > local.headHeight ? 'fixShort' : 'default')
+            local.setData('headStatus', e.currentTarget.scrollTop > local.headHeight ? 'fixShort' : 'default')
           }
           if (local.headStatus !== 'fixShort' && local.headHeight !== 'auto' && e.currentTarget.scrollTop > local.headHeight) {
-            local.setHeadStatus('fixShort');
+            local.setData('headStatus', 'fixShort');
           }
         }}>
           <div style={{ height: local.headHeight }}>
             <FullHeightFix style={{ position: local.headStatus === 'fixHead' ? 'absolute' : 'static', top: 0, left: 0, flexDirection: 'column', alignItems: 'flex-start', width: '100%', zIndex: 2, padding: '0 5px 5px', boxSizing: 'border-box', backgroundColor: '#eee' }} ref={ref => {
               if (ref && local.headHeight === 'auto') {
-                local.setHeadHeight(ref.offsetHeight)
+                local.setData('headHeight', ref.offsetHeight)
               }
             }}>
               {self.children.map(child => (
@@ -121,14 +115,14 @@ export default function CFilter({ self }) {
                       child.children.forEach(v => {
                         v.attrs.selected = v._id === sun._id
                       });
-                      local.page = 1;
+                      local.setData('page', 1)
                       getData();
                     }}>{sun.title}</Tag>
                   ))}
                 </Wrap>
               ))}
             </FullHeightFix>
-            <ShortWrap style={{ display: local.headStatus === 'fixShort' ? 'flex' : 'none' }} onClick={() => local.setHeadStatus('fixHead')}>
+            <ShortWrap style={{ display: local.headStatus === 'fixShort' ? 'flex' : 'none' }} onClick={() => local.setData('headStatus', 'fixHead')}>
               {self.children.map(child => (
                 <Fragment key={child._id}>
                   {child.children.map(sun => (
@@ -143,7 +137,7 @@ export default function CFilter({ self }) {
             multi={self.attrs.columns !== 1}
             items={chunk(local.resources, self.attrs.columns)}
             onRefresh={async () => {
-              local.page = 1;
+              local.setData('page', 1)
               await getData();
             }}
             loadMore={getMore}

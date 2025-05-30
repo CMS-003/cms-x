@@ -34,6 +34,9 @@ export default function SignIn() {
       <FullHeight>
         <FullHeightFix style={{ padding: 10, alignItems: 'center' }}>
           <Acon icon="LeftOutlined"
+            onClick={() => {
+              router.backView();
+            }}
             onTouchEnd={() => {
               router.backView();
             }}

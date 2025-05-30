@@ -44,15 +44,20 @@ export default function Template({ view, id }) {
   }));
   const getData = useCallback(async () => {
     local.isLoading = true;
-    const resp = await apis.getTemplate(view)
+    try {
+      const resp = await apis.getTemplate(view)
 
-    if (resp.code === 0) {
-      local.setValue('template', resp.data);
-    } else {
-      local.setValue('template', { attrs: {}, name: view })
-      // local.isError = true;
+      if (resp.code === 0) {
+        local.setValue('template', resp.data);
+      } else {
+        local.setValue('template', { attrs: {}, name: view })
+        // local.isError = true;
+      }
+    } catch (e) {
+
+    } finally {
+      local.isLoading = false;
     }
-    local.isLoading = false;
   }, [id])
   useEffect(() => {
     if (!local.template && !local.isLoading) {

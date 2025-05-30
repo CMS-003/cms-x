@@ -54,6 +54,7 @@ shttp.interceptors.response.use(
         });
       } else {
         // Modal.alert('请求失败', res.message);
+        // throw new Error(body.message || '失败')
       }
     }
     return body;
