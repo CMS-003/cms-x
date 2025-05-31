@@ -52,7 +52,7 @@ export default function Notify({ template }) {
               if (local.loading || !local.hasMore) {
                 return;
               }
-              local.setData('page', local.page++)
+              local.setData('page', local.page + 1)
               local.setData('loading', true)
               await getList();
               local.setData('loading', false)

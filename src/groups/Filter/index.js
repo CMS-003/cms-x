@@ -83,7 +83,7 @@ export default function CFilter({ self }) {
   }, []);
   const getMore = useCallback(async () => {
     if (local.loading) return;
-    local.setData('page', local.page++)
+    local.setData('page', local.page + 1)
     await getData();
   }, [])
   useEffect(() => {

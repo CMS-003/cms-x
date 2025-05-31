@@ -38,7 +38,7 @@ export default function Auto({ template }) {
     },
     loadMore: action(async () => {
       if (local.ended) return;
-      local.page++;
+      local.page += 1;
       const resp = await apis.getPageComponents(template._id, local.page)
       if (resp.code === 0) {
         local.setData(resp.data.items, typeof resp.data.ended === 'boolean' ? resp.data.ended : true)

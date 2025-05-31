@@ -50,6 +50,7 @@ const VBack = styled.div`
   position: absolute; 
   left: 0; 
   top: 0; 
+  display: flex;
   width: 100%; 
   height: 45px;
   line-height: 45px; 
@@ -383,7 +384,7 @@ export default function Player({
         />}
         {local.showControl && (
           <VBack>
-            <Acon icon="LeftOutlined" onClick={() => {
+            <Acon icon="LeftOutlined" color='#fff' onClick={() => {
               if (local.fullscreen) {
                 local.setValue('fullscreen', false)
               } else {

@@ -23,7 +23,7 @@ export default function Nav({ style, title, align = 'center', left }) {
       }}
     >
       <CenterXY style={{ paddingLeft: 30, position: 'relative', flex: 1 }}>
-        <div style={{ position: 'absolute', left: 10, top: '50%', transform: 'translateY(-50%)', display: 'flex', margin: '0 4px' }}
+        <div style={{ position: 'absolute', left: 10, top: '50%', transform: 'translateY(-50%)', display: 'flex', }}
           onClick={() => {
             router.backView();
           }}>
