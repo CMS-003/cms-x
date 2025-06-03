@@ -6,20 +6,35 @@ import Nav from "@/components/Nav";
 import { FullHeight, FullHeightAuto, FullWidth, FullWidthAuto, FullWidthFix } from "@/components/style";
 import PageList from "@/components/List/index.js";
 import { useCallback, useEffect } from "react";
+import shttp from '../../utils/shttp.js'
 
 export default function Notify({ template }) {
   const router = useRouter();
   const local = useLocalObservable(() => ({
     page: 1,
+    size: 20,
     list: [],
-    loading: false,
+    loading: true,
     hasMore: true,
     setData(key, v) {
       local[key] = v;
     }
   }));
   const getList = useCallback(async () => {
-    local.setData('hasMore', false)
+    try {
+      local.setData('loading', true)
+      const resp = await shttp({
+        url: `/chats?page=${local.page}&size=${local.size}`,
+      });
+      if (resp.code === 0) {
+        local.setData('hasMore', resp.data.list.length === local.size)
+        local.setData('list', resp.data.list);
+      }
+    } catch (e) {
+
+    } finally {
+      local.setData('loading', false)
+    }
   });
   useEffect(() => {
     if (local.list.length === 0 && local.hasMore === true) {
@@ -30,11 +45,11 @@ export default function Notify({ template }) {
     <SafeArea topBGC="#58abdd">
       <FullHeight>
         <Nav title={template.title} style={{ backgroundColor: '#58abdd', color: '#fff' }} />
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-evenly', padding: '20px 0', borderBottom: '10px solid #dadada' }}>
-          <Acon icon="Comment" title='评论回复' style={{ flexDirection: 'column' }} />
-          <Acon icon="At" title='@我' style={{ flexDirection: 'column' }} />
-          <Acon icon="Thumb" title='收到的赞' style={{ flexDirection: 'column' }} />
-          <Acon icon="System" title='系统消息' color='lightblue' style={{ flexDirection: 'column' }} />
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-evenly', padding: '15px 0', borderBottom: '5px solid #e4e4e4' }}>
+          <Acon icon="Comment" title='评论回复' style={{ gap: 5, flexDirection: 'column' }} />
+          <Acon icon="At" title='@我' style={{ gap: 5, flexDirection: 'column' }} />
+          <Acon icon="Thumb" title='收到的赞' style={{ gap: 5, flexDirection: 'column' }} />
+          <Acon icon="System" title='系统消息' style={{ gap: 5, flexDirection: 'column' }} />
         </div>
         <FullHeightAuto>
           <PageList
@@ -59,13 +74,15 @@ export default function Notify({ template }) {
             }}
             renderItems={(items) => {
               return items.map(item => (
-                <FullWidth key={item._id} style={{ padding: '8px 0' }}>
+                <FullWidth key={item._id} style={{ padding: '8px 0' }} onClick={() => {
+                  router.pushView('chat', { id: item.chat_id })
+                }}>
                   <FullWidthFix>
-                    <img src={item.friend.icon} alt="" style={{ width: 50, height: 50, borderRadius: 5, marginRight: 5 }} />
+                    <img src={item.friend.icon} alt="" style={{ width: 40, height: 40, borderRadius: "50%", marginRight: 10, marginLeft: 5 }} />
                   </FullWidthFix>
                   <FullWidthAuto style={{ overflow: 'hidden' }}>
                     <div style={{ fontSize: 14, fontWeight: 'bold', marginBottom: 5 }}>{item.friend.nickname}</div>
-                    <div style={{ fontSize: 12, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} >{item.lastMsg.type === 1 ? item.lastMsg.payload[0].content : (item.lastMsg.type === 2 ? '[图片消息]' : '[视频消息]')}</div>
+                    <div style={{ fontSize: 12, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} >{item.lastMsg.type === 1 ? item.lastMsg.data.content : (item.lastMsg.type === 2 ? '[图片消息]' : '[视频消息]')}</div>
                   </FullWidthAuto>
                 </FullWidth>
               ))

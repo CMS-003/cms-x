@@ -1,6 +1,28 @@
 import qs from 'qs';
 import shttp from '../utils/shttp.js'
 
+function getApi(rawUrl, additionalQuery) {
+  // 判断是否为完整 URL（包含协议）
+  const hasProtocol = /^[a-zA-Z][a-zA-Z\d+\-.]*:\/\//.test(rawUrl);
+
+  // 构造 URL 对象：相对路径需要提供一个 base（location.href 可用）
+  const base = window.location.origin;
+  const url = hasProtocol ? new URL(rawUrl) : new URL(rawUrl, base);
+
+  // 合并 query 参数
+  const params = new URLSearchParams(url.search);
+  for (const [key, value] of Object.entries(additionalQuery)) {
+    params.set(key, value); // 会覆盖已有 key
+  }
+
+  url.search = params.toString();
+
+  // 返回
+  return hasProtocol
+    ? url.toString()                         // 完整 URL：返回完整的带 host 的 URL
+    : url.pathname + url.search;            // 相对路径：去掉 host，只保留路径和 query
+}
+
 function boot() {
   return shttp({
     url: '/api/v1/public/boot/' + APP
@@ -53,26 +75,24 @@ function getProfile() {
   })
 }
 
-function getApi(rawUrl, additionalQuery) {
-  // 判断是否为完整 URL（包含协议）
-  const hasProtocol = /^[a-zA-Z][a-zA-Z\d+\-.]*:\/\//.test(rawUrl);
+function getChatDetail(id) {
+  return shttp({
+    url: '/chats/' + id
+  })
+}
 
-  // 构造 URL 对象：相对路径需要提供一个 base（location.href 可用）
-  const base = window.location.origin;
-  const url = hasProtocol ? new URL(rawUrl) : new URL(rawUrl, base);
+function getMessages(id, query) {
+  return shttp({
+    url: `/chats/${id}/messages${qs.stringify(query, { addQueryPrefix: true })}`
+  })
+}
 
-  // 合并 query 参数
-  const params = new URLSearchParams(url.search);
-  for (const [key, value] of Object.entries(additionalQuery)) {
-    params.set(key, value); // 会覆盖已有 key
-  }
-
-  url.search = params.toString();
-
-  // 返回
-  return hasProtocol
-    ? url.toString()                         // 完整 URL：返回完整的带 host 的 URL
-    : url.pathname + url.search;            // 相对路径：去掉 host，只保留路径和 query
+function sendMessage(data) {
+  return shttp({
+    method: 'post',
+    url: `/chats/${data.chat_id}/messages`,
+    data
+  })
 }
 
 const apis = {
@@ -90,6 +110,9 @@ const apis = {
   fetchAPI,
   signIn,
   getProfile,
+  getChatDetail,
+  getMessages,
+  sendMessage,
 }
 
 export default apis;

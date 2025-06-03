@@ -15,6 +15,7 @@ import post from "./post/index.js";
 import mine from "./mine/index.js";
 import notify from "./notify";
 import search from "./search";
+import chat from "./chat";
 
 import SignIn from "@/pages/SignIn/index.js";
 
@@ -28,6 +29,7 @@ export const Templates = {
   mine,
   notify,
   search,
+  chat,
   'sign-in': SignIn
 }
 

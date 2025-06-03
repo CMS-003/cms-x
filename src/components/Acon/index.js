@@ -49,6 +49,7 @@ import Icon, {
   ThunderboltOutlined,
   LikeOutlined,
   NotificationOutlined,
+  EllipsisOutlined,
 } from '@ant-design/icons';
 import React from 'react';
 import styled from 'styled-components'
@@ -58,6 +59,8 @@ import { ReactComponent as svgSystem } from '@/theme/icon/system.svg'
 import { ReactComponent as svgAt } from '@/theme/icon/at.svg'
 import { ReactComponent as svgComment } from '@/theme/icon/comment.svg'
 import { ReactComponent as svgThumb } from '@/theme/icon/thumb.svg'
+import { ReactComponent as svgExpression } from '@/theme/icon/expression.svg'
+import { ReactComponent as svgVoice } from '@/theme/icon/voice.svg'
 
 import { ReactComponent as fanjuSVG } from '@/theme/channel/fanju.svg'
 import { ReactComponent as movieSVG } from '@/theme/channel/movie.svg'
@@ -96,6 +99,7 @@ const icons = {
   copy: CopyOutlined,
   DragOutlined,
   drag: DragOutlined,
+  more: EllipsisOutlined,
   SyncOutlined,
   sync: SyncOutlined,
   SearchOutlined,
@@ -172,6 +176,8 @@ const icons = {
   life: lifeSVG,
   comic: comicSVG,
   pixiv: pixivSVG,
+  voice: svgVoice,
+  expression: svgExpression,
 }
 
 
@@ -187,11 +193,11 @@ const Wrap = styled.span`
     color: var(--ant-primary-color-hover);
   }
 `;
-export default function Acon({ icon, size = 24, color, rotate, title, hidden, onClick, ...props }) {
+export default function Acon({ icon, size = 24, color, spin = false, rotate, title, hidden, onClick, ...props }) {
   const Image = icons[icon]
   if (Image && !hidden) {
     return <Wrap style={{ fontSize: size, ...props.style }} {...(browser.getPlatformType() === 'pc' ? { onClick: onClick } : { onTouchEnd: onClick })} >
-      <Image style={{ color: color, transform: `rotate(${rotate || 0})` }} />{title && <span style={{ fontSize: size / 2 }}>{title}</span>}
+      <Image spin={spin} style={{ color: color, transform: `rotate(${rotate || 0})` }} />{title && <span style={{ fontSize: size / 2 }}>{title}</span>}
     </Wrap>
   }
   return null;

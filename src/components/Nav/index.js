@@ -4,7 +4,7 @@ import RouterContext from '@/contexts/router';
 import StoreContext from '@/contexts/store';
 import Acon from '../Acon';
 
-export default function Nav({ style, title, align = 'center', left }) {
+export default function Nav({ style, title = '', align = 'center', left, right }) {
   const router = useContext(RouterContext)
   const store = useContext(StoreContext)
   return (
@@ -16,6 +16,7 @@ export default function Nav({ style, title, align = 'center', left }) {
         width: '100%',
         color: '#333',
         backgroundColor: '#eee',
+        borderBottom: '0.5px solid #e2e2e2',
         // backgroundColor: store.app.config.mainColor,
         paddingLeft: 'env(safe-area-inset-left)',
         paddingRight: 'env(safe-area-inset-right)',
@@ -29,8 +30,8 @@ export default function Nav({ style, title, align = 'center', left }) {
           }}>
           <Acon icon="LeftOutlined" size={18} />
         </div>
-        {left && <div style={{ flex: 1, boxSizing: 'border-box' }}>{left}</div>}
-        {title && <div
+        {left && <div style={{ boxSizing: 'border-box' }}>{left}</div>}
+        <div
           className="txt-omit"
           style={{
             flex: 1,
@@ -40,7 +41,8 @@ export default function Nav({ style, title, align = 'center', left }) {
           }}
         >
           {title}
-        </div>}
+        </div>
+        <div style={{ boxSizing: 'border-box', marginRight: 5, minWidth: 25 }}>{right}</div>
       </CenterXY>
     </AlignSide>
   );
