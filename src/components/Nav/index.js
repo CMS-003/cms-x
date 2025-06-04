@@ -12,7 +12,7 @@ export default function Nav({ style, title = '', align = 'center', left, right }
       style={{
         display: 'flex',
         flexDirection: 'row',
-        height: 45,
+        height: 40,
         width: '100%',
         color: '#333',
         backgroundColor: '#eee',

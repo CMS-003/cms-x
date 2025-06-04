@@ -29,7 +29,6 @@
   <script>
     function updateSafeAreaPadding() {
       let angle;
-
       // 优先使用现代API
       if (screen.orientation && typeof screen.orientation.angle === 'number') {
         angle = screen.orientation.angle;
@@ -38,7 +37,6 @@
       } else {
         angle = 0; // fallback
       }
-
       let side;
       if (angle === 90) {
         // 顺时针 → 刘海在左
@@ -60,15 +58,23 @@
         document.documentElement.style.setProperty('--safe-padding-left', 'env(safe-area-inset-left)');
       }
     }
-
     // 初始化
     updateSafeAreaPadding();
-
     // 监听方向变化
     window.addEventListener('orientationchange', updateSafeAreaPadding);
     if (screen.orientation) {
       screen.orientation.addEventListener('change', updateSafeAreaPadding);
     }
+    const visualViewport = window.visualViewport;
+    visualViewport.addEventListener('resize', () => {
+      const newHeight = visualViewport.height;
+      document.documentElement.style.setProperty('--dvh', `${newHeight}px`);
+    });
+    // 初始化
+    document.documentElement.style.setProperty(
+      '--dvh',
+      `${window.innerHeight}px`
+    );
   </script>
 </head>
 

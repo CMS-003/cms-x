@@ -52,7 +52,7 @@ export default function Template({ view, id }) {
       if (resp.code === 0) {
         local.setValue('template', resp.data);
       } else {
-        local.setValue('template', { attrs: {}, name: view })
+        local.setValue('template', { attrs: {}, name: view, children: [] })
         // local.isError = true;
       }
     } catch (e) {

@@ -10,8 +10,8 @@ import styled from "styled-components";
 import SafeArea from "@/components/SafeArea/index.js";
 
 const Btn = styled.div`
-  background-color: lightblue;
-  padding: 4px 10px;
+  background-color: #62cff3;
+  padding: 8px 10px;
   color: white;
   border-radius: 5px;
   font-size: 14px;

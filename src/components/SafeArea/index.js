@@ -3,6 +3,7 @@ import { Observer } from "mobx-react-lite";
 import { FullHeight, FullHeightAuto, FullHeightFix } from "../style.js";
 
 export default function SafeArea({
+  height = '100%',
   top = 'env(safe-area-inset-top)',
   bot = 'env(safe-area-inset-bottom)',
   topBGC = 'transparent',
@@ -14,6 +15,7 @@ export default function SafeArea({
     <FullHeight style={{
       position: 'relative',
       width: '100%',
+      height,
       boxSizing: 'border-box',
     }}>
       <FullHeightFix style={{ paddingTop: top, background: topBGC, }} />

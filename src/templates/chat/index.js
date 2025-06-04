@@ -8,8 +8,32 @@ import Acon from "@/components/Acon";
 import { Input } from "antd-mobile";
 import Nav from "@/components/Nav/index.js";
 import { runInAction } from "mobx";
+import styled from "styled-components";
 
-function MessageItem({ isSelf, type, data }) {
+const MsgItem = styled.div`
+  display: flex;
+  flex-direction: ${({ isSelf }) => isSelf ? 'row-reverse' : 'row'};
+  margin: 10px 0;
+  font-size: 14px;
+`
+const ContentWrap = styled.div`
+  position: relative;
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+  justify-content: ${({ isSelf }) => isSelf ? 'flex-end' : 'flex-start'};
+`
+const Coner = styled.div`
+  position: absolute;
+  right: 1px;
+  top: 4px;
+  border-radius: 2px;
+  border-style: solid;
+  border-width: 10px 0 10px 10px;
+  border-color: transparent transparent transparent #8aef49;
+`
+
+function MessageContent({ isSelf, type, data }) {
   if (type === 1) {
     return <div style={{
       padding: '5px 10px',
@@ -33,6 +57,7 @@ export default function ChatPage(props) {
     messages: [],
     loading: true,
     error: null,
+    focused: false,
     isComposing: false,
     setValue: function (key, value) {
       local[key] = value;
@@ -84,7 +109,7 @@ export default function ChatPage(props) {
         }
       }
     } catch (e) {
-      
+
     }
   }, [])
   useEffect(() => {
@@ -92,32 +117,40 @@ export default function ChatPage(props) {
     getDetail();
   }, [])
   return <Observer>{() => (
-    <SafeArea topBGC="black">
-      <FullHeight style={{ position: 'relative' }}>
+    <div style={{ position: 'absolute', left: 0, right: 0, bottom: 0, height: 'var(--dvh)', }}>
+      <SafeArea bot={local.focused ? '0' : 'env(safe-area-inset-bottom)'} height={local.focused ? 'var(--dvh)' : ''}>
         <Nav title={local.chat ? local.chat.friend.nickname : ''} right={<Acon icon="more" />} />
-        <FullHeightAuto style={{ display: 'flex', flexDirection: 'column', padding: '0 10px' }}>
+        <FullHeightAuto style={{ display: 'flex', flexDirection: 'column', padding: '0 10px', overflow: 'auto' }}>
           {local.messages.map(msg => {
             const isSelf = msg.user_id === store.user.info._id;
             return (
-              <div key={msg._id} style={{ display: 'flex', flexDirection: isSelf ? 'row-reverse' : 'row', margin: '10px 0' }}>
-                <img src={msg.friend.icon} alt="" style={{ width: 25, height: 25, borderRadius: "50%", marginRight: 5 }} />
-                <div style={{ display: 'flex', textAlign: isSelf ? 'right' : 'left' }}>
+              <MsgItem key={msg._id} isSelf={isSelf}>
+                <img src={msg.friend.icon} alt="" style={{ width: 25, height: 25, borderRadius: "50%", marginLeft: 5, marginTop: 2 }} />
+                <ContentWrap isSelf={isSelf}>
+                  <Coner />
                   {msg.loading && <Acon icon="sync" size={12} spin />}
-                  <MessageItem type={msg.type} data={msg.data} isSelf={isSelf} />
-                </div>
-              </div>
+                  <MessageContent type={msg.type} data={msg.data} isSelf={isSelf} />
+                </ContentWrap>
+                <div style={{ width: 25 }}></div>
+              </MsgItem>
             )
           })}
         </FullHeightAuto>
         <FullWidth style={{ padding: 5, borderTop: '0.5px solid #e2e2d2' }}>
           <Acon icon="voice" />
-          <Input style={{ backgroundColor: '#fff', borderRadius: 5, marginLeft: 5, padding: '0 5px' }}
+          <Input style={{ backgroundColor: '#fff', borderRadius: 5, marginLeft: 5, padding: '3px 6px' }}
             ref={inputRef}
             onCompositionStart={() => {
               local.setValue('isComposing', true)
             }}
             onCompositionEnd={() => {
               local.setValue('isComposing', false)
+            }}
+            onFocus={() => {
+              local.setValue('focused', true)
+            }}
+            onBlur={() => {
+              local.setValue('focused', false)
             }}
             onEnterPress={(e) => {
               if (!local.isComposing) {
@@ -144,7 +177,7 @@ export default function ChatPage(props) {
           <Acon icon="expression" style={{ margin: '0 5px' }} />
           <Acon icon="PlusCircleOutlined" size={26} />
         </FullWidth>
-      </FullHeight>
-    </SafeArea>
+      </SafeArea>
+    </div>
   )}</Observer>
 }
