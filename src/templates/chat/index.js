@@ -147,7 +147,7 @@ export default function ChatPage(props) {
         </FullHeightAuto>
         <FullWidth style={{ padding: 5, borderTop: '0.5px solid #e2e2d2' }}>
           <Acon icon="voice" />
-          <Input style={{ backgroundColor: '#fff', borderRadius: 5, marginLeft: 5, padding: '3px 6px' }}
+          <Input style={{ backgroundColor: '#fff', borderRadius: 5, marginLeft: 5, padding: '0 6px' }}
             ref={inputRef}
             onCompositionStart={() => {
               local.setValue('isComposing', true)

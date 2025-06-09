@@ -38,7 +38,7 @@ shttp.interceptors.response.use(
         store.user.setAccessToken('')
         new Promise(async (resolve) => {
           const result = await axios.post(`${store.app.baseURL}/gw/user/oauth/refresh`, {
-            authorization: store.user.refresh_token,
+            headers: { authorization: store.user.refresh_token, }
           });
           if (result && result.data) {
             store.user.setAccessToken(result.data.token);
