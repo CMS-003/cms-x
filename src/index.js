@@ -42,7 +42,17 @@ function Context({ children }) {
     )}</Observer>
   )
 }
-document.getElementById('root').classList.add(isPWA() ? 'is-pwa' : (isPWAorMobile() ? 'is-mobile' : ''));
+
+let extraClass = '';
+if (isPWA()) {
+  extraClass = 'is-pwa'
+} else if (isPWAorMobile()) {
+  extraClass = 'is-mobile'
+}
+if (extraClass) {
+  document.getElementById('root').classList.add(extraClass)
+}
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.Fragment>

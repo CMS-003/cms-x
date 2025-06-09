@@ -23,7 +23,7 @@ const ContentWrap = styled.div`
   flex-direction: row;
   justify-content: ${({ isSelf }) => isSelf ? 'flex-end' : 'flex-start'};
 `
-const Coner = styled.div`
+const ConerRight = styled.div`
   position: absolute;
   right: 1px;
   top: 4px;
@@ -31,6 +31,15 @@ const Coner = styled.div`
   border-style: solid;
   border-width: 10px 0 10px 10px;
   border-color: transparent transparent transparent #8aef49;
+`
+const ConerLeft = styled.div`
+  position: absolute;
+  left: -12px;
+  top: 4px;
+  border-radius: 2px;
+  border-style: solid;
+  border-width: 10px 10px 10px 10px;
+  border-color: transparent #fff transparent transparent;
 `
 
 function MessageContent({ isSelf, type, data }) {
@@ -125,9 +134,9 @@ export default function ChatPage(props) {
             const isSelf = msg.user_id === store.user.info._id;
             return (
               <MsgItem key={msg._id} isSelf={isSelf}>
-                <img src={msg.friend.icon} alt="" style={{ width: 25, height: 25, borderRadius: "50%", marginLeft: 5, marginTop: 2 }} />
+                <img src={isSelf ? store.user.info.avatar : msg.friend.icon} alt="" style={{ width: 25, height: 25, borderRadius: "50%", marginTop: 2, ...(isSelf ? { marginLeft: 5 } : { marginRight: 5 }) }} />
                 <ContentWrap isSelf={isSelf}>
-                  <Coner />
+                  {isSelf ? <ConerRight /> : <ConerLeft />}
                   {msg.loading && <Acon icon="sync" size={12} spin />}
                   <MessageContent type={msg.type} data={msg.data} isSelf={isSelf} />
                 </ContentWrap>

@@ -52,16 +52,18 @@ function App() {
 
         </CenterXY>
       } else if (local.isError) {
-        return <Button
-          style={{ width: 150 }}
-          type="primary"
-          onClick={() => {
-            biu();
-            local.isError = false;
-          }}
-        >
-          {navigator.onLine ? '点击重试' : '您处于离线状态'}
-        </Button>
+        return <CenterXY>
+          <Button
+            style={{ width: 150 }}
+            type="primary"
+            onClick={() => {
+              biu();
+              local.isError = false;
+            }}
+          >
+            {navigator.onLine ? '点击重试' : '您处于离线状态'}
+          </Button>
+        </CenterXY>
       } else {
         return <Router />
       }

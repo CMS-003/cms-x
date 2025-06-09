@@ -25,31 +25,31 @@ function getApi(rawUrl, additionalQuery) {
 
 function boot() {
   return shttp({
-    url: '/api/v1/public/boot/' + APP
+    url: '/gw/manager/api/v1/public/boot/' + APP
   })
 }
 
 function getTemplate(id) {
   return shttp({
-    url: `/api/v1/public/page/${id}`,
+    url: `/gw/manager/api/v1/public/page/${id}`,
   });
 }
 
 function getPageComponents(id, page = 1, size = 8) {
   return shttp({
-    url: `/api/v1/public/page/${id}/components?page=${page}&size=${size}`,
+    url: `/gw/manager/api/v1/public/page/${id}/components?page=${page}&size=${size}`,
   });
 }
 
 function getResourceDetail(id) {
   return shttp({
-    url: `/api/v1/public/resource/${id}`,
+    url: `/gw/manager/api/v1/public/resource/${id}`,
   });
 }
 
 function getResourceList(query) {
   return shttp({
-    url: `/api/v1/public/${APP}/resources${qs.stringify(query, { addQueryPrefix: true })}`,
+    url: `/gw/manager/api/v1/public/${APP}/resources${qs.stringify(query, { addQueryPrefix: true })}`,
   });
 }
 
@@ -65,32 +65,32 @@ function signIn(data) {
   return shttp({
     method: 'post',
     data,
-    url: `/api/v1/oauth/sign-in`
+    url: `/gw/user/oauth/sign-in`
   })
 }
 
 function getProfile() {
   return shttp({
-    url: `/api/v1/users/profile`
+    url: `/gw/user/profile`
   })
 }
 
 function getChatDetail(id) {
   return shttp({
-    url: '/chats/' + id
+    url: '/gw/message/chats/' + id
   })
 }
 
 function getMessages(id, query) {
   return shttp({
-    url: `/chats/${id}/messages${qs.stringify(query, { addQueryPrefix: true })}`
+    url: `/gw/message/chats/${id}/messages${qs.stringify(query, { addQueryPrefix: true })}`
   })
 }
 
 function sendMessage(data) {
   return shttp({
     method: 'post',
-    url: `/chats/${data.chat_id}/messages`,
+    url: `/gw/message/chats/${data.chat_id}/messages`,
     data
   })
 }
@@ -102,7 +102,7 @@ const apis = {
   getPageComponents,
   async refresh() {
     return shttp({
-      url: '/v1/auth/refresh'
+      url: '/gw/user/oauth/refresh'
     })
   },
   getResourceDetail,

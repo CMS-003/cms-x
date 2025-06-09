@@ -14,6 +14,7 @@ import channel from "./channel/index.js";
 import post from "./post/index.js";
 import mine from "./mine/index.js";
 import notify from "./notify";
+import followee from "./followee";
 import search from "./search";
 import chat from "./chat";
 
@@ -28,6 +29,7 @@ export const Templates = {
   channel,
   mine,
   notify,
+  followee,
   search,
   chat,
   'sign-in': SignIn

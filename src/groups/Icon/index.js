@@ -22,7 +22,7 @@ export default function Icon({ self }) {
                 }
               },
               {
-                key: 'conform',
+                key: 'confirm',
                 text: '去登录',
                 style: { color: '#2097c7' },
                 onClick() {

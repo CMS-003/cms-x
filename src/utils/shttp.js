@@ -12,6 +12,7 @@ shttp.interceptors.request.use(
     if (store.app.debug) {
       console.log(`${config.method} ${config.url}`);
     }
+    config.headers['x-project-id'] = APP;
     config.headers['Authorization'] = 'Bearer ' + store.user.access_token;
     return config;
   },
@@ -32,11 +33,11 @@ shttp.interceptors.response.use(
       if (
         body.code === 101010 &&
         response.config.url !==
-        response.config.baseURL + '/api/v1/auth/user/refresh'
+        response.config.baseURL + '/gw/user/oauth/user/refresh'
       ) {
         store.user.setAccessToken('')
         new Promise(async (resolve) => {
-          const result = await axios.post(`${store.app.baseURL}/api/v1/auth/refresh`, {
+          const result = await axios.post(`${store.app.baseURL}/gw/user/oauth/refresh`, {
             authorization: store.user.refresh_token,
           });
           if (result && result.data) {

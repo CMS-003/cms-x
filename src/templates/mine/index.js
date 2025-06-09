@@ -35,7 +35,7 @@ export default function Mine({ template }) {
           />
         </AlignCenter>
         <FullWidthAuto>
-          {store.user.isLogin ? store.user.info.name : <Btn type='button' onClick={() => { router.pushView('sign-in') }}>登陆</Btn>}
+          {store.user.isLogin ? store.user.info.nickname : <Btn type='button' onClick={() => { router.pushView('sign-in') }}>登陆</Btn>}
         </FullWidthAuto>
         <Btn style={{ marginRight: 20 }} onClick={() => window.location.reload()}>刷新</Btn>
       </FullWidth>
