@@ -129,7 +129,7 @@ export default function ChatPage(props) {
     <div style={{ position: 'absolute', left: 0, right: 0, bottom: 0, height: 'var(--dvh)', }}>
       <SafeArea bot={local.focused ? '0' : 'env(safe-area-inset-bottom)'} height={local.focused ? 'var(--dvh)' : ''}>
         <Nav title={local.chat ? local.chat.friend.nickname : ''} right={<Acon icon="more" />} />
-        <FullHeightAuto style={{ display: 'flex', flexDirection: 'column', padding: '0 10px', overflow: 'auto' }}>
+        <FullHeightAuto style={{ display: 'flex', flexDirection: 'column', padding: '0 10px', overflow: 'auto', background: `url('${local.chat ? local.chat.setting.background : ''}') center center no-repeat cover` }}>
           {local.messages.map(msg => {
             const isSelf = msg.user_id === store.user.info._id;
             return (
