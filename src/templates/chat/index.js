@@ -21,7 +21,6 @@ const ContentWrap = styled.div`
   display: flex;
   flex: 1;
   flex-direction: row;
-  justify-content: ${({ isSelf }) => isSelf ? 'flex-end' : 'flex-start'};
 `
 const ConerRight = styled.div`
   position: absolute;
@@ -133,9 +132,9 @@ export default function ChatPage(props) {
           {local.messages.map(msg => {
             const isSelf = msg.user_id === store.user.info._id;
             return (
-              <MsgItem key={msg._id} isSelf={isSelf}>
+              <MsgItem key={msg._id} style={{ flexDirection: isSelf ? 'row-reverse' : 'row' }} >
                 <img src={isSelf ? store.user.info.avatar : msg.friend.icon} alt="" style={{ width: 25, height: 25, borderRadius: "50%", marginTop: 2, ...(isSelf ? { marginLeft: 5 } : { marginRight: 5 }) }} />
-                <ContentWrap isSelf={isSelf}>
+                <ContentWrap style={{ justifyContent: isSelf ? 'flex-end' : 'flex-start' }}>
                   {isSelf ? <ConerRight /> : <ConerLeft />}
                   {msg.loading && <Acon icon="sync" size={12} spin />}
                   <MessageContent type={msg.type} data={msg.data} isSelf={isSelf} />
