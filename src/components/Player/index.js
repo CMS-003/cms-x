@@ -52,10 +52,20 @@ const VBack = styled.div`
   top: 0; 
   display: flex;
   width: 100%; 
-  height: 45px;
-  line-height: 45px; 
+  height: 40px;
+  line-height: 40px; 
   z-index: 12;
   background: linear-gradient(180deg,#00000080,#fdfdfd00);
+`
+const BG = styled.div`
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 `
 const VGestrue = styled.div`
   z-index: 3;
@@ -286,6 +296,7 @@ export default function Player({
         justifyContent: 'center',
         aspectRatio: '16 / 9',
       }}>
+        <BG style={{ backgroundImage: `url('${store.app.imageLine + (resource.poster || resource.thumbnail || '')}')` }} />
         {resource && video && <ReactPlayer
           url={store.app.videoLine + video.path}
           ref={playerRef}
@@ -315,7 +326,7 @@ export default function Player({
             file: {
               forceHLS: type === 'hls',
               attributes: {
-                poster: store.app.imageLine + (resource.poster || resource.thumbnail || ''),
+                // poster: store.app.imageLine + (resource.poster || resource.thumbnail || ''),
                 style: {
                   // width: '100%',
                   height: '100%',
@@ -384,7 +395,7 @@ export default function Player({
         />}
         {local.showControl && (
           <VBack>
-            <Acon icon="LeftOutlined" color='#fff' onClick={() => {
+            <Acon icon="LeftOutlined" color='#fff' style={{ fontSize: 18, padding: '0 10px' }} onClick={() => {
               if (local.fullscreen) {
                 local.setValue('fullscreen', false)
               } else {

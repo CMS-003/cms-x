@@ -7,6 +7,7 @@ import { FullHeight, FullHeightAuto, FullWidth, FullWidthAuto, FullWidthFix } fr
 import PageList from "@/components/List/index.js";
 import { useCallback, useEffect } from "react";
 import shttp from '../../utils/shttp.js'
+import { Badge } from "antd-mobile";
 
 export default function Notify({ template }) {
   const router = useRouter();
@@ -29,6 +30,8 @@ export default function Notify({ template }) {
       if (resp.code === 0) {
         local.setData('hasMore', resp.data.list.length === local.size)
         local.setData('list', resp.data.list);
+      } else {
+        local.setData('hasMore', false)
       }
     } catch (e) {
       local.setData('hasMore', false)
@@ -78,7 +81,9 @@ export default function Notify({ template }) {
                   router.pushView('chat', { id: item.chat_id })
                 }}>
                   <FullWidthFix>
-                    <img src={item.friend.avatar} alt="" style={{ width: 40, height: 40, borderRadius: "50%", marginRight: 10, marginLeft: 5 }} />
+                    <Badge content={item.setting.mute ? (item.unread ? Badge.dot : null) : item.unread} wrapperStyle={{ marginRight: 5 }} style={{ marginRight: 5, marginTop: 10 }}>
+                      <img src={item.friend.avatar} alt="" style={{ width: 40, height: 40, borderRadius: "50%", marginLeft: 5, marginTop: 5 }} />
+                    </Badge>
                   </FullWidthFix>
                   <FullWidthAuto style={{ overflow: 'hidden' }}>
                     <div style={{ fontSize: 14, fontWeight: 'bold', marginBottom: 5 }}>{item.friend.nickname}</div>

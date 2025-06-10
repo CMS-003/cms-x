@@ -121,8 +121,10 @@ export default function ChatPage(props) {
     }
   }, [])
   useEffect(() => {
-    getMessages();
-    getDetail();
+    if (!local.error) {
+      getMessages();
+      getDetail();
+    }
   }, [])
   return <Observer>{() => (
     <div style={{ position: 'absolute', left: 0, right: 0, bottom: 0, height: 'var(--dvh)', }}>
@@ -169,10 +171,8 @@ export default function ChatPage(props) {
                 }
                 sendMessage({
                   chat_id: local.chat_id,
-                  user_id: store.user.info._id,
-                  recv_id: local.chat.friend_id,
+                  friend_id: local.chat.friend_id,
                   type: 1,
-                  friend: local.chat.friend,
                   data: {
                     content: text,
                     url: '',
