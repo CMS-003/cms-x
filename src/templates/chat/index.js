@@ -135,7 +135,7 @@ export default function ChatPage(props) {
             const isSelf = msg.user_id === store.user.info._id;
             return (
               <MsgItem key={msg._id} style={{ flexDirection: isSelf ? 'row-reverse' : 'row' }} >
-                <img src={isSelf ? store.user.info.avatar : msg.friend.icon} alt="" style={{ width: 25, height: 25, borderRadius: "50%", marginTop: 2, ...(isSelf ? { marginLeft: 5 } : { marginRight: 5 }) }} />
+                <img src={isSelf ? store.user.info.avatar : msg.friend.avatar} alt="" style={{ width: 25, height: 25, borderRadius: "50%", marginTop: 2, ...(isSelf ? { marginLeft: 5 } : { marginRight: 5 }) }} />
                 <ContentWrap style={{ justifyContent: isSelf ? 'flex-end' : 'flex-start' }}>
                   {isSelf ? <ConerRight /> : <ConerLeft />}
                   {msg.loading && <Acon icon="sync" size={12} spin />}
@@ -173,6 +173,7 @@ export default function ChatPage(props) {
                   chat_id: local.chat_id,
                   friend_id: local.chat.friend_id,
                   type: 1,
+                  friend: local.chat.friend,
                   data: {
                     content: text,
                     url: '',
