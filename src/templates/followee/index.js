@@ -42,13 +42,6 @@ export default function Followee({ template }) {
       local.setData('loading', false)
     }
   });
-  const toggleFollow = useCallback(async (follow, user_id) => {
-    try {
-      follow ? await shttp.delete(`/gw/user/interaction/follow/${user_id}`) : await shttp.post(`/gw/user/interaction/follow/${user_id}`)
-    } catch (e) {
-
-    }
-  })
   useEffect(() => {
     if (local.list.length === 0 && local.hasMore === true) {
       getList();
@@ -97,7 +90,7 @@ export default function Followee({ template }) {
                       onClick={async (e) => {
                         e.preventDefault();
                         e.stopPropagation();
-                        await toggleFollow(item.counted.followed, item._id)
+                        await apis.toggleFollow(item.counted.followed, item._id)
                         runInAction(() => {
                           item.counted.followed = item.counted.followed ? 0 : 1;
                         })

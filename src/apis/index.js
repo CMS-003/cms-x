@@ -69,6 +69,14 @@ function signIn(data) {
   })
 }
 
+function signOut(data) {
+  return shttp({
+    method: 'post',
+    data,
+    url: `/gw/user/oauth/sign-out`
+  })
+}
+
 function getProfile() {
   return shttp({
     url: `/gw/user/profile`
@@ -87,12 +95,27 @@ function getMessages(id, query) {
   })
 }
 
+function readAll(id) {
+  return shttp({
+    method: 'post',
+    url: `/gw/message/chats/${id}/read`
+  })
+}
+
 function sendMessage(data) {
   return shttp({
     method: 'post',
     url: `/gw/message/chats/${data.chat_id}/messages`,
     data
   })
+}
+
+async function toggleFollow(follow, user_id) {
+  try {
+    follow ? await shttp.delete(`/gw/user/interaction/follow/${user_id}`) : await shttp.post(`/gw/user/interaction/follow/${user_id}`)
+  } catch (e) {
+
+  }
 }
 
 const apis = {
@@ -109,10 +132,13 @@ const apis = {
   getResourceList,
   fetchAPI,
   signIn,
+  signOut,
   getProfile,
   getChatDetail,
+  readAll,
   getMessages,
   sendMessage,
+  toggleFollow,
 }
 
 export default apis;

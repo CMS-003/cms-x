@@ -81,7 +81,7 @@ export default function Notify({ template }) {
                   router.pushView('chat', { id: item.chat_id })
                 }}>
                   <FullWidthFix>
-                    <Badge content={item.setting.mute ? (item.unread ? Badge.dot : null) : item.unread} wrapperStyle={{ marginRight: 5 }} style={{ marginRight: 5, marginTop: 10 }}>
+                    <Badge content={item.setting.mute ? (item.unread ? Badge.dot : null) : (item.unread ? item.unread : null)} wrapperStyle={{ marginRight: 5 }} style={{ marginRight: 5, marginTop: 10 }}>
                       <img src={item.friend.avatar} alt="" style={{ width: 40, height: 40, borderRadius: "50%", marginLeft: 5, marginTop: 5 }} />
                     </Badge>
                   </FullWidthFix>

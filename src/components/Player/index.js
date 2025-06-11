@@ -296,7 +296,7 @@ export default function Player({
         justifyContent: 'center',
         aspectRatio: '16 / 9',
       }}>
-        <BG style={{ backgroundImage: `url('${store.app.imageLine + (resource.poster || resource.thumbnail || '')}')` }} />
+        {resource && <BG style={{ backgroundImage: `url('${store.app.imageLine + (resource.poster || resource.thumbnail || '')}')` }} />}
         {resource && video && <ReactPlayer
           url={store.app.videoLine + video.path}
           ref={playerRef}

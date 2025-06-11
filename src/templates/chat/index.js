@@ -93,6 +93,9 @@ export default function ChatPage(props) {
       const resp = await apis.getMessages(local.chat_id);
       if (resp && resp.code === 0) {
         local.setValue('messages', resp.data.list || null)
+        apis.readAll(local.chat_id).then(()=>{
+          console.log('read all')
+        })
       } else {
         local.setValue('error', { code: resp.code, message: resp.message })
       }
@@ -131,10 +134,10 @@ export default function ChatPage(props) {
       <SafeArea bot={local.focused ? '0' : 'env(safe-area-inset-bottom)'} height={local.focused ? 'var(--dvh)' : ''}>
         <Nav title={local.chat ? local.chat.friend.nickname : ''} right={<Acon icon="more" />} />
         <FullHeightAuto style={{ display: 'flex', flexDirection: 'column', padding: '0 10px', overflow: 'auto', background: `url('${local.chat ? local.chat.setting.background : ''}') center center no-repeat cover` }}>
-          {local.messages.map(msg => {
+          {local.messages.map((msg, i) => {
             const isSelf = msg.user_id === store.user.info._id;
             return (
-              <MsgItem key={msg._id} style={{ flexDirection: isSelf ? 'row-reverse' : 'row' }} >
+              <MsgItem key={i} style={{ flexDirection: isSelf ? 'row-reverse' : 'row' }} >
                 <img src={isSelf ? store.user.info.avatar : msg.friend.avatar} alt="" style={{ width: 25, height: 25, borderRadius: "50%", marginTop: 2, ...(isSelf ? { marginLeft: 5 } : { marginRight: 5 }) }} />
                 <ContentWrap style={{ justifyContent: isSelf ? 'flex-end' : 'flex-start' }}>
                   {isSelf ? <ConerRight /> : <ConerLeft />}

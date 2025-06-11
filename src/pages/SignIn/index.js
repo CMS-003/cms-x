@@ -17,7 +17,7 @@ const Btn = styled.div`
   font-size: 14px;
   flex: 1;
   text-align: center;
-  margin-top: 10px;
+  margin-top: 15px;
 `
 
 export default function SignIn() {
@@ -45,14 +45,14 @@ export default function SignIn() {
         </FullHeightFix>
         <FullHeightAuto style={{ position: 'relative' }}>
           <div style={{ position: 'absolute', left: '50%', top: '40%', transform: 'translate(-50%,-50%)', }}>
-            <List style={{ borderRadius: 10, overflow: 'hidden' }}>
-              <List.Item title="账号">
-                <Input name="account" autoFocus onChange={v => {
+            <List style={{ borderRadius: 10, overflow: 'hidden', '--border-inner': 'none', }}>
+              <List.Item title="账号" style={{ marginTop: 10 }}>
+                <Input name="account" autoComplete='off' autoFocus onChange={v => {
                   local.account = v;
                 }} />
               </List.Item>
-              <List.Item title="密码">
-                <Input name="password" onChange={v => {
+              <List.Item title="密码" style={{ marginBottom: 10 }}>
+                <Input name="password" autoComplete='off' type='password' onChange={v => {
                   local.value = v;
                 }} />
               </List.Item>

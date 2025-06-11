@@ -17,6 +17,7 @@ import notify from "./notify";
 import followee from "./followee";
 import search from "./search";
 import chat from "./chat";
+import user from "./user";
 
 import SignIn from "@/pages/SignIn/index.js";
 
@@ -32,6 +33,7 @@ export const Templates = {
   followee,
   search,
   chat,
+  user,
   'sign-in': SignIn
 }
 
