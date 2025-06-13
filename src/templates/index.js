@@ -7,17 +7,19 @@ import { SpinLoading } from 'antd-mobile'
 import { action } from "mobx";
 
 import dynamic from "./dynamic/index.js";
-import article from "./article/index.js";
-import video from "./video/index.js";
-import gallery from "./gallery/index.js";
 import channel from "./channel/index.js";
-import post from "./post/index.js";
 import mine from "./mine/index.js";
+import timeline from "./timeline";
 import notify from "./notify";
 import followee from "./followee";
 import search from "./search";
 import chat from "./chat";
 import user from "./user";
+
+import article from "./article/index.js";
+import video from "./video/index.js";
+import post from "./post/index.js";
+import gallery from "./gallery/index.js";
 
 import SignIn from "@/pages/SignIn/index.js";
 
@@ -34,6 +36,7 @@ export const Templates = {
   search,
   chat,
   user,
+  timeline,
   'sign-in': SignIn
 }
 
