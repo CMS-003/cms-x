@@ -11,6 +11,8 @@ import { Button } from "antd-mobile";
 import apis from "@/apis/index.js";
 import { runInAction } from "mobx";
 import styled from 'styled-components'
+import ResourceItem from "@/adaptor/index.js";
+import _ from "lodash";
 
 const Header = styled.div`
  font-weight: 600;
@@ -71,6 +73,7 @@ export default function Followee({ template }) {
     page: 1,
     size: 20,
     followees: [],
+    items: [],
     loading: true,
     hasMore: true,
     setData(key, v) {
@@ -81,7 +84,7 @@ export default function Followee({ template }) {
     try {
       local.setData('loading', true)
       const resp = await shttp({
-        url: `/gw/user/interaction/followees?latest=1&page=${local.page}&size=${local.size}`,
+        url: `/gw/user/interaction/followees?latest=1&size=${local.size}`,
       });
       if (resp.code === 0) {
         local.setData('hasMore', resp.data.list.length === local.size)
@@ -95,9 +98,35 @@ export default function Followee({ template }) {
       local.setData('loading', false)
     }
   });
+  const getList = useCallback(async () => {
+    try {
+      local.setData('loading', true)
+      const resp = await shttp({
+        url: `/gw/manager/api/v1/public/timeline?page=${local.page}&size=${local.size}`,
+      });
+      if (resp.code === 0) {
+        local.setData('hasMore', resp.data.items.length === local.size)
+        if (local.page === 1) {
+          local.setData('items', resp.data.items);
+        } else {
+          local.setData('items', local.items.concat(resp.data.items));
+        }
+
+      } else {
+        local.setData('hasMore', false)
+      }
+    } catch (e) {
+      local.setData('hasMore', false)
+    } finally {
+      local.setData('loading', false)
+    }
+  });
   useEffect(() => {
     if (local.followees.length === 0 && local.hasMore === true) {
       getFollowees();
+    }
+    if (local.items.length === 0 && local.hasMore === true) {
+      getList();
     }
   })
   return <Observer>{() => (
@@ -119,14 +148,15 @@ export default function Followee({ template }) {
         </Content>
         <FullHeightAuto>
           <PageList
-            items={[]}
+            items={_.chunk(local.items, 1)}
             multi={false}
             infinite={true}
             hasMore={local.hasMore}
+            display="card"
             onRefresh={async () => {
               local.setData('page', 1)
               local.setData('loading', true)
-              await getFollowees();
+              await getList();
               local.setData('loading', false)
             }}
             loadMore={async () => {
@@ -135,36 +165,8 @@ export default function Followee({ template }) {
               }
               local.setData('page', local.page + 1)
               local.setData('loading', true)
-              await getFollowees();
+              await getList();
               local.setData('loading', false)
-            }}
-            renderItems={(items) => {
-              return items.map(item => (
-                <FullWidth key={item._id} style={{ padding: '8px 0' }} onClick={() => {
-                  router.pushView('user', { id: item._id })
-                }}>
-                  <FullWidthFix>
-                    <img src={item.avatar} alt="" style={{ width: 40, height: 40, borderRadius: "50%", marginRight: 10, marginLeft: 5 }} />
-                  </FullWidthFix>
-                  <FullWidthAuto style={{ overflow: 'hidden' }}>
-                    <div style={{ fontSize: 14, fontWeight: 'bold', marginBottom: 5 }}>{item.nickname}</div>
-                  </FullWidthAuto>
-                  <div>
-                    <Button
-                      size='mini'
-                      color={item.counted.followed ? 'warning' : 'primary'}
-                      onClick={async (e) => {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        await apis.toggleFollow(item.counted.followed, item._id)
-                        runInAction(() => {
-                          item.counted.followed = item.counted.followed ? 0 : 1;
-                        })
-                      }}
-                    >{item.counted.followed ? '取消关注' : '关注'}</Button>
-                  </div>
-                </FullWidth>
-              ))
             }}
           />
         </FullHeightAuto>
