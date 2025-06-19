@@ -91,7 +91,6 @@ const VControl = styled.div`
   color: white;
   background: linear-gradient(0deg,#00000080,#fdfdfd00);
   padding: 5px;
-  padding-bottom: ${prop => prop.fullscreen === 'true' ? 'var(--safe-padding-bottom)' : '5px'};
   box-sizing: border-box;
 `
 export const ProgressWrap = styled.div`
@@ -432,7 +431,7 @@ export default function Player({
           <VError>{local.error}</VError>
         </Visible>
         <Visible visible={local.showControl}>
-          <VControl fullscreen={local.fullscreen ? 'true' : 'false'} ref={controlRef}>
+          <VControl style={{ paddingBottom: local.fullscreen ? 'var(--safe-padding-bottom)' : '5px' }} ref={controlRef}>
             {/* 播放中,已暂停,缓冲中 */}
             {local.playing
               ? <Icon

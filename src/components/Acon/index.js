@@ -81,6 +81,22 @@ const System = (props) => <Icon component={svgSystem} {...props} />;
 const At = (props) => <Icon component={svgAt} {...props} />;
 const Thumb = (props) => <Icon component={svgThumb} {...props} />;
 const Comment = (props) => <Icon component={svgComment} {...props} />;
+const expression = (props) => <Icon component={svgExpression} {...props} />;
+const voice = (props) => <Icon component={svgVoice} {...props} />;
+const fanju = (props) => <Icon component={fanjuSVG} {...props} />;
+const movie = (props) => <Icon component={movieSVG} {...props} />;
+const anime = (props) => <Icon component={animeSVG} {...props} />;
+const image = (props) => <Icon component={imageSVG} {...props} />;
+const novel = (props) => <Icon component={novelSVG} {...props} />;
+const video = (props) => <Icon component={videoSVG} {...props} />;
+const posts = (props) => <Icon component={postsSVG} {...props} />;
+const music = (props) => <Icon component={musicSVG} {...props} />;
+const zixun = (props) => <Icon component={zixunSVG} {...props} />;
+const foods = (props) => <Icon component={foodsSVG} {...props} />;
+const comic = (props) => <Icon component={comicSVG} {...props} />;
+const life = (props) => <Icon component={lifeSVG} {...props} />;
+const person = (props) => <Icon component={personSVG} {...props} />;
+const pixiv = (props) => <Icon component={pixivSVG} {...props} />;
 
 const icons = {
   home: HomeOutlined,
@@ -162,22 +178,22 @@ const icons = {
   At,
   Comment,
   Thumb,
-  fanju: fanjuSVG,
-  movie: movieSVG,
-  video: videoSVG,
-  anime: animeSVG,
-  image: imageSVG,
-  novel: novelSVG,
-  posts: postsSVG,
-  music: musicSVG,
-  zixun: zixunSVG,
-  foods: foodsSVG,
-  person: personSVG,
-  life: lifeSVG,
-  comic: comicSVG,
-  pixiv: pixivSVG,
-  voice: svgVoice,
-  expression: svgExpression,
+  fanju,
+  movie,
+  video,
+  anime,
+  image,
+  novel,
+  posts,
+  music,
+  zixun,
+  foods,
+  person,
+  life,
+  comic,
+  pixiv,
+  voice,
+  expression,
 }
 
 

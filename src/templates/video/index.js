@@ -1,13 +1,13 @@
 import { FullHeight, FullHeightAuto, FullHeightFix, FullWidth } from "@/components/style";
 import { Observer, useLocalObservable } from "mobx-react-lite";
-import { Fragment, useCallback, useEffect } from "react";
+import { Fragment, useCallback, useEffect, useRef, useState } from "react";
 import apis from "@/apis";
 import Player from "@/components/Player";
 import { runInAction } from "mobx";
 import styled from "styled-components";
 import { useStore } from "@/contexts/index.js";
 import Visible from "@/components/Visible";
-import { Ellipsis, Space, Tag } from "antd-mobile";
+import { Ellipsis, Space, Tag, Tabs, Swiper, Empty } from "antd-mobile";
 import ResourceItem from "@/adaptor/index.js";
 import { default as dayjs } from "dayjs";
 import Acon from "@/components/Acon";
@@ -57,6 +57,8 @@ export default function VideoPage(props) {
       local[key] = value;
     }
   }));
+  const swiperRef = useRef(null)
+  const [activeIndex, setActiveIndex] = useState(0)
   const getDetail = useCallback(async () => {
     local.setValue('loading', true);
     try {
@@ -112,6 +114,10 @@ export default function VideoPage(props) {
 
     }
   });
+  const tabItems = [
+    { key: 'info', title: '简介' },
+    { key: 'comment', title: '评论' },
+  ];
   useEffect(() => {
     getDetail();
   }, [getDetail])
@@ -126,67 +132,98 @@ export default function VideoPage(props) {
             type="mp4"
           />
         </FullHeightFix>
-        <FullHeightAuto>
-          {
-            local.resource ? (<Fragment>
-              <Title>{local.resource.title}</Title>
-              <FullWidth style={{ padding: '0 10px 10px', gap: 8, justifyContent: 'flex-start' }}>
-                <span>{dayjs(local.resource.publishedAt).format('YYYY年MM月日DD HH:mm')}</span>
-                <Acon icon={local.resource.counter.collected ? 'stared' : 'unstar'} color='pink' size={24} onTouchEnd={toggleStar} />
-              </FullWidth>
-              <Ellipsis content={local.resource.content} rows={2}
-                expandText='展开'
-                collapseText='收起' />
-              <FullWidth style={{ alignItems: 'baseline', overflow: 'auto' }}>
-                <Space style={{ padding: '0 10px' }}>
-                  {local.resource.tags.map(tag => (
-                    <Tag key={tag} round color='#2db7f5' style={{ padding: '4px 6px' }}>
-                      {tag}
-                    </Tag>
-                  ))}
-                </Space>
-              </FullWidth>
-              <Visible visible={local.resource.videos.length > 1}>
-                <p
-                  style={{
-                    fontWeight: 'bolder',
-                    margin: 0,
-                    padding: '10px 10px 5px',
-                  }}
-                >
-                  播放列表
-                </p>
-                <FullWidth style={{ alignItems: 'baseline', overflow: 'auto', padding: '0 8px' }}>
-                  {local.resource.videos.map((child) => (
-                    <Epsode
-                      key={child.path}
-                      onClick={() => {
-                        if (local.vid !== child._id) {
-                          local.video = child;
-                          local.looktime = 0;
-                        }
-                      }}
-                      selected={local.video && local.video._id === child._id}
-                    >
-                      {child.title || `第${child.nth}集`}
-                    </Epsode>
-                  ))}
-                </FullWidth>
-              </Visible>
-            </Fragment>) : null
-          }
-          <div style={{ fontSize: 16, fontWeight: 600, margin: '10px 10px 0' }}>推荐</div>
-          <PageList
-            disabled={true}
-            display="lprt"
-            items={local.recommends}
-            infinite={false}
-            renderItems={(items) => items.map(v => (
-              <div key={v._id} style={{ margin: '10px 5px' }}>
-                <ResourceItem item={v} type="lprt" />
-              </div>
+        <FullHeightAuto style={{ overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
+          <Tabs
+            style={{ '--adm-border-color': '#ddd' }}
+            activeKey={tabItems[activeIndex].key}
+            onChange={key => {
+              const index = tabItems.findIndex(item => item.key === key)
+              setActiveIndex(index)
+              swiperRef.current?.swipeTo(index)
+            }}
+          >
+            {tabItems.map(item => (
+              <Tabs.Tab title={item.title} key={item.key} style={{ flex: '0' }} />
             ))}
-          />
+          </Tabs>
+          <Swiper
+            style={{ overflow: 'hidden' }}
+            direction='horizontal'
+            indicator={() => null}
+            ref={swiperRef}
+            defaultIndex={activeIndex}
+            onIndexChange={index => {
+              setActiveIndex(index)
+            }}
+          >
+            <Swiper.Item style={{ overflow: 'auto' }}>
+              {
+                local.resource ? (<Fragment>
+                  <Title>{local.resource.title}</Title>
+                  <FullWidth style={{ padding: '0 10px 10px', gap: 8, justifyContent: 'flex-start' }}>
+                    <span>{dayjs(local.resource.publishedAt).format('YYYY年MM月日DD HH:mm')}</span>
+                    <Acon icon={local.resource.counter.collected ? 'stared' : 'unstar'} color='pink' size={24} onTouchEnd={toggleStar} />
+                  </FullWidth>
+                  <Ellipsis content={local.resource.content} rows={2}
+                    expandText='展开'
+                    collapseText='收起' />
+                  <FullWidth style={{ alignItems: 'baseline', overflow: 'auto', touchAction: 'pan-x' }} onTouchStart={e => {
+                    e.stopPropagation();
+                  }}>
+                    <Space style={{ padding: '0 10px' }}>
+                      {local.resource.tags.map(tag => (
+                        <Tag key={tag} round color='#2db7f5' style={{ padding: '4px 6px' }}>
+                          {tag}
+                        </Tag>
+                      ))}
+                    </Space>
+                  </FullWidth>
+                  <Visible visible={local.resource.videos.length > 1}>
+                    <p
+                      style={{
+                        fontWeight: 'bolder',
+                        margin: 0,
+                        padding: '10px 10px 5px',
+                      }}
+                    >
+                      播放列表
+                    </p>
+                    <FullWidth style={{ alignItems: 'baseline', overflow: 'auto', padding: '0 8px' }}>
+                      {local.resource.videos.map((child) => (
+                        <Epsode
+                          key={child.path}
+                          onClick={() => {
+                            if (local.vid !== child._id) {
+                              local.video = child;
+                              local.looktime = 0;
+                            }
+                          }}
+                          selected={local.video && local.video._id === child._id}
+                        >
+                          {child.title || `第${child.nth}集`}
+                        </Epsode>
+                      ))}
+                    </FullWidth>
+                  </Visible>
+                </Fragment>) : null
+              }
+              <div style={{ fontSize: 16, fontWeight: 600, margin: '10px 10px 0' }}>推荐</div>
+              <PageList
+                disabled={true}
+                display="lprt"
+                items={local.recommends}
+                infinite={false}
+                renderItems={(items) => items.map(v => (
+                  <div key={v._id} style={{ margin: '10px 5px' }}>
+                    <ResourceItem item={v} type="lprt" />
+                  </div>
+                ))}
+              />
+            </Swiper.Item>
+            <Swiper.Item style={{ overflow: 'auto' }}>
+              <Empty description='暂无数据' />
+            </Swiper.Item>
+          </Swiper>
         </FullHeightAuto>
       </FullHeight>
     </SafeArea>
