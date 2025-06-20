@@ -7,13 +7,14 @@ import { runInAction } from "mobx";
 import styled from "styled-components";
 import { useStore } from "@/contexts/index.js";
 import Visible from "@/components/Visible";
-import { Ellipsis, Space, Tag, Tabs, Swiper, Empty } from "antd-mobile";
+import { Ellipsis, Space, Tag, Tabs, Swiper, Empty, Input } from "antd-mobile";
 import ResourceItem from "@/adaptor/index.js";
 import { default as dayjs } from "dayjs";
 import Acon from "@/components/Acon";
 import { browser } from "@/utils";
 import SafeArea from "@/components/SafeArea";
 import PageList from "@/components/List/index.js";
+import shttp from "@/utils/shttp.js";
 
 const Title = styled.h1`
   font-size: 1.4em;
@@ -53,6 +54,9 @@ export default function VideoPage(props) {
     error: null,
     video: null,
     recommends: [],
+    comments: [],
+    isComposing: false,
+    focused: false,
     setValue: function (key, value) {
       local[key] = value;
     }
@@ -67,6 +71,7 @@ export default function VideoPage(props) {
         local.setValue('resource', resp.data)
         local.setValue('video', resp.data.videos[0] || null)
         getRecommends();
+        getComments();
       } else {
         local.setValue('error', { code: resp.code, message: resp.message })
       }
@@ -114,6 +119,27 @@ export default function VideoPage(props) {
 
     }
   });
+  const inputRef = useRef(null)
+  const getComments = useCallback(async () => {
+    try {
+      const resp = await shttp.get(`/gw/express/comment/resource/${props.id}`)
+      if (resp.code === 0) {
+        local.setValue('comments', resp.data.list)
+      }
+    } catch (e) {
+
+    }
+  })
+  const sendComment = useCallback(async (data) => {
+    try {
+      const resp = await shttp.post(`/gw/express/comment`, data)
+      if (resp.code === 0) {
+        await getComments();
+      }
+    } catch (e) {
+
+    }
+  }, [])
   const tabItems = [
     { key: 'info', title: '简介' },
     { key: 'comment', title: '评论' },
@@ -220,8 +246,52 @@ export default function VideoPage(props) {
                 ))}
               />
             </Swiper.Item>
-            <Swiper.Item style={{ overflow: 'auto' }}>
-              <Empty description='暂无数据' />
+            <Swiper.Item style={{ display: 'flex', flexDirection: 'column' }}>
+              <div style={{ flex: 1, overflow: 'auto' }}>
+                <PageList
+                  infinite={true}
+                  items={local.comments}
+                  onRefresh={() => {
+                    getComments()
+                  }}
+                  renderItems={items => items.map(v => (
+                    <div key={v._id}>
+                      {v.content}
+                    </div>
+                  ))}
+                />
+              </div>
+              <FullWidth style={{ padding: 5, borderTop: '0.5px solid #e2e2d2' }}>
+                <Input style={{ backgroundColor: '#fff', borderRadius: 5, marginLeft: 5, padding: '0 6px' }}
+                  ref={inputRef}
+                  onCompositionStart={() => {
+                    local.setValue('isComposing', true)
+                  }}
+                  onCompositionEnd={() => {
+                    local.setValue('isComposing', false)
+                  }}
+                  onFocus={() => {
+                    local.setValue('focused', true)
+                  }}
+                  onBlur={() => {
+                    local.setValue('focused', false)
+                  }}
+                  onEnterPress={(e) => {
+                    if (!local.isComposing) {
+                      const text = e.currentTarget.value;
+                      e.currentTarget.value = '';
+                      if (inputRef.current) {
+                        inputRef.current.clear()
+                      }
+                      sendComment({
+                        rid: props.id,
+                        pid: '',
+                        content: text,
+                      })
+                    }
+                  }} />
+                <Acon icon="expression" style={{ margin: '0 5px' }} />
+              </FullWidth>
             </Swiper.Item>
           </Swiper>
         </FullHeightAuto>
