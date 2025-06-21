@@ -3,7 +3,7 @@ import { Observer } from 'mobx-react-lite'
 import ResourceItem from '@/adaptor'
 import { FullWidth } from '../style'
 
-export default function PageList({ disabled = false, display = '', items, onRefresh, loadMore, hasMore = false, infinite = true, renderItems }) {
+export default function PageList({ disabled = false, display = '', style = {}, items, onRefresh, loadMore, hasMore = false, infinite = true, renderItems }) {
   return <Observer>{() => (
     <PullToRefresh disabled={disabled} onRefresh={onRefresh}>
       <List style={{
@@ -11,7 +11,8 @@ export default function PageList({ disabled = false, display = '', items, onRefr
         "--padding-right": 0,
         "--border-inner": "none",
         "--adm-color-background": "transparent",
-        padding: '0 5px'
+        padding: '0 5px',
+        ...style
       }}>
         {renderItems ? renderItems(items) : items.map((item, i) => (
           <List.Item key={i}>
