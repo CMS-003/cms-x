@@ -224,9 +224,9 @@ export default function VideoPage(props) {
     getDetail();
   }, [getDetail])
   return <Observer>{() => (
-    <SafeArea topBGC="black">
+    <SafeArea topBGC="black" bot="0">
       <FullHeight style={{ position: 'relative' }}>
-        <FullHeightFix style={{ flexDirection: 'column', }}>
+        <FullHeightFix style={{ flexDirection: 'column', backgroundColor: 'black' }}>
           <Player
             resource={local.resource}
             video={local.video}
@@ -264,7 +264,7 @@ export default function VideoPage(props) {
                   <Title>{local.resource.title}</Title>
                   <FullWidth style={{ padding: '0 10px 10px', gap: 8, justifyContent: 'flex-start' }}>
                     <span>{dayjs(local.resource.publishedAt).format('YYYY年MM月日DD HH:mm')}</span>
-                    <Acon icon={local.resource.counter.collected ? 'stared' : 'unstar'} color='pink' size={24} onTouchEnd={toggleStar} />
+                    <Acon icon={local.resource.counter.collected ? 'stared' : 'unstar'} color='pink' size={24} onClick={toggleStar} onTouchEnd={toggleStar} />
                   </FullWidth>
                   <Ellipsis content={local.resource.content} rows={2}
                     expandText='展开'
@@ -290,7 +290,9 @@ export default function VideoPage(props) {
                     >
                       播放列表
                     </p>
-                    <FullWidth style={{ alignItems: 'baseline', overflow: 'auto', padding: '0 8px' }}>
+                    <FullWidth style={{ alignItems: 'baseline', overflow: 'auto', padding: '0 8px' }} onTouchStart={e => {
+                      e.stopPropagation();
+                    }}>
                       {local.resource.videos.map((child) => (
                         <Epsode
                           key={child.path}
@@ -310,17 +312,20 @@ export default function VideoPage(props) {
                 </Fragment>) : null
               }
               <div style={{ fontSize: 16, fontWeight: 600, margin: '10px 10px 0' }}>推荐</div>
-              <PageList
-                disabled={true}
-                display="lprt"
-                items={local.recommends}
-                infinite={false}
-                renderItems={(items) => items.map(v => (
-                  <div key={v._id} style={{ margin: '10px 5px' }}>
-                    <ResourceItem item={v} type="lprt" />
-                  </div>
-                ))}
-              />
+              <div style={{ flex: 1, overflow: 'auto' }}>
+                <PageList
+                  disabled={true}
+                  display="lprt"
+                  items={local.recommends}
+                  infinite={false}
+                  renderItems={(items) => items.map(v => (
+                    <div key={v._id} style={{ margin: '10px 5px' }}>
+                      <ResourceItem item={v} type="lprt" />
+                    </div>
+                  ))}
+                />
+              </div>
+              <div style={{ height: 'var(--safe-padding-bottom)' }}></div>
             </Swiper.Item>
             <Swiper.Item style={{ display: 'flex', flexDirection: 'column' }}>
               <div style={{ flex: 1, overflow: 'auto' }}>
@@ -400,6 +405,7 @@ export default function VideoPage(props) {
                   }} />
                 <Acon icon="expression" style={{ margin: '0 5px' }} />
               </FullWidth>
+              <div style={{ height: 'var(--safe-padding-bottom)' }}></div>
             </Swiper.Item>
           </Swiper>
         </FullHeightAuto>

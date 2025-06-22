@@ -130,47 +130,45 @@ export default function Followee({ template }) {
     }
   })
   return <Observer>{() => (
-    <SafeArea topBGC="#58abdd">
-      <FullHeight>
-        <Header>最常访问</Header>
-        <Content>
-          <ScrollWrap>
-            {local.followees.map(v => (
-              <ItemWrap key={v._id}>
-                <div style={{ position: 'relative', padding: 5 }}>
-                  <Avatar style={{ backgroundImage: `url('${v.avatar}')` }} />
-                  {v.counted.unread ? <Dot /> : null}
-                </div>
-                <div>{v.nickname}</div>
-              </ItemWrap>
-            ))}
-          </ScrollWrap>
-        </Content>
-        <FullHeightAuto>
-          <PageList
-            items={_.chunk(local.items, 1)}
-            multi={false}
-            infinite={true}
-            hasMore={local.hasMore}
-            display="card"
-            onRefresh={async () => {
-              local.setData('page', 1)
-              local.setData('loading', true)
-              await getList();
-              local.setData('loading', false)
-            }}
-            loadMore={async () => {
-              if (local.loading || !local.hasMore) {
-                return;
-              }
-              local.setData('page', local.page + 1)
-              local.setData('loading', true)
-              await getList();
-              local.setData('loading', false)
-            }}
-          />
-        </FullHeightAuto>
-      </FullHeight>
-    </SafeArea>
+    <FullHeight>
+      <Header>最常访问</Header>
+      <Content>
+        <ScrollWrap>
+          {local.followees.map(v => (
+            <ItemWrap key={v._id}>
+              <div style={{ position: 'relative', padding: 5 }}>
+                <Avatar style={{ backgroundImage: `url('${v.avatar}')` }} />
+                {v.counted.unread ? <Dot /> : null}
+              </div>
+              <div>{v.nickname}</div>
+            </ItemWrap>
+          ))}
+        </ScrollWrap>
+      </Content>
+      <FullHeightAuto>
+        <PageList
+          items={_.chunk(local.items, 1)}
+          multi={false}
+          infinite={true}
+          hasMore={local.hasMore}
+          display="card"
+          onRefresh={async () => {
+            local.setData('page', 1)
+            local.setData('loading', true)
+            await getList();
+            local.setData('loading', false)
+          }}
+          loadMore={async () => {
+            if (local.loading || !local.hasMore) {
+              return;
+            }
+            local.setData('page', local.page + 1)
+            local.setData('loading', true)
+            await getList();
+            local.setData('loading', false)
+          }}
+        />
+      </FullHeightAuto>
+    </FullHeight>
   )}</Observer>
 }

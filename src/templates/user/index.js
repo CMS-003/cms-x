@@ -9,6 +9,7 @@ import Nav from "@/components/Nav/index.js";
 import { runInAction } from "mobx";
 import apis from "@/apis/index.js";
 import store from "@/store/index.js";
+import SafeArea from "@/components/SafeArea";
 
 export default function User({ template, id }) {
   const router = useContext(RouterContext)
@@ -54,8 +55,8 @@ export default function User({ template, id }) {
       </FullHeight>
     } else {
       return (
-        <FullHeight>
-          <Nav />
+        <SafeArea>
+          <Nav/>
           <FullWidth>
             <AlignCenter style={{ width: 50, height: 50, padding: 20 }}>
               <img
@@ -90,7 +91,7 @@ export default function User({ template, id }) {
           <FullHeightAuto style={{ overflow: 'hidden auto' }}>
 
           </FullHeightAuto>
-        </FullHeight>
+        </SafeArea>
       )
     }
   }}</Observer >

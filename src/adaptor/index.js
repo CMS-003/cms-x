@@ -2,7 +2,7 @@ import { Observer } from "mobx-react-lite";
 import Article from './article'
 import Gallery from './gallery'
 import Video from './video'
-import Post from "./poster";
+import Post from "./post";
 
 export default function ResourceItem({ item, type }) {
   return <Observer>{() => {
