@@ -1,12 +1,10 @@
-import { Observer, useLocalObservable } from "mobx-react-lite";
 import { Fragment, useCallback } from "react";
 import { useEffectOnce } from "react-use";
-import apis from '../../apis'
+import { apis } from '@/global.js';
 import Auto from "../../groups/auto.js";
-import { CenterXY } from "@/components/style.js";
 import { SpinLoading } from 'antd-mobile'
-import SafeArea from "@/components/SafeArea";
-import Nav from "@/components/Nav";
+import { Observer, useLocalObservable } from "mobx-react-lite";
+import { SafeArea, Nav, CenterXY } from "@/components";
 
 export default function Dynamic(props) {
   const id = props.id || '';
@@ -50,7 +48,7 @@ export default function Dynamic(props) {
         {local.template.attrs.embed === 0
           ? (
             <SafeArea>
-              <Nav title={local.template.title}/>
+              <Nav title={local.template.title} />
               <Auto template={local.template} />
             </SafeArea>
           )

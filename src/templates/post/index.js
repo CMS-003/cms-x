@@ -1,16 +1,10 @@
 import { Fragment, useCallback, useEffect } from "react";
-import { Observer, useLocalObservable } from "mobx-react-lite";
 import { runInAction } from "mobx";
-import { Ellipsis, Space, Tag } from "antd-mobile";
-import { FullHeight, FullHeightAuto, FullHeightFix, FullWidth } from "@/components/style";
-import { useStore } from "@/contexts/index.js";
-import Nav from "@/components/Nav";
-import Acon from "@/components/Acon";
-import apis from "@/apis";
+import { Observer, useLocalObservable } from "mobx-react-lite";
+import { apis, readableTime, useRouter, store } from '@/global.js';
+import { Space, Tag } from "antd-mobile";
+import { Acon, Nav, SafeArea, FullHeight, FullHeightAuto, FullHeightFix, FullWidth } from "@/components";
 import styled from "styled-components";
-import { default as dayjs } from "dayjs";
-import SafeArea from "@/components/SafeArea/index.js";
-import { readableTime } from "@/utils";
 
 const Title = styled.h1`
   font-size: 1.4em;
@@ -20,7 +14,6 @@ const Title = styled.h1`
 `
 
 export default function PostPage(props) {
-  const store = useStore();
   const local = useLocalObservable(() => ({
     resource: null,
     loading: true,

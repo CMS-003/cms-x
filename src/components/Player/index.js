@@ -1,13 +1,11 @@
 import { useCallback, useRef } from "react";
 import ReactPlayer from 'react-player'
 import { Observer, useLocalObservable } from "mobx-react-lite";
-import { useGesture, useDrag } from '@use-gesture/react'
-import Visible from "@/components/Visible";
+import { useDrag } from '@use-gesture/react'
+import { store, storage, useRouter } from '@/global.js'
+import { Acon, Visible } from '@/components'
 import styled from "styled-components";
-import { useRouter, useStore } from "@/contexts";
-import Acon from '../Acon';
 import { formatDuration, isPWAorMobile } from "@/utils";
-import storage from "@/utils/storage";
 
 import svgSuspended from '@/theme/icon/suspended-fill.svg'
 import svgPlay from '@/theme/icon/play-fill.svg'
@@ -160,7 +158,6 @@ export default function Player({
   looktime,
   onTimeUpdate,
 }) {
-  const store = useStore();
   const router = useRouter()
   const containerRef = useRef(null)
   const controlRef = useRef(null)

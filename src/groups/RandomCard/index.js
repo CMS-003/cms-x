@@ -1,7 +1,7 @@
 
 import { Observer } from 'mobx-react-lite'
 import styled from 'styled-components'
-import Acon from '../../components/Acon'
+import { Acon } from '@/components'
 
 const Header = styled.div`
  font-weight: 600;

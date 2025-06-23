@@ -1,14 +1,13 @@
-import { Observer, useLocalObservable } from "mobx-react-lite";
-import { Fragment, useCallback, useEffect } from "react";
-import { useEffectOnce } from "react-use";
+import { useCallback, useEffect } from "react";
 import apis from '@/apis'
-import { CenterXY } from "@/components/style.js";
+import { CenterXY } from "@/components";
 import { SpinLoading } from 'antd-mobile'
 import { action } from "mobx";
+import { Observer, useLocalObservable } from "mobx-react-lite";
 
-import dynamic from "./dynamic/index.js";
-import channel from "./channel/index.js";
-import mine from "./mine/index.js";
+import dynamic from "./dynamic";
+import channel from "./channel";
+import mine from "./mine";
 import timeline from "./timeline";
 import notify from "./notify";
 import followee from "./followee";
@@ -16,12 +15,12 @@ import search from "./search";
 import chat from "./chat";
 import user from "./user";
 
-import article from "./article/index.js";
-import video from "./video/index.js";
-import post from "./post/index.js";
-import gallery from "./gallery/index.js";
+import article from "./article";
+import video from "./video";
+import post from "./post";
+import gallery from "./gallery";
 
-import SignIn from "@/pages/SignIn/index.js";
+import SignIn from "@/pages/SignIn";
 
 export const Templates = {
   dynamic,

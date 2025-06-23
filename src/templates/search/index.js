@@ -1,12 +1,9 @@
-import { FullHeight, FullHeightAuto } from "@/components/style.js";
 import { Observer } from "mobx-react-lite";
-import RouterContext from "@/contexts/router.js";
-import { useContext } from "react";
+import { useRouter } from '@/global.js';
 import styled from "styled-components";
 import Auto from "@/groups/auto.js";
-import SafeArea from "@/components/SafeArea/index.js";
-import Nav from "@/components/Nav/index.js";
 import { Input } from "antd-mobile";
+import { Nav, SafeArea, FullHeight, FullHeightAuto } from "@/components";
 
 const Btn = styled.div`
   background-color: lightblue;
@@ -18,7 +15,7 @@ const Btn = styled.div`
 `
 
 export default function Search({ template }) {
-  const router = useContext(RouterContext)
+  const router = useRouter()
   return <Observer>{() => (
     <SafeArea>
       <FullHeight>

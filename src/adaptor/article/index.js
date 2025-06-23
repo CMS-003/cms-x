@@ -1,11 +1,9 @@
-import { useContext } from 'react';
 import { Observer } from 'mobx-react-lite';
-import styled from 'styled-components'
-import RouterContext from '@/contexts/router.js';
+import { useRouter } from '@/global.js'
 import { ItemWrap, ItemTitle, Uname } from '../style'
 
 export default function Article({ item }) {
-  const router = useContext(RouterContext);
+  const router = useRouter()
   return <Observer>{() => (
     <ItemWrap onClick={() => {
       router.pushView('article', { id: item._id })

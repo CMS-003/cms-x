@@ -1,10 +1,9 @@
 import { Observer } from 'mobx-react-lite';
-import { useStore, useRouter } from '@/contexts';
+import { store, useRouter } from '@/global.js';
 import { ItemWrap, ItemImage, ItemTitle, Uname } from '../style'
 
 export default function VideoHalf({ item }) {
   const router = useRouter();
-  const store = useStore();
   return <Observer>{() => (
     <ItemWrap onClick={() => {
       router.pushView('video', { id: item._id })

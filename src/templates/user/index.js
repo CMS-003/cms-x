@@ -1,18 +1,13 @@
-import { AlignCenter, FullHeight, FullHeightAuto, FullWidth, FullWidthAuto } from "@/components/style.js";
-import { Observer, useLocalObservable, } from "mobx-react-lite";
-import RouterContext from "@/contexts/router.js";
 import { useCallback, useContext, useEffect } from "react";
-import { Skeleton, Button } from 'antd-mobile'
-import shttp from "@/utils/shttp.js";
 import dayjs from "dayjs";
-import Nav from "@/components/Nav/index.js";
 import { runInAction } from "mobx";
-import apis from "@/apis/index.js";
-import store from "@/store/index.js";
-import SafeArea from "@/components/SafeArea";
+import { Observer, useLocalObservable, } from "mobx-react-lite";
+import { apis, store, shttp, useRouter } from '@/global.js';
+import { Skeleton, Button } from 'antd-mobile'
+import { Nav, SafeArea, AlignCenter, FullHeight, FullHeightAuto, FullWidth, FullWidthAuto } from "@/components";
 
 export default function User({ template, id }) {
-  const router = useContext(RouterContext)
+  const router = useRouter()
   const local = useLocalObservable(() => ({
     user: null,
     status: 'loading', // success/failure
@@ -56,7 +51,7 @@ export default function User({ template, id }) {
     } else {
       return (
         <SafeArea>
-          <Nav/>
+          <Nav />
           <FullWidth>
             <AlignCenter style={{ width: 50, height: 50, padding: 20 }}>
               <img

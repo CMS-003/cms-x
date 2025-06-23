@@ -1,14 +1,10 @@
-import { FullHeight, FullHeightAuto, FullWidth } from "@/components/style";
-import { Observer, useLocalObservable } from "mobx-react-lite";
 import { useCallback, useEffect, useRef } from "react";
-import apis from "@/apis";
-import { useStore } from "@/contexts/index.js";
-import SafeArea from "@/components/SafeArea";
-import Acon from "@/components/Acon";
-import { Input } from "antd-mobile";
-import Nav from "@/components/Nav/index.js";
+import { apis, store } from '@/global.js';
 import { runInAction } from "mobx";
+import { Observer, useLocalObservable } from "mobx-react-lite";
 import styled from "styled-components";
+import { Input } from "antd-mobile";
+import { Acon, SafeArea, Nav, FullHeightAuto, FullWidth } from '@/components';
 
 const MsgItem = styled.div`
   display: flex;
@@ -58,7 +54,6 @@ function MessageContent({ isSelf, type, data }) {
 }
 
 export default function ChatPage(props) {
-  const store = useStore();
   const local = useLocalObservable(() => ({
     chat_id: props.id,
     chat: null,

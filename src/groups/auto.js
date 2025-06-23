@@ -1,8 +1,8 @@
+import { action, runInAction, toJS } from "mobx";
 import { Observer, useLocalObservable, } from "mobx-react-lite";
 import { PullToRefresh, List, InfiniteScroll } from 'antd-mobile'
 import Widgets from './index.js'
-import { action, runInAction, toJS } from "mobx";
-import apis from "@/apis/index.js";
+import { apis } from '@/global.js';
 import { get } from "lodash";
 
 export function Component({ self }) {

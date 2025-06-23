@@ -1,11 +1,9 @@
-import React, { Fragment, useContext, useMemo, memo, useEffect } from 'react';
-import { Loading, TabBar } from "antd-mobile";
-import { Observer, useLocalObservable } from "mobx-react-lite";
-import Acon from '@/components/Acon/index.js';
-import Template from '@/templates/index.js';
+import React, { Fragment, useEffect } from 'react';
 import { runInAction } from 'mobx';
-import { CenterXY } from '@/components/style.js';
-import SafeArea from '@/components/SafeArea';
+import { Observer, useLocalObservable } from "mobx-react-lite";
+import Template from '@/templates';
+import { Acon, SafeArea, CenterXY } from '@/components';
+import { Loading, TabBar } from "antd-mobile";
 
 export function Hidden({ visible, children }) {
   return (

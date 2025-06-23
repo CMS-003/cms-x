@@ -1,20 +1,11 @@
-import { FullHeight, FullHeightAuto, FullHeightFix, FullWidth, FullWidthAuto, FullWidthFix } from "@/components/style";
-import { Observer, useLocalObservable } from "mobx-react-lite";
 import { Fragment, useCallback, useEffect, useRef, useState } from "react";
-import apis from "@/apis";
-import Player from "@/components/Player";
-import { runInAction } from "mobx";
-import styled from "styled-components";
-import { useStore } from "@/contexts/index.js";
-import Visible from "@/components/Visible";
-import { Ellipsis, Space, Tag, Tabs, Swiper, Empty, Input, Popup } from "antd-mobile";
-import ResourceItem from "@/adaptor/index.js";
 import { default as dayjs } from "dayjs";
-import Acon from "@/components/Acon";
-import { readableTime } from "@/utils";
-import SafeArea from "@/components/SafeArea";
-import PageList from "@/components/List/index.js";
-import shttp from "@/utils/shttp.js";
+import { runInAction } from "mobx";
+import { Observer, useLocalObservable } from "mobx-react-lite";
+import styled from "styled-components";
+import { Ellipsis, Space, Tag, Tabs, Swiper, Empty, Input, Popup } from "antd-mobile";
+import { apis, store, ResourceItem, readableTime, shttp } from '@/global.js';
+import { Acon, PageList, Player, SafeArea, Visible, FullHeight, FullHeightAuto, FullHeightFix, FullWidth, FullWidthAuto, FullWidthFix } from "@/components";
 
 const Title = styled.h1`
   font-size: 1.4em;
@@ -120,7 +111,6 @@ function CommentReply({ comment }) {
 }
 
 export default function VideoPage(props) {
-  const store = useStore();
   const local = useLocalObservable(() => ({
     resource: null,
     loading: true,
@@ -225,7 +215,7 @@ export default function VideoPage(props) {
   }, [getDetail])
   return <Observer>{() => (
     <SafeArea topBGC="black" bot="0">
-      <FullHeight style={{ position: 'relative' }}>
+      <FullHeight style={{ position: 'relative', overflow: 'hidden' }}>
         <FullHeightFix style={{ flexDirection: 'column', backgroundColor: 'black' }}>
           <Player
             resource={local.resource}

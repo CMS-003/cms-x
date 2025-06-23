@@ -1,10 +1,9 @@
-import React, { Fragment, useContext } from 'react';
-import { Tabs } from 'antd-mobile'
+import React from 'react';
 import { Observer, useLocalObservable } from "mobx-react-lite";
-import RouterContext from '../../contexts/router.js';
+import { useRouter } from '@/global.js';
 
 export default function TabItem({ self, children }) {
-  const router = useContext(RouterContext);
+  const router = useRouter()
   const local = useLocalObservable(() => ({
     template_id: self.attrs.template_id,
   }));

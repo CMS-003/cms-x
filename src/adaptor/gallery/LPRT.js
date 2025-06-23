@@ -1,11 +1,9 @@
 import { Observer } from 'mobx-react-lite';
 import { ItemWrap, ItemTitle, Uname } from '../style'
-import store from '@/store';
-import { useStore, useRouter } from '@/contexts';
+import { store, useRouter } from '@/global.js';
 
 export default function Gallery({ item }) {
   const router = useRouter();
-  const store = useStore();
   return <Observer>{() => (
     <ItemWrap style={{ flexDirection: 'row' }} onClick={() => {
       router.pushView('gallery', { id: item._id })

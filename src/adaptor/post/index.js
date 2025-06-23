@@ -1,10 +1,8 @@
 import { Observer } from 'mobx-react-lite';
 import { ItemWrap, Uname } from '../style'
-import store from '@/store';
-import { useStore, useRouter } from '@/contexts';
+import { store, useRouter, readableTime } from '@/global.js'
 import styled from 'styled-components';
-import { FullWidth } from '@/components/style';
-import { readableTime } from '@/utils';
+import { FullWidth } from '@/components';
 
 export const ItemTitle = styled.div`
   overflow: hidden; 
@@ -41,7 +39,6 @@ const ScrollItem = styled.div`
 `
 export default function Post({ item }) {
   const router = useRouter();
-  const store = useStore();
   return <Observer>{() => (
     <ItemWrap onClick={() => {
       router.pushView('post', { id: item._id })

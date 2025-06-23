@@ -1,6 +1,6 @@
-import { useStore } from "@/contexts/index.js";
+import { store } from "@/global.js";
 import { Observer } from "mobx-react-lite";
-import { FullHeight, FullHeightAuto, FullHeightFix } from "../style.js";
+import { FullHeight, FullHeightFix } from "@/components";
 
 export default function SafeArea({
   height = '100%',
@@ -10,7 +10,6 @@ export default function SafeArea({
   botBGC = 'transparent',
   children,
 }) {
-  const store = useStore()
   return <Observer>{() => (
     <FullHeight style={{
       position: 'relative',

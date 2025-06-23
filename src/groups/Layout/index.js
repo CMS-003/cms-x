@@ -1,6 +1,6 @@
 
 import { Observer } from 'mobx-react-lite'
-import { useRouter } from "@/contexts/index.js";
+import { useRouter } from '@/global.js';
 
 export default function Layout({ self, children }) {
   const router = useRouter();

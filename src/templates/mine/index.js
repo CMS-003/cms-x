@@ -1,15 +1,10 @@
-import { AlignCenter, Center, FullHeight, FullHeightAuto, FullHeightFix, FullWidth, FullWidthAuto } from "@/components/style.js";
-import { Observer } from "mobx-react-lite";
-import store from "@/store/index.js";
-import { Button, List } from "antd-mobile";
-import RouterContext from "@/contexts/router.js";
-import { useContext } from "react";
 import { useNavigate } from "react-router";
+import { apis, store, useRouter } from '@/global.js';
+import { Button, List } from "antd-mobile";
 import styled from "styled-components";
+import { Observer } from "mobx-react-lite";
 import Auto from "@/groups/auto.js";
-import apis from "@/apis/index.js";
-import Acon from "@/components/Acon";
-import { CenterXY } from "@/components/style.js";
+import { Acon, AlignCenter, CenterXY, FullHeight, FullHeightFix, FullWidth, FullWidthAuto } from "@/components";
 
 const Btn = styled.div`
   background-color: #03c1ff;
@@ -21,7 +16,7 @@ const Btn = styled.div`
 `
 
 export default function Mine({ template }) {
-  const router = useContext(RouterContext)
+  const router = useRouter()
   const navigate = useNavigate()
   return <Observer>{() => (
     <FullHeight>

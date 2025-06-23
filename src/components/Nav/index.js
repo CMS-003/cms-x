@@ -1,12 +1,9 @@
-import React, { useContext } from 'react';
-import { AlignSide, CenterXY } from '../style';
-import RouterContext from '@/contexts/router';
-import StoreContext from '@/contexts/store';
-import Acon from '../Acon';
+import React from 'react';
+import { useRouter } from '@/global.js';
+import { Acon, AlignSide, CenterXY } from '@/components';
 
 export default function Nav({ style, title = '', align = 'center', left, right }) {
-  const router = useContext(RouterContext)
-  const store = useContext(StoreContext)
+  const router = useRouter()
   return (
     <AlignSide
       style={{

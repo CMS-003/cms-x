@@ -1,13 +1,10 @@
 import { Fragment, useCallback, useEffect } from "react";
 import { Observer, useLocalObservable } from "mobx-react-lite";
-import { Ellipsis, Space, Tag } from "antd-mobile";
-import { FullHeight, FullHeightAuto, FullHeightFix, FullWidth } from "@/components/style";
-import { useStore } from "@/contexts/index.js";
-import Nav from "@/components/Nav";
-import apis from "@/apis";
-import styled from "styled-components";
 import { default as dayjs } from "dayjs";
-import SafeArea from "@/components/SafeArea/index.js";
+import styled from "styled-components";
+import { Space, Tag } from "antd-mobile";
+import { apis, store, } from '@/global.js';
+import { Nav, SafeArea, FullHeight, FullHeightAuto, FullHeightFix, FullWidth } from "@/components";
 
 const Title = styled.h1`
   font-size: 1.4em;
@@ -17,7 +14,6 @@ const Title = styled.h1`
 `
 
 export default function GalleryPage(props) {
-  const store = useStore();
   const local = useLocalObservable(() => ({
     resource: null,
     loading: true,
@@ -59,7 +55,7 @@ export default function GalleryPage(props) {
           {local.resource ? <Fragment>
             <span style={{ padding: '0 8px 8px', display: 'inline-block' }}>{dayjs(local.resource.publishedAt).format('YYYY年MM月日DD HH:mm')}</span>
             {local.resource.images.map((image, i) => (
-              <img key={i} src={store.app.imageLine + image.path} style={{ width: '100%' }} alt=""/>
+              <img key={i} src={store.app.imageLine + image.path} style={{ width: '100%' }} alt="" />
             ))}
           </Fragment> : null}
         </FullHeightAuto>

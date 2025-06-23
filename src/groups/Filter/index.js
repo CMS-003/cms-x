@@ -1,11 +1,10 @@
-import { chunk } from 'lodash'
 import { Fragment, useCallback, useEffect } from 'react';
-import { action, toJS } from 'mobx';
+import { chunk } from 'lodash'
+import { toJS } from 'mobx';
 import { Observer, useLocalObservable } from 'mobx-react-lite';
 import styled from 'styled-components';
-import { FullHeight, FullHeightAuto, FullHeightFix } from '../../components/style'
-import apis from '@/apis/index.js';
-import List from '@/components/List';
+import { apis } from '@/global.js';
+import { PageList, FullHeightFix } from '@/components';
 
 const Wrap = styled.div`
   display: flex;
@@ -132,7 +131,7 @@ export default function CFilter({ self }) {
               ))}
             </ShortWrap>
           </div>
-          <List
+          <PageList
             display={self.attrs.display}
             multi={self.attrs.columns !== 1}
             items={chunk(local.resources, self.attrs.columns)}

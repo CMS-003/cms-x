@@ -1,8 +1,7 @@
 import { Observer } from "mobx-react-lite";
-import Acon from '../../components/Acon'
-import { useRouter } from "@/contexts/index.js";
-import store from "@/store";
 import { Dialog } from "antd-mobile";
+import { store, useRouter } from '@/global.js';
+import { Acon } from '../../components'
 
 export default function Icon({ self }) {
   const router = useRouter();

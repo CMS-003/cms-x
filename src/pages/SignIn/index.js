@@ -1,13 +1,9 @@
-import { AlignCenter, FullHeight, FullHeightAuto, FullHeightFix } from "@/components/style.js";
-import { Button, Input, List, } from "antd-mobile";
-import { Observer, useLocalObservable } from "mobx-react-lite";
-import Acon from "@/components/Acon/index.js";
-import apis from "@/apis/index.js";
-import store from "@/store/index.js";
 import { useNavigate } from "react-router";
-import { useRouter } from "@/contexts/index.js";
 import styled from "styled-components";
-import SafeArea from "@/components/SafeArea/index.js";
+import { Observer, useLocalObservable } from "mobx-react-lite";
+import { apis, store, useRouter } from '@/global.js';
+import { Input, List, } from "antd-mobile";
+import { Acon, SafeArea, AlignCenter, FullHeight, FullHeightAuto, FullHeightFix } from '@/components';
 
 const Btn = styled.div`
   background-color: #62cff3;

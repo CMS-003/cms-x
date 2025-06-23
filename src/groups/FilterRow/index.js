@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-import { Component } from '../auto'
 import { Observer } from 'mobx-react-lite'
 
 const Wrap = styled.div`

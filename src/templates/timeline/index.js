@@ -1,18 +1,9 @@
-import { Observer, useLocalObservable } from "mobx-react-lite";
-import { useRouter } from "@/contexts/index.js";
-import SafeArea from "@/components/SafeArea/index.js";
-import Acon from "@/components/Acon";
-import Nav from "@/components/Nav";
-import { FullHeight, FullHeightAuto, FullWidth, FullWidthAuto, FullWidthFix } from "@/components/style";
-import PageList from "@/components/List/index.js";
 import { useCallback, useEffect } from "react";
-import shttp from '../../utils/shttp.js'
-import { Button } from "antd-mobile";
-import apis from "@/apis/index.js";
-import { runInAction } from "mobx";
-import styled from 'styled-components'
-import ResourceItem from "@/adaptor/index.js";
 import _ from "lodash";
+import styled from 'styled-components'
+import { Observer, useLocalObservable } from "mobx-react-lite";
+import { shttp, useRouter } from '@/global.js';
+import { PageList, FullHeight, FullHeightAuto } from "@/components";
 
 const Header = styled.div`
  font-weight: 600;

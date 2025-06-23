@@ -1,9 +1,9 @@
-import React, { Fragment, useContext } from 'react';
+import React from 'react';
 import { Observer } from "mobx-react-lite";
 import { Tabs } from 'antd-mobile'
-import RouterContext from '../../contexts/router.js';
 import { Component } from '../auto'
 import { toJS } from 'mobx';
+import { useRouter } from '@/global.js';
 import styled from 'styled-components';
 
 const NotFound = styled.div`
@@ -11,7 +11,7 @@ const NotFound = styled.div`
 `
 
 export default function Tab({ self }) {
-  const router = useContext(RouterContext);
+  const router = useRouter()
   return <Observer>{() => (
     <div style={toJS(self.style)}>
       <Tabs style={{ '--content-padding': 0, '--title-font-size': '16px', height: '100%', display: 'flex', flexDirection: 'column' }} className='sticky-tabs-header'>

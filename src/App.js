@@ -3,7 +3,7 @@ import { useCallback } from 'react';
 import store from './store';
 import apis from './apis'
 import { useEffectOnce } from 'react-use';
-import { CenterXY } from './components/style.js'
+import { CenterXY } from './components'
 import { Button } from 'antd-mobile';
 import Router from './router.js'
 

@@ -1,7 +1,5 @@
-import { FullHeight, FullHeightAuto, FullHeightFix } from "@/components/style";
 import { Observer } from "mobx-react-lite";
-import Nav from "@/components/Nav";
-import SafeArea from "@/components/SafeArea/index.js";
+import { Nav, SafeArea, FullHeight, FullHeightAuto, FullHeightFix } from '@/components';
 
 export default function ArticlePage() {
   return <Observer>{() => (

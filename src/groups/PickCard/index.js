@@ -1,7 +1,7 @@
+import { Fragment } from 'react'
 import { Observer, useLocalObservable } from "mobx-react-lite";
 import styled from 'styled-components'
-import { Fragment } from 'react'
-import ResourceItem from "@/adaptor";
+import { ResourceItem } from '@/global.js';
 
 const Header = styled.div`
  font-weight: 600;
