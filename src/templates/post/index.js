@@ -46,8 +46,8 @@ export default function PostPage(props) {
         local.resource.counter.collected = !collected
       })
       const resp = collected
-        ? await apis.fetchAPI('post', '/gw/manager/api/gatling/pJFc2GC9W', { resource_id: local.resource._id })
-        : await apis.fetchAPI('post', '/gw/manager/api/gatling/jw-KAgBzI', {
+        ? await apis.fetchAPI('post', '/gw/api/gatling/pJFc2GC9W', { resource_id: local.resource._id })
+        : await apis.fetchAPI('post', '/gw/api/gatling/jw-KAgBzI', {
           resource_id: local.resource._id,
           resource_type: local.resource.type,
           title: local.resource.title,

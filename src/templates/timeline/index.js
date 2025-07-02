@@ -93,7 +93,7 @@ export default function Followee({ template }) {
     try {
       local.setData('loading', true)
       const resp = await shttp({
-        url: `/gw/manager/api/v1/public/timeline?page=${local.page}&size=${local.size}`,
+        url: `/gw/api/v1/public/timeline?page=${local.page}&size=${local.size}`,
       });
       if (resp.code === 0) {
         local.setData('hasMore', resp.data.items.length === local.size)

@@ -1,16 +1,15 @@
 import { Observer } from 'mobx-react-lite';
-import { useRouter } from '@/global.js'
-import { ItemWrap, ItemTitle, Uname } from '../style'
+import Card from './card.js'
+import LPRT from './lprt.js'
 
-export default function Article({ item }) {
-  const router = useRouter()
-  return <Observer>{() => (
-    <ItemWrap onClick={() => {
-      router.pushView('article', { id: item._id })
-    }}>
-      <div style={{ width: 120, height: 90, backgroundImage: `url(${"http://192.168.0.124" + (item.cover || item.poster || item.thumbnail || '/images/poster/nocover.jpg')})`, backgroundSize: 'cover', backgroundPosition: 'center center' }}></div>
-      <ItemTitle >{item.title}</ItemTitle>
-      <Uname>{item.uname || '匿名'}</Uname>
-    </ItemWrap>
-  )}</Observer>
+export default function Video({ item, type }) {
+  return <Observer>{() => {
+    if (type === 'card') {
+      return <Card item={item} />
+    } else if (type === 'lprt') {
+      return <LPRT item={item} />
+    } else {
+      return <LPRT item={item} />
+    }
+  }}</Observer>
 }

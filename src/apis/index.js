@@ -25,31 +25,31 @@ function getApi(rawUrl, additionalQuery) {
 
 function boot() {
   return shttp({
-    url: '/gw/manager/api/v1/public/boot/' + APP
+    url: '/gw/api/v1/public/boot/' + APP
   })
 }
 
 function getTemplate(id) {
   return shttp({
-    url: `/gw/manager/api/v1/public/page/${id}`,
+    url: `/gw/api/v1/public/page/${id}`,
   });
 }
 
 function getPageComponents(id, page = 1, size = 8) {
   return shttp({
-    url: `/gw/manager/api/v1/public/page/${id}/components?page=${page}&size=${size}`,
+    url: `/gw/api/v1/public/page/${id}/components?page=${page}&size=${size}`,
   });
 }
 
 function getResourceDetail(id) {
   return shttp({
-    url: `/gw/manager/api/v1/public/resource/${id}`,
+    url: `/gw/api/v1/public/resource/${id}`,
   });
 }
 
 function getResourceList(query) {
   return shttp({
-    url: `/gw/manager/api/v1/public/${APP}/resources${qs.stringify(query, { addQueryPrefix: true })}`,
+    url: `/gw/api/v1/public/${APP}/resources${qs.stringify(query, { addQueryPrefix: true })}`,
   });
 }
 

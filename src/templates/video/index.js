@@ -155,8 +155,8 @@ export default function VideoPage(props) {
         local.resource.counter.collected = !collected
       })
       const resp = collected
-        ? await apis.fetchAPI('post', '/gw/manager/api/gatling/pJFc2GC9W', { resource_id: local.resource._id })
-        : await apis.fetchAPI('post', '/gw/manager/api/gatling/jw-KAgBzI', {
+        ? await apis.fetchAPI('post', '/gw/api/gatling/pJFc2GC9W', { resource_id: local.resource._id })
+        : await apis.fetchAPI('post', '/gw/api/gatling/jw-KAgBzI', {
           resource_id: local.resource._id,
           resource_type: local.resource.type,
           title: local.resource.title,
@@ -177,7 +177,7 @@ export default function VideoPage(props) {
   }, [])
   const getRecommends = useCallback(async () => {
     try {
-      const resp = await apis.fetchAPI('get', '/gw/manager/api/gatling/XKjvJJ6rV')
+      const resp = await apis.fetchAPI('get', '/gw/api/gatling/XKjvJJ6rV')
       if (resp.code === 0) {
         local.setValue('recommends', resp.data.items);
       }
