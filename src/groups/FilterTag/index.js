@@ -1,7 +1,7 @@
 import { Observer } from 'mobx-react-lite';
 import styled from 'styled-components';
 
-const Tag = styled.span`
+const Tag = styled.div`
   display: inline-block;
   border-radius: 2px;
   padding: 2px 4px;

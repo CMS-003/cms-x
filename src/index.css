@@ -6,15 +6,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
-}
-
-span {
-  text-wrap-mode: initial !important;
-}
-
 html,
 body,
 #root {
@@ -32,6 +23,19 @@ body,
 
 #root.is-mobile {
   height: 100dvh;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+span {
+  text-wrap-mode: initial !important;
+}
+
+img {
+  max-width: 100%;
 }
 
 .am-icon>svg {

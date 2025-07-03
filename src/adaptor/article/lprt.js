@@ -13,7 +13,7 @@ export default function Article({ item }) {
     }}>
       {picture ? <div style={{ width: 80, height: 60, backgroundImage: `url(${"http://192.168.0.124" + (picture || '/images/poster/nocover.jpg')})`, backgroundSize: 'cover', backgroundPosition: 'center center' }}></div> : null}
       <div style={{ flex: 1 }}>
-        <ItemTitle >{item.title}</ItemTitle>
+        <ItemTitle style={{ lineHeight: 1.2 }}>{item.title}</ItemTitle>
         <FullWidth style={{ fontSize: 12, color: 'grey', margin: '0 5px 5px 5px' }}>
           <Uname style={{ padding: 0 }}>{item.uname || '匿名'}</Uname>
           <span style={{ margin: '0 5px' }}>发布于 {readableTime((new Date(item.publishedAt)))}</span>

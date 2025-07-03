@@ -29,7 +29,7 @@ const ShortWrap = styled.div`
   justify-content: center;
   padding: 5px 0;
 `
-const Tag = styled.span`
+const Tag = styled.div`
   display: inline-block;
   border-radius: 2px;
   padding: 2px 4px;
