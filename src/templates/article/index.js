@@ -5,6 +5,7 @@ import { runInAction } from "mobx";
 import { apis, store, } from '@/global.js';
 import { default as dayjs } from "dayjs";
 import { Space, Tag } from "antd-mobile";
+import Comment from "@/components/Comment/index.js";
 
 export default function ArticlePage(props) {
   const local = useLocalObservable(() => ({
@@ -67,7 +68,7 @@ export default function ArticlePage(props) {
       <FullHeight>
         <FullHeightFix>
           <Nav
-            title={local.resource ? local.resource.title : ''}
+            title={''}
             align="left"
             style={{ color: 'initial', backgroundColor: 'transparent' }}
             right={local.resource
@@ -77,19 +78,21 @@ export default function ArticlePage(props) {
         </FullHeightFix>
         <FullHeightAuto>
           {local.resource ? <Fragment>
+            <h1 style={{ fontSize: 16, margin: 10 }}>{local.resource.title}</h1>
             <span style={{ padding: '0 8px 8px', display: 'inline-block' }}>{dayjs(local.resource.publishedAt).format('YYYY年MM月日DD HH:mm')}</span>
+            <Space>
+              {(local?.resource?.tags || []).map(tag => (
+                <Tag key={tag} round color='#2db7f5' style={{ padding: '4px 6px' }}>
+                  {tag}
+                </Tag>
+              ))}
+            </Space>
             <div style={{ overflow: 'hidden', padding: '0 5px' }} dangerouslySetInnerHTML={{ __html: local.resource.content }}></div>
           </Fragment> : null}
+          <div>
+            <Comment id={props.id} />
+          </div>
         </FullHeightAuto>
-        <FullWidth style={{ alignItems: 'baseline', overflow: 'auto', margin: 10 }}>
-          <Space>
-            {(local?.resource?.tags || []).map(tag => (
-              <Tag key={tag} round color='#2db7f5' style={{ padding: '4px 6px' }}>
-                {tag}
-              </Tag>
-            ))}
-          </Space>
-        </FullWidth>
       </FullHeight>
     </SafeArea>
   )}</Observer>
