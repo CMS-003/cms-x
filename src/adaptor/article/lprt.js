@@ -11,7 +11,7 @@ export default function Article({ item }) {
     <ItemWrap style={{ flexDirection: 'row', alignItems: 'center' }} onClick={() => {
       router.pushView('article', { id: item._id })
     }}>
-      {picture ? <div style={{ width: 80, height: 60, backgroundImage: `url(${"http://192.168.0.124" + (picture || '/images/poster/nocover.jpg')})`, backgroundSize: 'cover', backgroundPosition: 'center center' }}></div> : null}
+      {picture ? <div style={{ width: 80, height: 60, backgroundImage: `url(${(picture || '/images/poster/nocover.jpg')})`, backgroundSize: 'cover', backgroundPosition: 'center center' }}></div> : null}
       <div style={{ flex: 1 }}>
         <ItemTitle style={{ lineHeight: 1.2 }}>{item.title}</ItemTitle>
         <FullWidth style={{ fontSize: 12, color: 'grey', margin: '0 5px 5px 5px' }}>
