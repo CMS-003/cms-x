@@ -14,6 +14,7 @@ const Title = styled.h1`
 `
 
 export default function PostPage(props) {
+  const router = useRouter()
   const local = useLocalObservable(() => ({
     resource: null,
     loading: true,
@@ -84,7 +85,12 @@ export default function PostPage(props) {
         </FullHeightFix>
         <FullHeightAuto style={{ paddingBottom: 'var(--safe-padding-bottom)' }}>
           {local.resource ? <Fragment>
-            <span style={{ padding: '8px 8px', display: 'inline-block' }}>{local.resource.uname || '匿名'}&nbsp;发布于&nbsp;{readableTime(new Date(local.resource.publishedAt))}</span>
+            <span style={{ padding: '8px 8px', display: 'inline-block' }}>
+              <span onClick={() => {
+                router.pushView('user', { id: local.resource.uid })
+              }}>{local.resource.uname || '匿名'}</span>
+              &nbsp;发布于&nbsp;{readableTime(new Date(local.resource.publishedAt))}
+            </span>
             <p style={{ padding: '0 10px' }} dangerouslySetInnerHTML={{ __html: local.resource.content }}></p>
             {local.resource.images.map(image => (
               <img key={image._id} src={store.app.imageLine + image.path} style={{ width: '100%' }} alt="" />

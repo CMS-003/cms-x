@@ -30,10 +30,6 @@ code {
     monospace;
 }
 
-span {
-  text-wrap-mode: initial !important;
-}
-
 img {
   max-width: 100%;
 }
