@@ -123,6 +123,8 @@ export default function VideoPage(props) {
     pop_comment: null,
     isComposing: false,
     focused: false,
+    looktime: 0,
+    latest_time: 0,
     setValue: function (key, value) {
       local[key] = value;
     }
@@ -136,6 +138,9 @@ export default function VideoPage(props) {
       if (resp && resp.code === 0) {
         local.setValue('resource', resp.data)
         local.setValue('video', resp.data.videos[0] || null)
+        if (resp.data.detail) {
+          local.setValue('looktime', resp.data.detail.watched || 0)
+        }
         getRecommends();
         getComments();
       } else {
@@ -212,6 +217,14 @@ export default function VideoPage(props) {
   ];
   useEffect(() => {
     getDetail();
+    return () => {
+      apis.createHistory({
+        resource_id: props.id,
+        resource_type: local.resource.tyep,
+        total: local.resource.size,
+        watched: local.latest_time,
+      })
+    }
   }, [getDetail])
   return <Observer>{() => (
     <SafeArea topBGC="black" bot="0">
@@ -220,7 +233,10 @@ export default function VideoPage(props) {
           <Player
             resource={local.resource}
             video={local.video}
-            looktime={0}
+            looktime={local.looktime}
+            onTimeUpdate={t => {
+              local.latest_time = t
+            }}
             type="mp4"
           />
         </FullHeightFix>

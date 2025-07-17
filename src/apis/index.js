@@ -118,6 +118,13 @@ async function toggleFollow(follow, user_id) {
   }
 }
 
+async function createHistory(data) {
+  return shttp.post('/gw/api/v1/public/history', data)
+}
+async function removeHistory(id) {
+  return shttp.delete(`/gw/api/v1/public/history/${id}`);
+}
+
 const apis = {
   getApi,
   boot,
@@ -139,6 +146,8 @@ const apis = {
   getMessages,
   sendMessage,
   toggleFollow,
+  createHistory,
+  removeHistory,
 }
 
 export default apis;

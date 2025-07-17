@@ -342,7 +342,7 @@ export default function Player({
             }
           }}
           onStart={(e) => {
-            console.log(e, 'onstart')
+            console.log(e, 'onstart', looktime)
             if (looktime) {
               local.setValue('showRecover', true)
               setTimeout(() => {
