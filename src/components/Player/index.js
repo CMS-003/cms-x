@@ -61,6 +61,8 @@ const BG = styled.div`
   top: 0;
   width: 100%;
   height: 100%;
+  filter: blur(10px);
+  overflow: hidden;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -286,7 +288,9 @@ export default function Player({
       }}>
       <div style={{
         position: 'relative',
-        width: 'calc(100% - env(safe-area-inset-left) - env(safe-area-inset-right))',
+        width: '100vw',
+        paddingLeft: 'env(safe-area-inset-left)',
+        paddingRight: 'env(safe-area-inset-right)',
         boxSizing: 'border-box',
         display: 'flex',
         justifyContent: 'center',

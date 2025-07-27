@@ -96,7 +96,7 @@ export default function PostPage(props) {
               <img key={image._id} src={store.app.imageLine + image.path} style={{ width: '100%' }} alt="" />
             ))}
             {local.resource.videos.map(video => (
-              <video key={video._id} src={store.app.videoLine + video.path} controls style={{ width: '100%' }} />
+              <video key={video._id} src={store.app.videoLine + video.path} playsInline={true} controls style={{ width: '100%' }} />
             ))}
             {local.resource.tags.length ? <FullWidth style={{ alignItems: 'baseline', overflow: 'auto', margin: 10 }}>
               <Space>

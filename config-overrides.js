@@ -30,12 +30,26 @@ const devServerConfig = overrideDevServer(
     // open: true,
     hot: true,
     proxy: {
+      // '/gw/express': {
+      //   target: 'http://127.0.0.1:8093/',
+      //   // target: 'http://localhost:3333/',
+      //   pathRewrite: { '^/gw/express': '' },
+      //   changeOrigin: true,
+      // },
       '/gw': {
-        target: 'https://u67631x482.vicp.fun',
+        target: 'http://192.168.0.124/',
         changeOrigin: true,
       },
       '/images': {
-        target: 'https://u67631x482.vicp.fun/',
+        target: 'http://192.168.0.124',
+        changeOrigin: true,
+      },
+      '/upload': {
+        target: 'http://192.168.0.124',
+        changeOrigin: true,
+      },
+      '/proxy': {
+        target: 'http://192.168.0.124',
         changeOrigin: true,
       },
     },

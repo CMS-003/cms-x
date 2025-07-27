@@ -51,10 +51,10 @@ export default function Post({ item }) {
       </FullWidth>
       {item.title || item.content ? <ItemTitle >{item.title || item.content}</ItemTitle> : null}
       <ScrollWrap>
-        {item.images.map(image => (
+        {item.images && item.images.map(image => (
           <div key={image._id} style={{ width: 120, marginLeft: 10, height: 90, backgroundColor: 'black', backgroundImage: `url(${store.app.imageLine + (image.path || '/images/poster/nocover.jpg')})`, backgroundSize: 'cover', backgroundPosition: 'center center' }}></div>
         ))}
-        {item.videos.map(video => (
+        {item.videos && item.videos.map(video => (
           <video key={video._id} style={{ width: 120, marginLeft: 10, height: 90, backgroundColor: 'black', backgroundSize: 'cover', backgroundPosition: 'center center' }} preload='metadata' src={`${store.app.videoLine + (video.path || '/images/poster/nocover.jpg')}`}></video>
         ))}
       </ScrollWrap>
