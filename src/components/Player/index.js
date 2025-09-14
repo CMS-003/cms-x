@@ -2,8 +2,8 @@ import { useCallback, useRef } from "react";
 import ReactPlayer from 'react-player'
 import { Observer, useLocalObservable } from "mobx-react-lite";
 import { useDrag } from '@use-gesture/react'
-import { store, storage, useRouter } from '@/global.js'
-import { Acon, Visible } from '@/components'
+import { store, storage, useRouter, apis } from '@/global.js'
+import { Acon, AlignAside, Visible } from '@/components'
 import styled from "styled-components";
 import { formatDuration, isPWAorMobile } from "@/utils";
 
@@ -12,6 +12,7 @@ import svgPlay from '@/theme/icon/play-fill.svg'
 import svgQuit from '@/theme/icon/quit-fullscreen.svg'
 import svgFull from '@/theme/icon/fullscreen.svg'
 import svgLoading from '@/theme/icon/loading.svg'
+import { Modal } from "antd-mobile";
 
 const VIDEO_STATUS = {
   CANPLAY: 'CANPLAY',
@@ -395,13 +396,24 @@ export default function Player({
         />}
         {local.showControl && (
           <VBack>
-            <Acon icon="LeftOutlined" color='#fff' style={{ fontSize: 18, padding: '0 10px' }} onClick={() => {
-              if (local.fullscreen) {
-                local.setValue('fullscreen', false)
-              } else {
-                router.backView()
-              }
-            }} />
+            <AlignAside style={{ fontSize: 18, width: '100%' }}>
+              <Acon icon="LeftOutlined" color='#fff' style={{ padding: '0 10px' }} onClick={() => {
+                if (local.fullscreen) {
+                  local.setValue('fullscreen', false)
+                } else {
+                  router.backView()
+                }
+              }} />
+              <div style={{ paddingRight: 15 }}>
+                <Acon icon='InfoCircleOutlined' color={'#fff'} onClick={() => {
+                  apis.fetchAPI('post', 'http://192.168.0.124:7777/ffmpeg/video-info-full', { filepath: video.path }).then(resp => {
+                    if (resp.code === 0) {
+                      Modal.show({ content: <pre style={{ margin: 0 }}>{JSON.stringify(resp.data, null, 2)}</pre>, closeOnMaskClick: true })
+                    }
+                  })
+                }} />
+              </div>
+            </AlignAside>
           </VBack>
         )}
         <Visible visible={!local.controls}>

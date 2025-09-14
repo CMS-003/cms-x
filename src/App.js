@@ -57,6 +57,8 @@ function App() {
             style={{ width: 150 }}
             type="primary"
             onClick={() => {
+              store.user.setAccessToken('');
+              store.user.setRefreshToken('');
               biu();
               local.isError = false;
             }}
