@@ -1,10 +1,9 @@
-import { useCallback, useRef } from "react";
+import { useCallback, useRef, useState } from "react";
 import ReactPlayer from 'react-player'
 import { Observer, useLocalObservable } from "mobx-react-lite";
-import { useDrag } from '@use-gesture/react'
+import { useGesture, useDrag } from '@use-gesture/react'
 import { store, storage, useRouter, apis } from '@/global.js'
 import { Acon, AlignAside, Visible } from '@/components'
-import styled from "styled-components";
 import { formatDuration, isPWAorMobile } from "@/utils";
 
 import svgSuspended from '@/theme/icon/suspended-fill.svg'
@@ -13,145 +12,22 @@ import svgQuit from '@/theme/icon/quit-fullscreen.svg'
 import svgFull from '@/theme/icon/fullscreen.svg'
 import svgLoading from '@/theme/icon/loading.svg'
 import { Modal } from "antd-mobile";
+import {
+  VIDEO_STATUS,
+  Icon,
+  VWrapper,
+  VPeek,
+  VBack,
+  VControl,
+  VError,
+  VGestrue,
+  VRecover,
+  ProgressWrap,
+  Handler,
+  Tip,
+  BG,
+} from './style'
 
-const VIDEO_STATUS = {
-  CANPLAY: 'CANPLAY',
-  PLAYING: 'PLAYING',
-  BUFFERING: 'BUFFERING',
-}
-
-
-export const Icon = styled.img`
-  width: 32px;
-  height: 32px;
-  margin: 0 5px;
-`;
-const VWrapper = styled.div`
- position: absolute;
- left: 0;
- top: 0;
- z-index: 2;
- & > video {
-  height: 100%;
- }
-`
-const VPeek = styled.div`
-  position: absolute;
-  left: 50%;
-  top: 20%;
-  transform: translate(-50%,-50%);
-  padding: 10px;
-  border-radius: 10;
-  background-color: rgba(0,0,0,0.6);
-  color: white;
-`
-const VBack = styled.div`
-  position: absolute; 
-  left: 0; 
-  top: 0; 
-  display: flex;
-  width: 100%; 
-  height: 40px;
-  line-height: 40px; 
-  z-index: 12;
-  background: linear-gradient(180deg,#00000080,#fdfdfd00);
-`
-const BG = styled.div`
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  filter: blur(10px);
-  overflow: hidden;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-`
-const VGestrue = styled.div`
-  z-index: 3;
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  touch-action: manipulation;
-`
-const VControl = styled.div`
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  z-index: 4;
-  align-items: center;
-  color: white;
-  background: linear-gradient(0deg,#00000080,#fdfdfd00);
-  padding: 5px;
-  box-sizing: border-box;
-`
-export const ProgressWrap = styled.div`
-display: flex;
-flex-direction: column;
-padding: 4px;
-border-radius: 5px;
-flex: 1;
-position: relative;
-margin: 0 10px 2px 10px;
-`
-export const Handler = styled.div`
-width: 16px;
-height: 10px;
-border-radius: 20px;
-position: absolute;
-transform: translate(-8px,-4px);
-background-color: #2bb7ff;
-z-index: 11;
-`
-export const Tip = styled.span`
-position: absolute;
-left: 50%;
-transform: translate(-50%, -30px);
-background-color: #00000080;
-border-radius: 5px;
-padding: 3px 5px;
-&::after {
-  position: absolute;
-  left: 50%;
-  bottom: -6px;
-  transform: translateX(-50%);
-  content: '';
-  border-left: 8px solid transparent;
-  border-right: 8px solid transparent;
-  border-top: 6px solid  #00000080;
-}
-`
-
-const VRecover = styled.div`
-  position: absolute;
-  background-color: #0004;
-  color: white;
-  padding: 4px 5px;
-  border-radius: 5;
-  z-index: 12;
-  left: 15;
-`
-const VError = styled.div`
-  position: absolute;
-  background-color: #0004;
-  color: red;
-  padding: 4px 5px;
-  border-radius: 5;
-  zIndex: 12;
-  bottom: 20%;
-  width: 100%;
-  text-align: center;
-  box-sizing: border-box;
-`
 let tap_timer = null;
 let auto_hidden_timer = null;
 export default function Player({
@@ -184,6 +60,7 @@ export default function Player({
     displayPercent: 0,
     showControl: true,
     isDrag: false,
+    isLongPressing: false,
     error: '',
     // 恢复进度显示
     showRecover: false,
@@ -230,43 +107,104 @@ export default function Player({
       }
     }
   }, [])
-  const bind = useDrag(({
-    direction: [dx, dy],
-    velocity: [vx, vy], // 修正：velocity 是数组 [vx, vy]
-    movement: [mx, my],
-    last,
-    event
-  }) => {
-    event.preventDefault()
-    if (last && (Math.abs(mx) > 3) || (Math.abs(my) > 3)) {
-      const angle = Math.atan2(mx, my) * 180 / Math.PI
-      if (angle >= -22.5 && angle < 22.5) console.log('下')
-      else if (angle >= 67.5 && angle < 112.5) {
-        console.log('右')
-        seekTo(local.realtime + 10)
-      }
-      else if (angle >= 157.5 || angle < -157.5) console.log('上')
-      else if (angle >= -112.5 && angle < -67.5) {
-        console.log('左')
-        seekTo(local.realtime - 10)
-      }
-      local.autoHiddenControl();
+  const longPressTimer = useRef(null);
+  // 双击判定需要这几个 ref
+  const lastTap = useRef(0);
+  const singleTapTimer = useRef(null);
+  const DOUBLE_TAP_MS = 250; // 双击间隔阈值（毫秒）
+  // 长按：pointerdown 开 timer，pointerup/leave 清除
+  const onLongPress = useCallback(() => {
+    local.setValue('playbackRate', 2)
+  })
+  const startLongPress = useCallback((e) => {
+    if (!local.playing) return;
+    if (longPressTimer.current) clearTimeout(longPressTimer.current);
+    longPressTimer.current = setTimeout(() => {
+      local.setValue('isLongPressing', true)
+      onLongPress()
+    }, 550); // 550ms 为长按阈值（可调）
+  }, [onLongPress]);
+
+  const cancelLongPress = useCallback(() => {
+    if (longPressTimer.current) {
+      clearTimeout(longPressTimer.current);
+      longPressTimer.current = null;
     }
-    if (last && mx === 0 && my === 0) {
-      if (!tap_timer) {
-        tap_timer = setTimeout(() => {
-          local.onTap()
+    local.isLongPressing && local.setValue('isLongPressing', false)
+    local.playbackRate !== 1 && local.setValue('playbackRate', 1)
+  }, []);
+  const bind = useGesture({
+    onDrag: ({
+      direction: [dx, dy],
+      velocity: [vx, vy], // 修正：velocity 是数组 [vx, vy]
+      movement: [mx, my],
+      last,
+      active,
+      event
+    }) => {
+      event.preventDefault()
+      const w = containerRef.current.offsetWidth * 0.8;
+      if (!active && !local.isLongPressing) {
+        if (last && (Math.abs(mx) > 3) || (Math.abs(my) > 3)) {
+          const angle = Math.atan2(mx, my) * 180 / Math.PI
+          if (angle >= -22.5 && angle < 22.5) console.log('下')
+          else if (angle >= 67.5 && angle < 112.5) {
+            const add = Math.max(5, (Math.min(60, Math.round(60 * mx / w))))
+            console.log('右', add)
+            seekTo(local.realtime + add)
+          }
+          else if (angle >= 157.5 || angle < -157.5) console.log('上')
+          else if (angle >= -112.5 && angle < -67.5) {
+            const add = Math.max(5, (Math.min(60, Math.round(60 * mx / w))))
+            console.log('左', add)
+            seekTo(local.realtime - add)
+          }
           local.autoHiddenControl();
-          clearTimeout(tap_timer);
-          tap_timer = null;
-        }, 200)
-      } else {
-        clearTimeout(tap_timer);
-        tap_timer = null;
-        local.onDTap()
-        local.autoHiddenControl();
+        }
       }
-    }
+      // if (last && mx === 0 && my === 0) {
+      //   if (!tap_timer) {
+      //     tap_timer = setTimeout(() => {
+      //       local.onTap()
+      //       local.autoHiddenControl();
+      //       clearTimeout(tap_timer);
+      //       tap_timer = null;
+      //     }, 200)
+      //   } else {
+      //     clearTimeout(tap_timer);
+      //     tap_timer = null;
+      //     local.onDTap()
+      //     local.autoHiddenControl();
+      //   }
+      // }
+    },
+    onPointerDown: (state) => startLongPress(state.event),
+    onPointerUp: ({ event }) => {
+      cancelLongPress()
+      const e = event;
+      const now = Date.now();
+
+      if (now - lastTap.current < DOUBLE_TAP_MS) {
+        // ---- 双击 ----
+        lastTap.current = 0;
+        if (singleTapTimer.current) {
+          clearTimeout(singleTapTimer.current);
+          singleTapTimer.current = null;
+        }
+        local.onDTap()
+      } else {
+        // ---- 单击（延迟触发，等待是否有第二下）----
+        lastTap.current = now;
+        singleTapTimer.current = setTimeout(() => {
+          singleTapTimer.current = null;
+          local.onTap()
+        }, DOUBLE_TAP_MS);
+      }
+    },
+    onPointerLeave: () => cancelLongPress(),
+  }, {
+    eventOptions: { passive: false },
+    drag: { threshold: 5 },
   });
   return <Observer>{() => (
     <div
@@ -423,12 +361,17 @@ export default function Player({
             {/* {local.status === VIDEO_STATUS.CANPLAY && !local.playing && <Icon src={svgPlay} onClick={() => {
               local.playing = true
             }} />} */}
-            {local.status === VIDEO_STATUS.BUFFERING && <Icon className='spin-slow' src={svgLoading} />}
+            {local.status === VIDEO_STATUS.BUFFERING && <Icon src={svgLoading} />}
           </VGestrue>
         </Visible>
         <Visible visible={local.showPeek}>
           <VPeek>
             {local.peekValue}
+          </VPeek>
+        </Visible>
+        <Visible visible={local.isLongPressing}>
+          <VPeek>
+            {'倍速x2'}
           </VPeek>
         </Visible>
         <Visible visible={local.showRecover}>
