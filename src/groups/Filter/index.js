@@ -5,6 +5,7 @@ import { Observer, useLocalObservable } from 'mobx-react-lite';
 import styled from 'styled-components';
 import { apis } from '@/global.js';
 import { PageList, FullHeightFix } from '@/components';
+import { isLandscape } from '@/utils';
 
 const Wrap = styled.div`
   display: flex;
@@ -134,7 +135,7 @@ export default function CFilter({ self }) {
           <PageList
             display={self.attrs.display}
             multi={self.attrs.columns !== 1}
-            items={chunk(local.resources, self.attrs.columns)}
+            items={chunk(local.resources, isLandscape() ? 4 : 2)}
             onRefresh={async () => {
               local.setData('page', 1)
               await getData();

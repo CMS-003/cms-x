@@ -1,4 +1,5 @@
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import _ from 'lodash'
 import ReactPlayer from 'react-player'
 import { Observer, useLocalObservable } from "mobx-react-lite";
 import { useGesture, useDrag } from '@use-gesture/react'
@@ -53,7 +54,7 @@ export default function Player({
     playing: false,
     seeking: false,
     status: VIDEO_STATUS.CANPLAY,
-    duration: resource ? resource.size : 0,
+    duration: video ? video.duration || 0 : 0,
     realtime: 0,
     buffertime: 0,
     dragtime: 0,
@@ -107,6 +108,7 @@ export default function Player({
       }
     }
   }, [])
+  const isFetchCodec = useRef(0);
   const longPressTimer = useRef(null);
   // 双击判定需要这几个 ref
   const lastTap = useRef(0);
@@ -206,6 +208,11 @@ export default function Player({
     eventOptions: { passive: false },
     drag: { threshold: 5 },
   });
+  useEffect(() => {
+    if (!local.duration && video) {
+      local.setValue('duration', parseFloat(_.get(video, 'more.duration', 0)))
+    }
+  }, [video])
   return <Observer>{() => (
     <div
       ref={containerRef}
@@ -227,7 +234,7 @@ export default function Player({
       }}>
       <div style={{
         position: 'relative',
-        width: '100vw',
+        width: '100%',
         paddingLeft: 'env(safe-area-inset-left)',
         paddingRight: 'env(safe-area-inset-right)',
         boxSizing: 'border-box',
@@ -344,10 +351,14 @@ export default function Player({
               }} />
               <div style={{ paddingRight: 15 }}>
                 <Acon icon='InfoCircleOutlined' color={'#fff'} onClick={() => {
-                  apis.fetchAPI('post', 'http://192.168.0.124:7777/ffmpeg/video-info-full', { filepath: video.path }).then(resp => {
+                  if (isFetchCodec.current) return;
+                  isFetchCodec.current = true;
+                  apis.fetchAPI('post', '/gw/download/ffmpeg/video-info-full', { filepath: video.path }).then(resp => {
                     if (resp.code === 0) {
                       Modal.show({ content: <pre style={{ margin: 0 }}>{JSON.stringify(resp.data, null, 2)}</pre>, closeOnMaskClick: true })
                     }
+                  }).finally(() => {
+                    isFetchCodec.current = false;
                   })
                 }} />
               </div>

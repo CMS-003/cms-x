@@ -78,3 +78,7 @@ export function isPWA() {
   const isIosApp = window.navigator.standalone === true;
   return isChromeApp || isIosApp;
 }
+
+export function isLandscape() {
+  return ['tablet', 'mobile', 'desktop'].includes(browser.getPlatformType()) && window.innerWidth > window.innerHeight
+}
