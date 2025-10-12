@@ -35,6 +35,7 @@ const ScrollWrap = styled.div`
 const ItemWrap = styled.div`
   width: 50px;
   display: flex;
+  flex-shrink: 0;
   flex-direction: column;
   text-align: center;
   font-size: 12px;
@@ -55,6 +56,11 @@ const Dot = styled.span`
   background-color: pink;
   border-radius: 50%;
   padding: 4px;
+`
+const TxtOmit = styled.div`
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `
 
 // 我的关注
@@ -131,7 +137,7 @@ export default function Followee({ template }) {
                 <Avatar style={{ backgroundImage: `url('${v.avatar}')` }} />
                 {v.counted.unread ? <Dot /> : null}
               </div>
-              <div>{v.nickname}</div>
+              <TxtOmit>{v.nickname}</TxtOmit>
             </ItemWrap>
           ))}
         </ScrollWrap>
@@ -142,7 +148,7 @@ export default function Followee({ template }) {
           multi={false}
           infinite={true}
           hasMore={local.hasMore}
-          display="card"
+          display="lprt"
           onRefresh={async () => {
             local.setData('page', 1)
             local.setData('loading', true)
