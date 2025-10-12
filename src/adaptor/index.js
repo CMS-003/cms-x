@@ -7,19 +7,15 @@ import Post from "./post";
 export default function ResourceItem({ item, type }) {
   return <Observer>{() => {
     switch (item.type) {
-      case 'article':
+      case 1:
         return <Article item={item} type={type} />;
-      case 'video':
+      case 2:
         return <Video item={item} type={type} />;
-      case 'animation':
+      case 3:
+        return <Gallery item={item} type={type} />;
+      case 9:
         return <Video item={item} type={type} />;
-      case 'image':
-        return <Gallery item={item} type={type} />;
-      case 'pixiv':
-        return <Gallery item={item} type={type} />;
-      case 'gallery':
-        return <Gallery item={item} type={type} />;
-      case 'post':
+      case 11:
         return <Post item={item} type={type} />
       default:
         return <Video item={item} type={type} />;

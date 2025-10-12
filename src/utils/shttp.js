@@ -5,7 +5,7 @@ let isRefreshing = false;
 let requestQueue = [];
 
 const shttp = axios.create({
-  baseURL: store.app.baseURL,
+  baseURL: '',
   withCredentials: false,
   timeout: 20000,
 });
@@ -30,7 +30,7 @@ shttp.interceptors.request.use(
 shttp.interceptors.response.use(
   async (response) => {
     if (store.app.debug) {
-      console.log(response.status, response.data);
+      // console.log(response.status, response.data);
     }
     const config = response.config;
     // 判断业务码：code === 101010 表示 token 过期

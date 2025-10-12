@@ -135,7 +135,7 @@ export default function CFilter({ self }) {
           <PageList
             display={self.attrs.display}
             multi={self.attrs.columns !== 1}
-            items={chunk(local.resources, isLandscape() ? 4 : 2)}
+            items={chunk(local.resources, (self.attrs.columns || 1) * (isLandscape() ? 2 : 1))}
             onRefresh={async () => {
               local.setData('page', 1)
               await getData();

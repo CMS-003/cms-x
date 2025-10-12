@@ -250,8 +250,8 @@ export default function VideoPage(props) {
   }, [getDetail])
   return <Observer>{() => (
     <SafeArea topBGC="black" bot="0">
-      <div data-id='test' style={{ display: 'flex', flexDirection: 'row', width: '100%', height: '100%', position: 'relative', overflow: 'hidden' }}>
-        <FullHeight style={{ flex: 1 }}>
+      <div data-angel={store.app.orientation} data-id='test' style={{ display: 'flex', flexDirection: 'row', width: '100%', height: '100%', position: 'relative', overflow: 'hidden' }}>
+        <FullHeight style={store.app.landscape ? { width: '60%', overflow: 'hidden' } : { width: '100%', height: '100%', position: 'relative' }}>
           <FullHeightFix style={{ flexDirection: 'column', backgroundColor: 'black' }}>
             <Player
               resource={local.resource}
@@ -278,7 +278,7 @@ export default function VideoPage(props) {
               ))}
             </Tabs>
             <Swiper
-              style={{ overflow: 'hidden' }}
+              style={{ overflow: 'hidden', flex: 1 }}
               direction='horizontal'
               indicator={() => null}
               ref={swiperRef}
@@ -287,7 +287,7 @@ export default function VideoPage(props) {
                 setActiveIndex(index)
               }}
             >
-              <Swiper.Item style={{ overflow: 'auto' }}>
+              <Swiper.Item style={{ overflow: 'hidden', width: '100%' }}>
                 {
                   local.resource ? (<Fragment>
                     <Title>{local.resource.title}</Title>
@@ -340,7 +340,7 @@ export default function VideoPage(props) {
                     </Visible>
                   </Fragment>) : null
                 }
-                {!isLandscape() && <Recommend recommends={local.recommends} />}
+                {!store.app.landscape && <Recommend recommends={local.recommends} />}
               </Swiper.Item>
               <Swiper.Item style={{ display: 'flex', flexDirection: 'column' }}>
                 <div style={{ flex: 1, overflow: 'auto' }}>
@@ -425,7 +425,7 @@ export default function VideoPage(props) {
             </Swiper>
           </FullHeightAuto>
         </FullHeight>
-        {isLandscape() && <Recommend recommends={local.recommends} style={{ width: 450 }} />}
+        {store.app.landscape && <Recommend recommends={local.recommends} style={{ flex: 1, width: 450 }} />}
       </div>
     </SafeArea>
   )}</Observer>

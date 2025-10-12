@@ -14,7 +14,9 @@ const Store = types.model('store', {
 const store = Store.create({
   app: {
     debug: true,
-    baseURL: ''
+    baseURL: '',
+    orientation: window.orientation,
+    landscape: window.innerWidth > window.innerHeight,
   },
   user: {
     access_token: storage.getValue('access_token') || '',
