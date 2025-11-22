@@ -132,7 +132,9 @@ export default function Followee({ template }) {
       <Content>
         <ScrollWrap>
           {local.followees.map(v => (
-            <ItemWrap key={v._id}>
+            <ItemWrap key={v._id} onClick={() => {
+              router.pushView('user', { id: v._id })
+            }}>
               <div style={{ position: 'relative', padding: 5 }}>
                 <Avatar style={{ backgroundImage: `url('${v.avatar}')` }} />
                 {v.counted.unread ? <Dot /> : null}

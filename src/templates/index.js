@@ -39,7 +39,7 @@ export const Templates = {
   'sign-in': SignIn
 }
 
-export default function Template({ view, id }) {
+export default function Template({ view, id, active }) {
   const local = useLocalObservable(() => ({
     isLoading: false,
     template: null,
@@ -86,7 +86,7 @@ export default function Template({ view, id }) {
         <SpinLoading color='primary' />
       </CenterXY>
     } else {
-      return T ? <T id={id} template={local.template} /> : <div>404</div>
+      return T ? <T id={id} template={local.template} active={active}/> : <div>404</div>
     }
   }}</Observer>
 }

@@ -8,6 +8,7 @@ import { Ellipsis, Space, Tag, Tabs, Swiper, Empty, Input, Popup } from "antd-mo
 import { apis, store, ResourceItem, readableTime, shttp } from '@/global.js';
 import { Acon, PageList, Player, SafeArea, Visible, FullHeight, FullHeightAuto, FullHeightFix, FullWidth, FullWidthAuto, FullWidthFix } from "@/components";
 import { isLandscape } from "@/utils";
+import { useRouter } from '@/global.js';
 
 const Title = styled.h1`
   font-size: 1.4em;
@@ -48,7 +49,42 @@ const ReplyWrap = styled.div`
   display: flex;
   align-items: center;
 `
-
+const ScrollWrap = styled.div`
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: flex-start;
+  justify-content: flex-start;
+  overflow-x: auto;
+  box-sizing: border-box;
+  gap: 10px;
+  padding: 0 10px 10px;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  &>div:first-child {
+    margin-left: 0;
+  }
+`;
+const ItemWrap = styled.div`
+  display: flex;
+  flex-shrink: 0;
+  flex-direction: row;
+  text-align: center;
+  font-size: 12px;
+`
+const Avatar = styled.div`
+  padding-top: 100%;
+  box-sizing: border-box;
+  border-radius: 50%;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+`
+const TxtOmit = styled.div`
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`
 function CommentReply({ comment }) {
   const local = useLocalObservable(() => ({
     loading: false,
@@ -133,6 +169,7 @@ function Recommend({ recommends, style = {} }) {
 }
 
 export default function VideoPage(props) {
+  const router = useRouter()
   const local = useLocalObservable(() => ({
     resource: null,
     loading: true,
@@ -256,6 +293,7 @@ export default function VideoPage(props) {
             <Player
               resource={local.resource}
               video={local.video}
+              active={props.active}
               looktime={local.looktime}
               onTimeUpdate={t => {
                 local.latest_time = t
@@ -290,18 +328,46 @@ export default function VideoPage(props) {
               <Swiper.Item style={{ overflow: 'hidden', width: '100%' }}>
                 {
                   local.resource ? (<Fragment>
-                    <Title>{local.resource.title}</Title>
+                    <Title>
+                      <Ellipsis content={local.resource.title} rows={2}
+                        expandText={<span style={{ padding: 4 }}>展开</span>}
+                        collapseText={<span style={{ padding: 4, whiteSpace: 'nowrap' }}>收起</span>} />
+                    </Title>
                     <FullWidth style={{ padding: '0 10px 10px', gap: 8, justifyContent: 'flex-start' }}>
+                      <ItemWrap key={local.resource.uid} onClick={() => {
+                        if (local.resource.uid) {
+                          router.pushView('user', { id: local.resource.uid })
+                        }
+                      }}>
+                        <div style={{ position: 'relative', padding: 5 }}>
+                          {/* <Avatar style={{ backgroundImage: `url('${v.avatar}')` }} /> */}
+                        </div>
+                        <TxtOmit>{local.resource.uname}</TxtOmit>
+                      </ItemWrap>
                       <span>{dayjs(local.resource.publishedAt).format('YYYY年MM月日DD HH:mm')}</span>
                       <Acon icon={local.resource.counter.collected ? 'stared' : 'unstar'} color='pink' size={24} onClick={toggleStar} onTouchEnd={toggleStar} />
                     </FullWidth>
                     <Ellipsis content={local.resource.content} rows={2}
                       expandText='展开'
                       collapseText='收起' />
-                    <FullWidth style={{ alignItems: 'baseline', overflow: 'auto', touchAction: 'pan-x' }} onTouchStart={e => {
+                    <Visible visible={(local.resource.actors || []).length > 0}>
+                      <ScrollWrap>
+                        {(local.resource.actors || []).map(actor => (
+                          <ItemWrap key={actor._id} onClick={() => {
+                            router.pushView('user', { id: actor._id })
+                          }}>
+                            <div style={{ position: 'relative', padding: 5 }}>
+                              {actor.avatar && <Avatar style={{ backgroundImage: `url('${actor.avatar}')` }} />}
+                            </div>
+                            <TxtOmit>{actor.name}</TxtOmit>
+                          </ItemWrap>
+                        ))}
+                      </ScrollWrap>
+                    </Visible>
+                    <FullWidth style={{ alignItems: 'baseline', overflow: 'auto', touchAction: 'pan-x', padding: '0 10px' }} onTouchStart={e => {
                       e.stopPropagation();
                     }}>
-                      <Space style={{ padding: '0 10px' }}>
+                      <Space>
                         {local.resource.tags.map(tag => (
                           <Tag key={tag} round color='#2db7f5' style={{ padding: '4px 6px' }}>
                             {tag}

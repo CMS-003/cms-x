@@ -34,6 +34,7 @@ let auto_hidden_timer = null;
 export default function Player({
   resource = {},
   video = {},
+  active,
   type,
   looktime,
   onTimeUpdate,
@@ -213,6 +214,11 @@ export default function Player({
       local.setValue('duration', parseFloat(_.get(video, 'more.duration', 0)))
     }
   }, [video])
+  useEffect(() => {
+    if (!active && local.playing) {
+      local.setValue('playing', false)
+    }
+  }, [active])
   return <Observer>{() => (
     <div
       ref={containerRef}

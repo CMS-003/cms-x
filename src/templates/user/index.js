@@ -52,6 +52,8 @@ export default function User({ template, id }) {
       if (resp.code === 0) {
         local.page === 1 ? local.setResources(resp.data.items) : local.setResources(local.resources.concat(resp.data.items))
         local.setValue('hasMore', resp.data.items.length > 0)
+      } else {
+        local.setValue('hasMore', false)
       }
     } catch (e) {
       local.setValue('hasMore', false)
