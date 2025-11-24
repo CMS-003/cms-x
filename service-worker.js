@@ -1,4 +1,3 @@
-window.__WB_DISABLE_DEV_LOGS = true;
 /* eslint-disable no-restricted-globals */
 import { ExpirationPlugin } from 'workbox-expiration';
 import { precacheAndRoute } from 'workbox-precaching';

@@ -11,7 +11,8 @@ import mine from "./mine";
 import timeline from "./timeline";
 import notify from "./notify";
 import followee from "./followee";
-import search from "./search";
+import searchEntry from "./search-entry";
+import searchResult from "./search-result";
 import chat from "./chat";
 import user from "./user";
 
@@ -21,6 +22,7 @@ import post from "./post";
 import gallery from "./gallery";
 
 import SignIn from "@/pages/SignIn";
+import QueryContext from "@/contexts/query";
 
 export const Templates = {
   dynamic,
@@ -32,14 +34,15 @@ export const Templates = {
   mine,
   notify,
   followee,
-  search,
+  'search-entry': searchEntry,
+  'search-result': searchResult,
   chat,
   user,
   timeline,
   'sign-in': SignIn
 }
 
-export default function Template({ view, id, active }) {
+export default function Template({ view, id, active, query }) {
   const local = useLocalObservable(() => ({
     isLoading: false,
     template: null,
@@ -76,17 +79,19 @@ export default function Template({ view, id, active }) {
     }
   }, [id])
 
-  return <Observer>{() => {
-    const T = !local.template ? null : (Templates[local.template.name] || Templates[local.template.type] || dynamic);
-    if (local.isError) {
-      return <div>error</div>
-    }
-    if (!local.template || local.isLoading) {
-      return <CenterXY>
-        <SpinLoading color='primary' />
-      </CenterXY>
-    } else {
-      return T ? <T id={id} template={local.template} active={active}/> : <div>404</div>
-    }
-  }}</Observer>
+  return <QueryContext.Provider value={query}>
+    <Observer>{() => {
+      const T = !local.template ? null : (Templates[local.template.name] || Templates[local.template.type] || dynamic);
+      if (local.isError) {
+        return <div>error</div>
+      }
+      if (!local.template || local.isLoading) {
+        return <CenterXY>
+          <SpinLoading color='primary' />
+        </CenterXY>
+      } else {
+        return T ? <T id={id} template={local.template} active={active} query={query} /> : <div>404</div>
+      }
+    }}</Observer>
+  </QueryContext.Provider>
 }

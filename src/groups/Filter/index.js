@@ -6,6 +6,8 @@ import styled from 'styled-components';
 import { apis } from '@/global.js';
 import { PageList, FullHeightFix } from '@/components';
 import { isLandscape } from '@/utils';
+import { useQuery } from '@/contexts';
+import events from '@/utils/event';
 
 const Wrap = styled.div`
   display: flex;
@@ -66,14 +68,15 @@ export default function CFilter({ self }) {
       local[key] = value;
     },
   }));
+  const query = useQuery();
   const getData = useCallback(async () => {
     const qid = local.getQuery()
     try {
       local.setData('loading', true)
-      const resp = self.widget.action === 'FETCH' ? await apis.fetchAPI(self.widget.method, apis.getApi(self.url, { page: local.page })) : await apis.getResourceList({ qid, page: local.page, size: 20 });
+      const resp = self.widget.action === 'FETCH' ? await apis.fetchAPI(self.widget.method, apis.getApi(self.url, { page: local.page, q: query.q })) : await apis.getResourceList({ qid, page: local.page, size: 20 });
       if (resp.code === 0) {
         local.page === 1 ? local.setResources(resp.data.items) : local.setResources(local.resources.concat(resp.data.items))
-        local.setData('hasMore', resp.data.items.length > 0)
+        local.setData('hasMore', resp.data.items.length === (resp.data.size || 20))
       }
     } catch (e) {
       local.setData('hasMore', false)
@@ -81,6 +84,16 @@ export default function CFilter({ self }) {
       local.setData('loading', false)
     }
   }, []);
+  const OnReset = function (page) {
+    if (page.template._id === self.template_id) {
+      local.setData('hasMore', true)
+      local.setResources([])
+      local.setData('page', 1)
+      if (page.component._id === self.parent_id) {
+        getData()
+      }
+    }
+  }
   const getMore = useCallback(async () => {
     if (local.loading) return;
     local.setData('page', local.page + 1)
@@ -89,6 +102,10 @@ export default function CFilter({ self }) {
   useEffect(() => {
     if (local.resources.length === 0 && local.hasMore) {
       getData();
+    }
+    events.on('refresh', OnReset)
+    return () => {
+      events.off('refresh', OnReset)
     }
   }, [])
   return <Observer>

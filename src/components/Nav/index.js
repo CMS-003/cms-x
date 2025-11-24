@@ -27,8 +27,8 @@ export default function Nav({ style, title = '', align = 'center', left, right }
           }}>
           <Acon icon="LeftOutlined" size={18} />
         </div>
-        {left && <div style={{ boxSizing: 'border-box' }}>{left}</div>}
-        <div
+        {left && <div style={{ boxSizing: 'border-box', display: 'flex', flex: 1 }}>{left}</div>}
+        {title && <div
           className="txt-omit"
           style={{
             flex: 1,
@@ -38,8 +38,8 @@ export default function Nav({ style, title = '', align = 'center', left, right }
           }}
         >
           {title}
-        </div>
-        <div style={{ boxSizing: 'border-box', marginRight: 5, minWidth: 25 }}>{right}</div>
+        </div>}
+        <div style={{ boxSizing: 'border-box', marginRight: 10, minWidth: 25 }}>{right}</div>
       </CenterXY>
     </AlignSide>
   );

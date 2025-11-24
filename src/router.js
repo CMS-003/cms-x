@@ -51,7 +51,7 @@ function Adaptor() {
               exit={view.animate ? { left: '100%' } : false}
               style={{ zIndex: 10 + n, position: 'absolute', top: 0, width: '100%', height: '100%', overflow: 'hidden', backgroundColor: '#eee' }}
             >
-              <View id={view.query.id} active={n === router.views.length - 1} />
+              <View id={view.query.id} query={view.query} active={n === router.views.length - 1} />
             </motion.div>
           })}
         </AnimatePresence>

@@ -78,7 +78,7 @@ const View = types
       if (ViewPages[view_id]) {
         return ViewPages[view_id]
       }
-      ViewPages[view_id] = ({ active }) => <Template view={view} id={id} active={active} />
+      ViewPages[view_id] = ({ active, query }) => <Template view={view} id={id} active={active} query={query}/>
       return ViewPages[view_id]
     }
   }));
