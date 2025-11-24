@@ -2,11 +2,11 @@ import { Observer } from 'mobx-react-lite';
 import Card from './card.js'
 import LPRT from './LPRT.js'
 
-export default function Video({ item, type }) {
+export default function Video({ item, display }) {
   return <Observer>{() => {
-    if (type === 'card') {
+    if (display === 'card') {
       return <Card item={item} />
-    } else if (type === 'lprt') {
+    } else if (display === 'lprt') {
       return <LPRT item={item} />
     } else {
       return <Card item={item} />

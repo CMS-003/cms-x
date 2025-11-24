@@ -73,7 +73,7 @@ export default function CCard({ self, children }) {
         <ScrollWrap>
           {self.resources?.map(item => (<Fragment key={item._id}>
             <ItemWrap>
-              <ResourceItem item={item} />
+              <ResourceItem item={item} display={self.attrs.display}/>
             </ItemWrap>
           </Fragment>))}
         </ScrollWrap>

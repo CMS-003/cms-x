@@ -1,11 +1,10 @@
 import { Fragment, useCallback, useEffect, useRef, useState } from "react";
-import { default as dayjs } from "dayjs";
 import { runInAction } from "mobx";
 import { Observer, useLocalObservable } from "mobx-react-lite";
 import styled from "styled-components";
-import { Ellipsis, Space, Tag, Tabs, Swiper, Empty, Input, Popup } from "antd-mobile";
-import { apis, store, ResourceItem, readableTime, shttp } from '@/global.js';
-import { Acon, PageList, Player, SafeArea, Visible, FullHeight, FullHeightAuto, FullHeightFix, FullWidth, FullWidthAuto, FullWidthFix } from "@/components";
+import { Space, Input, Popup } from "antd-mobile";
+import { readableTime, shttp } from '@/global.js';
+import { Acon, PageList, FullWidth, FullWidthAuto, FullWidthFix } from "@/components";
 
 const ReplyWrap = styled.div`
   font-size: 12px;

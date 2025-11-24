@@ -159,7 +159,7 @@ function Recommend({ recommends, style = {} }) {
         infinite={false}
         renderItems={(items) => items.map(v => (
           <div key={v._id} style={{ margin: '10px 5px' }}>
-            <ResourceItem item={v} type="lprt" />
+            <ResourceItem item={v} display="lprt" />
           </div>
         ))}
       />
