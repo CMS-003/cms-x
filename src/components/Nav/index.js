@@ -25,7 +25,7 @@ export default function Nav({ style, title = '', align = 'center', left, right }
           onClick={() => {
             router.backView();
           }}>
-          <Acon icon="LeftOutlined" size={18} />
+          <Acon icon="ChevronLeft" size={18} />
         </div>
         {left && <div style={{ boxSizing: 'border-box', display: 'flex', flex: 1 }}>{left}</div>}
         {title && <div

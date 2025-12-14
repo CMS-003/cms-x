@@ -4,6 +4,7 @@ import styled from "styled-components";
 import Auto from "@/groups/auto.js";
 import { Input } from "antd-mobile";
 import { Nav, SafeArea, FullHeight, FullHeightAuto } from "@/components";
+import { useQuery } from "@/contexts";
 
 const Btn = styled.div`
   background-color: lightblue;
@@ -16,9 +17,10 @@ const Btn = styled.div`
 
 export default function SearchEntry({ template }) {
   const router = useRouter()
+  const query = useQuery()
   const local = useLocalObservable(() => ({
     compositing: false,
-    q: '',
+    q: query.q || '',
     setComposition(b) {
       local.compositing = b;
     },
@@ -32,6 +34,7 @@ export default function SearchEntry({ template }) {
         <Nav
           left={<Input
             placeholder="请输入"
+            defaultValue={local.q}
             style={{
               '--font-size': 14,
               display: 'flex',

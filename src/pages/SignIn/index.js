@@ -29,7 +29,7 @@ export default function SignIn() {
     <SafeArea>
       <FullHeight>
         <FullHeightFix style={{ padding: 10, alignItems: 'center' }}>
-          <Acon icon="LeftOutlined"
+          <Acon icon="ChevronLeft"
             onClick={() => {
               router.backView();
             }}

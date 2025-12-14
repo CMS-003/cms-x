@@ -136,7 +136,7 @@ export default function ChatPage(props) {
                 <img src={isSelf ? store.user.info.avatar : msg.friend.avatar} alt="" style={{ width: 25, height: 25, borderRadius: "50%", marginTop: 2, ...(isSelf ? { marginLeft: 5 } : { marginRight: 5 }) }} />
                 <ContentWrap style={{ justifyContent: isSelf ? 'flex-end' : 'flex-start' }}>
                   {isSelf ? <ConerRight /> : <ConerLeft />}
-                  {msg.loading && <Acon icon="sync" size={12} spin />}
+                  {msg.loading && <Acon icon="RefreshCw" size={12} spin />}
                   <MessageContent type={msg.type} data={msg.data} isSelf={isSelf} />
                 </ContentWrap>
                 <div style={{ width: 25 }}></div>

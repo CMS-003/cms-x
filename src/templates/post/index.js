@@ -75,7 +75,7 @@ export default function PostPage(props) {
       <FullHeight>
         <FullHeightFix>
           <Nav
-            title={local.resource ? local.resource.title : ''}
+            title={<span>{local.resource ? local.resource.title : ''}</span>}
             align="left"
             style={{ color: 'initial', backgroundColor: 'lightblue' }}
             right={local.resource

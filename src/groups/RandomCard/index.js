@@ -33,7 +33,7 @@ export default function CRandom({ self, mode, drag, dnd, children }) {
         <Content>
 
         </Content>
-        <div style={{ display: 'flex', justifyContent: 'center', padding: '8px 0' }}><Acon icon='SyncOutlined' /></div>
+        <div style={{ display: 'flex', justifyContent: 'center', padding: '8px 0' }}><Acon icon='RefreshCw' /></div>
       </Wrap>
     </div>
   )}</Observer >

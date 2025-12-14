@@ -59,7 +59,7 @@ export default function GalleryPage(props) {
             ))}
           </Fragment> : null}
         </FullHeightAuto>
-        <FullWidth style={{ alignItems: 'baseline', overflow: 'auto', margin: 10 }}>
+        <FullWidth style={{ alignItems: 'baseline', overflow: 'auto', padding: 10, position: 'absolute', bottom: 0, width: '100%', boxSizing: 'border-box' }}>
           <Space>
             {(local?.resource?.tags || []).map(tag => (
               <Tag key={tag} round color='#2db7f5' style={{ padding: '4px 6px' }}>

@@ -112,6 +112,7 @@ export default function Player({
   const isFetchCodec = useRef(0);
   const longPressTimer = useRef(null);
   // 双击判定需要这几个 ref
+  const swipped = useRef(false);
   const lastTap = useRef(0);
   const singleTapTimer = useRef(null);
   const DOUBLE_TAP_MS = 250; // 双击间隔阈值（毫秒）
@@ -149,6 +150,7 @@ export default function Player({
       const w = containerRef.current.offsetWidth * 0.8;
       if (!active && !local.isLongPressing) {
         if (last && (Math.abs(mx) > 3) || (Math.abs(my) > 3)) {
+          swipped.current = true;
           const angle = Math.atan2(mx, my) * 180 / Math.PI
           if (angle >= -22.5 && angle < 22.5) console.log('下')
           else if (angle >= 67.5 && angle < 112.5) {
@@ -162,31 +164,18 @@ export default function Player({
             console.log('左', add)
             seekTo(local.realtime - add)
           }
-          local.autoHiddenControl();
         }
       }
-      // if (last && mx === 0 && my === 0) {
-      //   if (!tap_timer) {
-      //     tap_timer = setTimeout(() => {
-      //       local.onTap()
-      //       local.autoHiddenControl();
-      //       clearTimeout(tap_timer);
-      //       tap_timer = null;
-      //     }, 200)
-      //   } else {
-      //     clearTimeout(tap_timer);
-      //     tap_timer = null;
-      //     local.onDTap()
-      //     local.autoHiddenControl();
-      //   }
-      // }
     },
     onPointerDown: (state) => startLongPress(state.event),
     onPointerUp: ({ event }) => {
       cancelLongPress()
       const e = event;
       const now = Date.now();
-
+      if (swipped.current) {
+        swipped.current = false
+        return;
+      }
       if (now - lastTap.current < DOUBLE_TAP_MS) {
         // ---- 双击 ----
         lastTap.current = 0;
@@ -256,7 +245,7 @@ export default function Player({
           playing={local.playing}
           width={'100%'}
           height={'100%'}
-          style={{ display: 'flex', justifyContent: 'center' }}
+          style={{ display: 'flex', justifyContent: 'center', backdropFilter: 'blur(10px)' }}
           pip={true}
           controls={local.controls}
           playsinline={local.playsinline}
@@ -348,7 +337,7 @@ export default function Player({
         {local.showControl && (
           <VBack>
             <AlignAside style={{ fontSize: 18, width: '100%' }}>
-              <Acon icon="LeftOutlined" color='#fff' style={{ padding: '0 10px' }} onClick={() => {
+              <Acon icon="ChevronLeft" color='#fff' style={{ padding: '0 10px' }} onClick={() => {
                 if (local.fullscreen) {
                   local.setValue('fullscreen', false)
                 } else {
@@ -356,7 +345,7 @@ export default function Player({
                 }
               }} />
               <div style={{ paddingRight: 15 }}>
-                <Acon icon='InfoCircleOutlined' color={'#fff'} onClick={() => {
+                <Acon icon='Info' color={'#fff'} onClick={() => {
                   if (isFetchCodec.current) return;
                   isFetchCodec.current = true;
                   apis.fetchAPI('post', '/gw/download/ffmpeg/video-info-full', { filepath: video.path }).then(resp => {

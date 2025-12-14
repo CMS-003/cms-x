@@ -129,8 +129,8 @@ function CommentReply({ comment }) {
             <span style={{ fontSize: 12, color: 'grey', margin: '5px 0 10px 0' }}>{readableTime(new Date(v.createdAt))}</span>
             {v.content}
             <Space style={{ margin: '5px 0 10px', gap: 10 }}>
-              <Acon icon='Thumb' size={18} color={'grey'} />
-              <Acon icon='Thumb' size={18} color={'grey'} style={{ transform: 'rotate(180deg)' }} />
+              <Acon icon='ThumbsUp' size={18} color={'grey'} />
+              <Acon icon='ThumbsUp' size={18} color={'grey'} style={{ transform: 'rotate(180deg)' }} />
               <Acon icon='Comment' size={18} color={'grey'} onClick={() => {
                 runInAction(() => {
                   local.reply_pid = v._id;
@@ -139,7 +139,7 @@ function CommentReply({ comment }) {
               }} />
             </Space>
             {v.counter && v.counter.comments ? <ReplyWrap>
-              共{v.counter.comments}条回复 <Acon icon={'right'} size={10} style={{ marginTop: 2, marginLeft: 5 }} color={'grey'} />
+              共{v.counter.comments}条回复 <Acon icon={'ChervonRight'} size={10} style={{ marginTop: 2, marginLeft: 5 }} color={'grey'} />
             </ReplyWrap> : null}
           </FullWidthAuto>
         </FullWidth>
@@ -345,7 +345,7 @@ export default function VideoPage(props) {
                         <TxtOmit>{local.resource.uname}</TxtOmit>
                       </ItemWrap>
                       <span>{dayjs(local.resource.publishedAt).format('YYYY年MM月日DD HH:mm')}</span>
-                      <Acon icon={local.resource.counter.collected ? 'stared' : 'unstar'} color='pink' size={24} onClick={toggleStar} onTouchEnd={toggleStar} />
+                      <Acon icon='Star' color='pink' size={24} fill={local.resource.counter.collected ? 'pink' : 'transparent'} onClick={toggleStar} onTouchEnd={toggleStar} />
                     </FullWidth>
                     <Ellipsis content={local.resource.content} rows={2}
                       expandText='展开'
@@ -369,7 +369,9 @@ export default function VideoPage(props) {
                     }}>
                       <Space>
                         {local.resource.tags.map(tag => (
-                          <Tag key={tag} round color='#2db7f5' style={{ padding: '4px 6px' }}>
+                          <Tag key={tag} round color='#2db7f5' style={{ padding: '4px 6px' }} onClick={() => {
+                            router.pushView('search-result', { q: tag })
+                          }}>
                             {tag}
                           </Tag>
                         ))}
@@ -426,9 +428,9 @@ export default function VideoPage(props) {
                           <span style={{ fontSize: 12, color: 'grey', margin: '5px 0 10px 0' }}>{readableTime(new Date(v.createdAt))}</span>
                           {v.content}
                           <Space style={{ margin: '5px 0 10px', gap: 10 }}>
-                            <Acon icon='Thumb' size={18} color={'grey'} />
-                            <Acon icon='Thumb' size={18} color={'grey'} style={{ transform: 'rotate(180deg)' }} />
-                            <Acon icon='Comment' size={18} color={'grey'} onClick={() => {
+                            <Acon icon='ThumbsUp' size={18} color={'grey'} />
+                            <Acon icon='ThumbsUp' size={18} color={'grey'} style={{ transform: 'rotate(180deg)' }} />
+                            <Acon icon='MessageCircleMore' size={18} color={'grey'} onClick={() => {
                               runInAction(() => {
                                 local.reply_pid = v._id;
                                 local.reply_user = v.user;
@@ -436,7 +438,7 @@ export default function VideoPage(props) {
                             }} />
                           </Space>
                           {v.counter && v.counter.comments ? <ReplyWrap onClick={() => local.setValue('pop_comment', v)}>
-                            共{v.counter.comments}条回复 <Acon icon={'right'} size={10} style={{ marginTop: 2, marginLeft: 5 }} color={'grey'} />
+                            共{v.counter.comments}条回复 <Acon icon={'ChervonRight'} size={10} style={{ marginTop: 2, marginLeft: 5 }} color={'grey'} />
                           </ReplyWrap> : null}
                         </FullWidthAuto>
                       </FullWidth>
@@ -484,7 +486,7 @@ export default function VideoPage(props) {
                         local.setValue('reply_user', null)
                       }
                     }} />
-                  <Acon icon="expression" style={{ margin: '0 5px' }} />
+                  <Acon icon="MessageCircleMore" color={'black'} style={{ margin: '0 5px' }} />
                 </FullWidth>
                 <div style={{ height: 'var(--safe-padding-bottom)' }}></div>
               </Swiper.Item>

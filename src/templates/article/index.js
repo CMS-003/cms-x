@@ -5,7 +5,7 @@ import { runInAction } from "mobx";
 import { apis, store, } from '@/global.js';
 import { default as dayjs } from "dayjs";
 import { Space, Tag } from "antd-mobile";
-import Comment from "@/components/Comment/index.js";
+import Comment, { CommentInput, CommentList } from "@/components/Comment/index.js";
 
 export default function ArticlePage(props) {
   const local = useLocalObservable(() => ({
@@ -68,11 +68,11 @@ export default function ArticlePage(props) {
       <FullHeight>
         <FullHeightFix>
           <Nav
-            title={''}
+            title={<span></span>}
             align="left"
             style={{ color: 'initial', backgroundColor: 'transparent' }}
             right={local.resource
-              ? <Acon icon={local.resource.counter.collected ? 'stared' : 'unstar'} color='#f66a83' size={24} onClick={toggleStar} onTouchEnd={toggleStar} />
+              ? <Acon icon='Star' color='#f66a83' fill={local.resource.counter.collected ? 'pink' : ''} size={24} onClick={toggleStar} onTouchEnd={toggleStar} />
               : null}
           />
         </FullHeightFix>
@@ -89,10 +89,9 @@ export default function ArticlePage(props) {
             </Space>
             <div style={{ overflow: 'hidden', padding: '0 5px' }} dangerouslySetInnerHTML={{ __html: local.resource.content }}></div>
           </Fragment> : null}
-          <div>
-            <Comment id={props.id} />
-          </div>
+          {props.id && <CommentList id={props.id} />}
         </FullHeightAuto>
+        {props.id && <CommentInput id={props.id} />}
       </FullHeight>
     </SafeArea>
   )}</Observer>

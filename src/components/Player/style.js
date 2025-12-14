@@ -50,7 +50,6 @@ export const BG = styled.div`
   top: 0;
   width: 100%;
   height: 100%;
-  filter: blur(10px);
   overflow: hidden;
   background-size: cover;
   background-position: center;
