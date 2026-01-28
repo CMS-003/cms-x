@@ -169,7 +169,6 @@ const Map = {
   ShieldCheck,
   View,
   Eye,
-  Star,
   History,
   Bell,
   Mail,

@@ -41,6 +41,7 @@ export default function Player({
 }) {
   const router = useRouter()
   const containerRef = useRef(null)
+  const progressRef = useRef(null)
   const controlRef = useRef(null)
   const playerRef = useRef(null);
   const local = useLocalObservable(() => ({
@@ -198,6 +199,43 @@ export default function Player({
     eventOptions: { passive: false },
     drag: { threshold: 5 },
   });
+  const progressPercent = useRef(0)
+  const bindProgress = useGesture({
+    onDragStart: ({ event }) => {
+      event.preventDefault()
+      event.stopPropagation();
+      progressPercent.current = 0;
+    },
+    onClick: ({ event }) => {
+      const offset = event.clientX - progressRef.current.getBoundingClientRect().left;
+      const realtime = local.duration * offset / progressRef.current.offsetWidth;
+      local.setValue('realtime', realtime);
+      seekTo(realtime)
+    },
+    onDrag: ({ first, event, movement: [mx] }) => {
+      event.stopPropagation();
+      if (first) {
+        local.setValue('isDrag', true);
+        progressPercent.current = 100 * local.realtime / local.duration;
+        local.setValue('displayPercent', progressPercent.current)
+      } else {
+        const percent = progressPercent.current + 0.7 * 100 * mx / progressRef.current.offsetWidth
+        local.setValue('displayPercent', Math.min(Math.max(percent, 0), 100));
+      }
+    },
+    onDragEnd: ({ event }) => {
+      const realtime = local.duration * local.displayPercent / 100;
+      local.setValue('realtime', realtime)
+      seekTo(realtime)
+      local.setValue('isDrag', false)
+      local.setValue('displayPercent', 0)
+    },
+  }, {
+    drag: {
+      filterTaps: true, tapsThreshold: 3, delay: 0, axis: 'x'
+    },
+    eventOptions: { capture: true }
+  })
   useEffect(() => {
     if (!local.duration && video) {
       local.setValue('duration', parseFloat(_.get(video, 'more.duration', 0)))
@@ -211,6 +249,7 @@ export default function Player({
   return <Observer>{() => (
     <div
       ref={containerRef}
+      onContextMenu={e => e.preventDefault()}
       style={local.fullscreen ? {
         position: 'absolute',
         width: '100%',
@@ -245,7 +284,7 @@ export default function Player({
           playing={local.playing}
           width={'100%'}
           height={'100%'}
-          style={{ display: 'flex', justifyContent: 'center', backdropFilter: 'blur(10px)' }}
+          style={{ display: 'flex', justifyContent: 'center', backdropFilter: 'blur(10px)', userSelect: 'none' }}
           pip={true}
           controls={local.controls}
           playsinline={local.playsinline}
@@ -287,7 +326,6 @@ export default function Player({
             }
           }}
           onStart={(e) => {
-            console.log(e, 'onstart', looktime)
             if (looktime) {
               local.setValue('showRecover', true)
               setTimeout(() => {
@@ -304,13 +342,11 @@ export default function Player({
             local.setValue('error', e.message)
           }}
           onPlay={(e) => {
-            console.log(e, 'onplay')
             local.setValue('playing', true)
             local.setValue('status', VIDEO_STATUS.PLAYING)
             local.setValue('error', '')
           }}
           onPause={(e) => {
-            console.log(e, 'onpause')
             local.setValue('playing', false)
             local.setValue('status', VIDEO_STATUS.CANPLAY)
           }}
@@ -318,7 +354,6 @@ export default function Player({
             local.setValue('status', VIDEO_STATUS.BUFFERING)
           }}
           onBufferEnd={(e) => {
-            // console.log(e, 'onbufferend')
             if (local.playing) {
               local.setValue('status', VIDEO_STATUS.PLAYING)
             } else {
@@ -426,33 +461,21 @@ export default function Player({
                   }
                   local.setValue('playing', true)
                 }}
-              // onClick={e => {
-              //   e.stopPropagation();
-              //   if (local.status === VIDEO_STATUS.BUFFERING) {
-              //     return;
-              //   }
-              //   local.setValue('playing', true)
-              // }}
               />}
-            <ProgressWrap className='progress' onClickCapture={e => {
-              e.stopPropagation();
-              const parentRect = e.currentTarget.getBoundingClientRect();
-              const offsetX = e.clientX - parentRect.left;
-              const time = local.duration * (offsetX / e.currentTarget.offsetWidth)
-              local.setValue('realtime', time)
-              seekTo(time)
-              local.setValue('seeking', true)
-            }}>
+            <ProgressWrap className='progress'
+              ref={progressRef}
+              {...bindProgress()}
+            >
               <div style={{ position: 'absolute', left: 0, top: 3, width: '100%', height: 4, backgroundColor: '#fff4' }}></div>
               <div style={{ position: 'absolute', left: 0, top: 3, width: (local.duration ? 100 * local.buffertime / local.duration : 0) + '%', zIndex: 9, height: 4, backgroundColor: '#eee' }}></div>
-              <div style={{ position: 'absolute', left: 0, top: 3, width: local.isDrag ? local.displayPercent : (local.duration ? 100 * local.realtime / local.duration : 0) + '%', zIndex: 10, height: 4, backgroundColor: '#1196db' }}></div>
+              <div style={{ position: 'absolute', left: 0, top: 3, width: local.isDrag ? local.displayPercent + '%' : (local.duration ? 100 * local.realtime / local.duration : 0) + '%', zIndex: 10, height: 4, backgroundColor: '#1196db' }}></div>
 
               <Handler
-                style={{ left: local.isDrag ? local.displayPercent : (local.duration ? 100 * local.realtime / local.duration : 0) + '%' }}
+                style={{ left: local.isDrag ? local.displayPercent + '%' : (local.duration ? 100 * local.realtime / local.duration : 0) + '%' }}
                 onTouchStartCapture={e => {
                   e.stopPropagation();
                   local.setValue('dragtime', local.realtime)
-                  local.setValue('displayPercent', 100 * local.realtime / local.duration + '%')
+                  local.setValue('displayPercent', 100 * local.realtime / local.duration)
                   local.setValue('isDrag', true)
                 }}
                 onTouchMove={e => {
@@ -465,13 +488,12 @@ export default function Player({
                     offsetX = parentRect.width;
                   }
                   local.setValue('dragtime', Math.round(offsetX / parentRect.width * local.duration))
-                  local.setValue('displayPercent', 100 * offsetX / parentRect.width + '%')
+                  local.setValue('displayPercent', 100 * offsetX / parentRect.width)
                 }}
                 onTouchEnd={e => {
                   e.preventDefault();
                   e.stopPropagation();
                   const time = local.dragtime
-                  console.log(local.realtime, time)
                   seekTo(time);
                   local.setValue('seeking', true)
                   local.setValue('realtime', time)
