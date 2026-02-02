@@ -217,10 +217,13 @@ export default function Player({
       if (first) {
         local.setValue('isDrag', true);
         progressPercent.current = 100 * local.realtime / local.duration;
+        local.setValue('dragtime', local.realtime)
         local.setValue('displayPercent', progressPercent.current)
       } else {
-        const percent = progressPercent.current + 0.7 * 100 * mx / progressRef.current.offsetWidth
-        local.setValue('displayPercent', Math.min(Math.max(percent, 0), 100));
+        const percent = progressPercent.current + 100 * mx / progressRef.current.offsetWidth
+        const real_percent = Math.min(Math.max(percent, 0), 100)
+        local.setValue('dragtime', real_percent * local.duration / 100)
+        local.setValue('displayPercent', real_percent);
       }
     },
     onDragEnd: ({ event }) => {
@@ -323,6 +326,10 @@ export default function Player({
             // console.log(e, 'onready')
             if (local.seeking) {
               local.setValue('seeking', false)
+            }
+            const duration = playerRef.current.getDuration();
+            if (duration && duration !== Infinity) {
+              local.setValue('duration', duration)
             }
           }}
           onStart={(e) => {
@@ -472,34 +479,6 @@ export default function Player({
 
               <Handler
                 style={{ left: local.isDrag ? local.displayPercent + '%' : (local.duration ? 100 * local.realtime / local.duration : 0) + '%' }}
-                onTouchStartCapture={e => {
-                  e.stopPropagation();
-                  local.setValue('dragtime', local.realtime)
-                  local.setValue('displayPercent', 100 * local.realtime / local.duration)
-                  local.setValue('isDrag', true)
-                }}
-                onTouchMove={e => {
-                  const parentRect = e.currentTarget.parentElement.getBoundingClientRect();
-                  let offsetX = e.touches[0].clientX - parentRect.left;
-                  if (offsetX < 0) {
-                    offsetX = 0;
-                  }
-                  if (offsetX > parentRect.width) {
-                    offsetX = parentRect.width;
-                  }
-                  local.setValue('dragtime', Math.round(offsetX / parentRect.width * local.duration))
-                  local.setValue('displayPercent', 100 * offsetX / parentRect.width)
-                }}
-                onTouchEnd={e => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  const time = local.dragtime
-                  seekTo(time);
-                  local.setValue('seeking', true)
-                  local.setValue('realtime', time)
-                  local.setValue('isDrag', false)
-                  local.setValue('displayPercent', 0)
-                }}
               >
                 {local.isDrag && <Tip>{formatDuration(local.dragtime)}</Tip>}
               </Handler>

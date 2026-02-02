@@ -87,6 +87,7 @@ export const VControl = styled.div`
 `
 export const ProgressWrap = styled.div`
 display: flex;
+user-select: none;
 touch-action: none;
 flex-direction: column;
 padding: 4px;

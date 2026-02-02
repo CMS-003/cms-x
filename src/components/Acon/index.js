@@ -116,7 +116,7 @@ const Map = {
   setting: Settings,
   thunder: LoaderPinwheel,
   bars: Library,
-  star: Star,
+  Star: Star,
   notify: Bell,
   history: CalendarRange,
   ScanLine,
@@ -135,7 +135,6 @@ const Map = {
   MessageCircleMore,
   Smile,
   Info,
-  Star,
 
   CirclePlus,
   CircleCheck,
@@ -211,8 +210,8 @@ const Wrap = styled.span`
 export default function Acon({ icon, size = 24, color, spin = false, rotate, title, hidden, onClick, ...props }) {
   const Icon = Map[icon] || CircleQuestionMark;
   if (!hidden) {
-    return <Wrap style={{ ...props.style, color: color || 'white' }} {...(browser.getPlatformType() === 'pc' ? { onClick: onClick } : { onTouchEnd: onClick })} >
-      <Icon name={icon} style={{ transform: `rotate(${props.rotate || 0})`, color: color || 'black' }} {...props} size={props.size || 18} /> {props.title}
+    return <Wrap style={{ color: color || 'white' }} {...(browser.getPlatformType() === 'pc' ? { onClick: onClick } : { onTouchEnd: onClick })} >
+      <Icon name={icon} style={{ transform: `rotate(${props.rotate || 0})`, color: color || 'black' }} {...props} size={size} /> {props.title}
     </Wrap>
   }
   return null;

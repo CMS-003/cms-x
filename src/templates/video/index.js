@@ -215,9 +215,6 @@ export default function VideoPage(props) {
   const toggleStar = useCallback(async () => {
     const collected = local.resource.counter.collected
     try {
-      runInAction(() => {
-        local.resource.counter.collected = !collected
-      })
       const resp = collected
         ? await apis.fetchAPI('post', '/gw/api/gatling/pJFc2GC9W', { resource_id: local.resource._id })
         : await apis.fetchAPI('post', '/gw/api/gatling/jw-KAgBzI', {
@@ -226,13 +223,9 @@ export default function VideoPage(props) {
           title: local.resource.title,
           cover: local.resource.poster,
         });
-      if (resp.code === 0) {
-
-      } else {
-        runInAction(() => {
-          local.resource.counter.collected = collected
-        })
-      }
+      runInAction(() => {
+        local.resource.counter.collected = resp.code === 0 ? !collected : collected;
+      })
     } catch (e) {
       runInAction(() => {
         local.resource.counter.collected = collected

@@ -10,15 +10,15 @@ export function formatDuration(n) {
     h = 0,
     m = 0,
     s = 0;
-  n = typeof n === 'number' ? n.toFixed(0) : 0;
+  n = typeof n === 'number' ? Math.round(n) : 0;
   if (n > 3600) {
-    h = (n / 3600).toFixed(0);
+    h = Math.floor(n / 3600)
     if (h < 10) {
       h = '0' + h;
     }
     n = n % 3600;
   }
-  m = (n / 60).toFixed(0);
+  m = Math.floor(n / 60);
   if (m < 10) {
     m = '0' + m;
   }
