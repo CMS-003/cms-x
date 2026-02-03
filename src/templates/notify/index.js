@@ -44,10 +44,11 @@ export default function Notify({ template }) {
       <FullHeight>
         <Nav title={template.title} style={{ backgroundColor: '#58abdd', color: '#fff' }} />
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-evenly', padding: '15px 0', borderBottom: '5px solid #e4e4e4' }}>
-          <Acon icon="Comment" title='评论回复' style={{ gap: 5, flexDirection: 'column' }} />
-          <Acon icon="At" title='@我' style={{ gap: 5, flexDirection: 'column' }} />
-          <Acon icon="Thumb" title='收到的赞' style={{ gap: 5, flexDirection: 'column' }} />
-          <Acon icon="System" title='系统消息' style={{ gap: 5, flexDirection: 'column' }} />
+          <Acon icon="User" title='新增粉丝' color={'#666'} style={{ gap: 5, flexDirection: 'column' }} />
+          <Acon icon="Comment" title='评论回复' color={'#666'} style={{ gap: 5, flexDirection: 'column' }} />
+          <Acon icon="Heart" title='收藏' color={'#666'} style={{ gap: 5, flexDirection: 'column' }} />
+          <Acon icon="ThumbsUp" title='收到的赞' color={'#666'} style={{ gap: 5, flexDirection: 'column' }} />
+          {/* <Acon icon="System" title='系统消息' color={'#666'} style={{ gap: 5, flexDirection: 'column' }} /> */}
         </div>
         <FullHeightAuto>
           <PageList

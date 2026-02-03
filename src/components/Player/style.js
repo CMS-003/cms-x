@@ -135,13 +135,17 @@ export const VRecover = styled.div`
 `
 export const VError = styled.div`
   position: absolute;
-  background-color: #0004;
-  color: red;
+  background-color: #0000008a;
+  color: #d92626e0;
   padding: 4px 5px;
-  border-radius: 5;
-  zIndex: 12;
-  bottom: 20%;
+  z-index: 13;
   width: 100%;
-  text-align: center;
+  height: 80%;
+  bottom: 0;
+  display: flex;
+  font-size: 1.2rem;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   box-sizing: border-box;
 `

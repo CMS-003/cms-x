@@ -386,7 +386,7 @@ export default function Player({
                   router.backView()
                 }
               }} />
-              <div style={{ paddingRight: 15 }}>
+              <div style={{ paddingRight: 15, zIndex: 15 }}>
                 <Acon icon='Info' color={'#fff'} onClick={() => {
                   if (isFetchCodec.current) return;
                   isFetchCodec.current = true;
@@ -430,9 +430,6 @@ export default function Player({
           }}>
             恢复到 {formatDuration(looktime)}
           </VRecover>
-        </Visible>
-        <Visible visible={local.error}>
-          <VError>{local.error}</VError>
         </Visible>
         <Visible visible={local.showControl}>
           <VControl style={{ paddingBottom: local.fullscreen ? 'var(--safe-padding-bottom)' : '5px' }} ref={controlRef}>
@@ -488,6 +485,9 @@ export default function Player({
               local.setValue('fullscreen', !local.fullscreen)
             }} />
           </VControl>
+        </Visible>
+        <Visible visible={local.error}>
+          <VError>{local.error}</VError>
         </Visible>
       </div>
     </div>

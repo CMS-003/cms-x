@@ -338,7 +338,7 @@ export default function VideoPage(props) {
                         <TxtOmit>{local.resource.uname}</TxtOmit>
                       </ItemWrap>
                       <span>{dayjs(local.resource.publishedAt).format('YYYY年MM月日DD HH:mm')}</span>
-                      <Acon icon='Star' color='pink' size={24} fill={local.resource.counter.collected ? 'pink' : 'transparent'} onClick={toggleStar} onTouchEnd={toggleStar} />
+                      <Acon icon='Star' color='pink' size={24} fill={local.resource.counter.collected ? 'pink' : 'transparent'} onClick={toggleStar} />
                     </FullWidth>
                     <Ellipsis content={local.resource.content} rows={2}
                       expandText='展开'
