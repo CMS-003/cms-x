@@ -125,6 +125,24 @@ async function removeHistory(id) {
   return shttp.delete(`/gw/api/v1/public/history/${id}`);
 }
 
+function getCompilationList(query) {
+  return shttp({
+    url: `/gw/api/v1/public/compilations`,
+  });
+}
+
+function getCompilationDetail(id) {
+  return shttp({
+    url: `/gw/api/v1/public/compilations/${id}`,
+  });
+}
+
+function getCompilationResources(id, query) {
+  return shttp({
+    url: `/gw/api/v1/public/compilations/${id}/resources${qs.stringify(query, { addQueryPrefix: true })}`,
+  });
+}
+
 const apis = {
   getApi,
   boot,
@@ -148,6 +166,9 @@ const apis = {
   toggleFollow,
   createHistory,
   removeHistory,
+  getCompilationList,
+  getCompilationDetail,
+  getCompilationResources
 }
 
 export default apis;

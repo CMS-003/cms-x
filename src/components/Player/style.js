@@ -140,8 +140,9 @@ export const VError = styled.div`
   padding: 4px 5px;
   z-index: 13;
   width: 100%;
-  height: 80%;
+  height: 100%;
   bottom: 0;
+  z-index: 11;
   display: flex;
   font-size: 1.2rem;
   flex-direction: column;

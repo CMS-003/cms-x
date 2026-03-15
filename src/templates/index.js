@@ -15,6 +15,8 @@ import searchEntry from "./search-entry";
 import searchResult from "./search-result";
 import chat from "./chat";
 import user from "./user";
+import compilation from "./compilation";
+import compilations from "./compilations";
 
 import article from "./article";
 import video from "./video";
@@ -38,6 +40,8 @@ export const Templates = {
   'search-result': searchResult,
   chat,
   user,
+  compilation,
+  compilations,
   timeline,
   'sign-in': SignIn
 }
