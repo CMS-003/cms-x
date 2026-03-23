@@ -281,7 +281,7 @@ export default function VideoPage(props) {
   return <Observer>{() => (
     <SafeArea topBGC="black" bot="0">
       <div data-angel={store.app.orientation} data-id='test' style={{ display: 'flex', flexDirection: 'row', width: '100%', height: '100%', position: 'relative', overflow: 'hidden' }}>
-        <FullHeight style={store.app.direction === 'portrait' ? { width: '100%', height: '100%', position: 'relative' } : { width: '60%', overflow: 'hidden' }}>
+        <FullHeight style={store.app.direction === 'portrait' ? { width: '100%', height: '100%', position: 'relative' } : { width: '70%', overflow: 'hidden' }}>
           <FullHeightFix style={{ flexDirection: 'column', backgroundColor: 'black' }}>
             <Player
               resource={local.resource}
@@ -318,7 +318,7 @@ export default function VideoPage(props) {
                 setActiveIndex(index)
               }}
             >
-              <Swiper.Item style={{ overflow: 'hidden', width: '100%' }}>
+              <Swiper.Item style={{ overflow: 'auto', width: '100%' }}>
                 {
                   local.resource ? (<Fragment>
                     <Title>
@@ -401,7 +401,7 @@ export default function VideoPage(props) {
                     </Visible>
                   </Fragment>) : null
                 }
-                {store.app.direction === 'portrait' && <Recommend recommends={local.recommends} />}
+                {store.app.direction === 'portrait' && <Recommend recommends={local.recommends} style={{ height: 'auto' }} />}
               </Swiper.Item>
               <Swiper.Item style={{ display: 'flex', flexDirection: 'column' }}>
                 <div style={{ flex: 1, overflow: 'auto' }}>
@@ -486,7 +486,7 @@ export default function VideoPage(props) {
             </Swiper>
           </FullHeightAuto>
         </FullHeight>
-        {store.app.direction === 'landscape' && <Recommend recommends={local.recommends} style={{ flex: 1, width: 450 }} />}
+        {store.app.direction === 'landscape' && <Recommend recommends={local.recommends} style={{ flex: '1 1 30%', }} />}
       </div>
     </SafeArea>
   )}</Observer>
