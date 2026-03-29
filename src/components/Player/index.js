@@ -119,7 +119,16 @@ export default function Player({
   const DOUBLE_TAP_MS = 250; // 双击间隔阈值（毫秒）
   // 长按：pointerdown 开 timer，pointerup/leave 清除
   const onLongPress = useCallback(() => {
-    local.setValue('playbackRate', 2)
+    // local.setValue('playbackRate', 2)
+    const video = playerRef.current.getInternalPlayer();;
+    if (!video) return;
+    const currentTime = video.currentTime
+    video.playbackRate = 2.0;
+    setTimeout(() => {
+      if (Math.abs(video.currentTime - currentTime) > 0.05) {
+        playerRef.current.seekTo(currentTime);
+      }
+    }, 10)
   })
   const startLongPress = useCallback((e) => {
     if (!local.playing) return;
@@ -127,7 +136,7 @@ export default function Player({
     longPressTimer.current = setTimeout(() => {
       local.setValue('isLongPressing', true)
       onLongPress()
-    }, 550); // 550ms 为长按阈值（可调）
+    }, 350); // 550ms 为长按阈值（可调）
   }, [onLongPress]);
 
   const cancelLongPress = useCallback(() => {
@@ -136,7 +145,17 @@ export default function Player({
       longPressTimer.current = null;
     }
     local.isLongPressing && local.setValue('isLongPressing', false)
-    local.playbackRate !== 1 && local.setValue('playbackRate', 1)
+    // local.playbackRate !== 1 && local.setValue('playbackRate', 1)
+    const video = playerRef.current?.getInternalPlayer();
+    if (video) {
+      const currentTime = video.currentTime
+      video.playbackRate = 1.0;
+      setTimeout(() => {
+        if (Math.abs(video.currentTime - currentTime) > 0.05) {
+          playerRef.current.seekTo(currentTime);
+        }
+      }, 10)
+    }
   }, []);
   const bind = useGesture({
     onDrag: ({
@@ -170,7 +189,9 @@ export default function Player({
     },
     onPointerDown: (state) => startLongPress(state.event),
     onPointerUp: ({ event }) => {
-      cancelLongPress()
+      if (local.isLongPressing) {
+        return cancelLongPress();
+      }
       const e = event;
       const now = Date.now();
       if (swipped.current) {
@@ -291,7 +312,7 @@ export default function Player({
           pip={true}
           controls={local.controls}
           playsinline={local.playsinline}
-          playbackRate={local.playbackRate}
+          // playbackRate={local.playbackRate}
           muted={local.muted}
           wrapper={VWrapper}
           // light={
