@@ -127,7 +127,7 @@ async function removeHistory(id) {
 
 function getCompilationList(query) {
   return shttp({
-    url: `/gw/api/v1/public/compilations`,
+    url: `/gw/api/v1/public/compilations${qs.stringify(query, { addQueryPrefix: true })}`,
   });
 }
 

@@ -14,6 +14,9 @@ export default function User({ template, id }) {
     status: 'loading', // success/failure
     loading: true,
     resources: [],
+    user: {
+      counted: {},
+    },
     page: 1,
     hasMore: true,
     setResources(resources) {
@@ -85,7 +88,7 @@ export default function User({ template, id }) {
       return (
         <SafeArea>
           <Nav />
-          <FullWidth style={{ alignItems: 'stretch', padding: 10 }}>
+          <FullWidth style={{ padding: 10 }}>
             <AlignCenter style={{ width: 70, height: 70, marginRight: 10 }}>
               <img
                 src={local.compilation?.cover || '/images/nocover.jpg'}

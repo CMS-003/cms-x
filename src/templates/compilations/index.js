@@ -66,7 +66,7 @@ export default function Compilations({ template, id }) {
     } else {
       return (
         <SafeArea>
-          <Nav />
+          <Nav title="精选集合" />
           <FullHeightAuto style={{ overflow: 'hidden auto' }}>
             <PageList
               display={'lprt'}
