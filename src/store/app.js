@@ -1,4 +1,3 @@
-import { isLandscape } from '@/utils';
 import { types } from 'mobx-state-tree';
 
 const Line = types.model('line', {

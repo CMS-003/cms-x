@@ -5,7 +5,7 @@ let isRefreshing = false;
 let requestQueue = [];
 
 const shttp = axios.create({
-  baseURL: '',
+  baseURL: store.app.baseURL,
   withCredentials: false,
   timeout: 20000,
 });
