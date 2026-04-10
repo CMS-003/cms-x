@@ -52,8 +52,10 @@ const View = types
     },
     backView() {
       self.clicked = true;
-      self.views.pop();
-      window.history.back()
+      if (self.views.length > 1) {
+        self.views.pop();
+        window.history.back()
+      }
     },
     setClicked(b) {
       self.clicked = b;
@@ -78,7 +80,7 @@ const View = types
       if (ViewPages[view_id]) {
         return ViewPages[view_id]
       }
-      ViewPages[view_id] = ({ active, query }) => <Template view={view} id={id} active={active} query={query}/>
+      ViewPages[view_id] = ({ active, query }) => <Template view={view} id={id} active={active} query={query} />
       return ViewPages[view_id]
     }
   }));
