@@ -58,14 +58,6 @@ img {
   }
 }
 
-/* 默认竖屏使用底部 inset */
-:root {
-  --safe-padding-top: 42px;
-  --safe-padding-right: env(safe-area-inset-right, 0px);
-  --safe-padding-bottom: 30px;
-  --safe-padding-left: env(safe-area-inset-left, 0px);
-}
-
 .react-player__shadow,
 .react-player__play-icon {
   display: none;
