@@ -4,6 +4,7 @@ import Gallery from './gallery'
 import Video from './video'
 import Post from "./post";
 import User from "./user";
+import Compilation from "./compilation";
 
 export default function ResourceItem({ item, display }) {
   return <Observer>{() => {
@@ -20,6 +21,8 @@ export default function ResourceItem({ item, display }) {
         return <Post item={item} display={display} />
       case 13:
         return <User item={item} display={display} />
+      case 14:
+        return <Compilation item={item} />
       default:
         return <Video item={item} display={display} />;
     }

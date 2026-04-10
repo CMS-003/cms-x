@@ -13,7 +13,7 @@ const App = types
     isBooting: types.optional(types.boolean, true),
     debug: types.optional(types.boolean, false),
     fullscreen: types.optional(types.boolean, false),
-    landscape: types.optional(types.boolean, false),
+    direction: types.enumeration(['landscape', 'portrait']),
     orientation: types.optional(types.number, 0),
     baseURL: types.optional(types.string, '/'),
     storagePrefix: types.optional(types.string, 'novel_'),
@@ -26,9 +26,10 @@ const App = types
     setBoot(b) {
       self.isBooting = b
     },
+    setDirection(direction) {
+      self.direction = direction;
+    },
     setOrientation(angel) {
-      // 事件触发时还尺寸没生效要取反
-      self.landscape = !(window.innerWidth > window.innerHeight);
       self.orientation = angel
     },
   }))

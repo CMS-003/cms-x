@@ -27,7 +27,7 @@ import {
   Upload,
   Copy,
   X,
-  User,
+  UserRound,
   Loader,
   Plus,
   Check,
@@ -53,7 +53,6 @@ import {
   Cable,
   MonitorCog,
   CircleQuestionMark,
-  LucideProps,
   ChartLine,
   FolderCog,
   ScanLine,
@@ -88,6 +87,8 @@ import {
   Menu,
   ThumbsUp,
   MessageCircleMore,
+  AtSign,
+  Heart,
   Smile,
   Info,
   Star,
@@ -95,6 +96,27 @@ import {
   Library,
 } from 'lucide-react';
 import styled from 'styled-components';
+
+const System = (props) => <Icon component={svgSystem} {...props} />;
+const At = (props) => <Icon component={svgAt} {...props} />;
+const Thumb = (props) => <Icon component={svgThumb} {...props} />;
+const Comment = (props) => <Icon component={svgComment} {...props} />;
+const expression = (props) => <Icon component={svgExpression} {...props} />;
+const voice = (props) => <Icon component={svgVoice} {...props} style={{ width: 50, height: 50 }} />;
+const fanju = (props) => <Icon component={fanjuSVG} style={{ fontSize: 50 }}>{props.children}</Icon>;
+const movie = (props) => <Icon component={movieSVG} style={{ fontSize: 50 }}>{props.children}</Icon>;
+const anime = (props) => <Icon component={animeSVG} style={{ fontSize: 50 }} />;
+const image = (props) => <Icon component={imageSVG} style={{ fontSize: 50 }} />;
+const novel = (props) => <Icon component={novelSVG} style={{ fontSize: 50 }} />;
+const video = (props) => <Icon component={videoSVG} style={{ fontSize: 50 }} />;
+const posts = (props) => <Icon component={postsSVG} style={{ fontSize: 50 }} />;
+const music = (props) => <Icon component={musicSVG} style={{ fontSize: 50 }} />;
+const zixun = (props) => <Icon component={zixunSVG} style={{ fontSize: 50 }} />;
+const foods = (props) => <Icon component={foodsSVG} style={{ fontSize: 50 }} />;
+const comic = (props) => <Icon component={comicSVG} style={{ fontSize: 50 }} />;
+const life = (props) => <Icon component={lifeSVG} style={{ fontSize: 50 }} />;
+const person = (props) => <Icon component={personSVG} style={{ fontSize: 50 }} />;
+const pixiv = (props) => <Icon component={pixivSVG} style={{ fontSize: 50 }} />;
 
 const Map = {
   Loader,
@@ -109,14 +131,14 @@ const Map = {
   Trash2,
   Bug,
   House,
-  User,
+  User: UserRound,
   Settings,
   home: House,
-  user: User,
+  user: UserRound,
   setting: Settings,
   thunder: LoaderPinwheel,
   bars: Library,
-  star: Star,
+  Star: Star,
   notify: Bell,
   history: CalendarRange,
   ScanLine,
@@ -133,9 +155,11 @@ const Map = {
 
   ThumbsUp,
   MessageCircleMore,
+  Comment: MessageCircleMore,
+  At: AtSign,
+  Heart,
   Smile,
   Info,
-  Star,
 
   CirclePlus,
   CircleCheck,
@@ -173,28 +197,22 @@ const Map = {
   Bell,
   Mail,
   Menu,
-}
 
-const System = (props) => <Icon component={svgSystem} {...props} />;
-const At = (props) => <Icon component={svgAt} {...props} />;
-const Thumb = (props) => <Icon component={svgThumb} {...props} />;
-const Comment = (props) => <Icon component={svgComment} {...props} />;
-const expression = (props) => <Icon component={svgExpression} {...props} />;
-const voice = (props) => <Icon component={svgVoice} {...props} />;
-const fanju = (props) => <Icon component={fanjuSVG} {...props} />;
-const movie = (props) => <Icon component={movieSVG} {...props} />;
-const anime = (props) => <Icon component={animeSVG} {...props} />;
-const image = (props) => <Icon component={imageSVG} {...props} />;
-const novel = (props) => <Icon component={novelSVG} {...props} />;
-const video = (props) => <Icon component={videoSVG} {...props} />;
-const posts = (props) => <Icon component={postsSVG} {...props} />;
-const music = (props) => <Icon component={musicSVG} {...props} />;
-const zixun = (props) => <Icon component={zixunSVG} {...props} />;
-const foods = (props) => <Icon component={foodsSVG} {...props} />;
-const comic = (props) => <Icon component={comicSVG} {...props} />;
-const life = (props) => <Icon component={lifeSVG} {...props} />;
-const person = (props) => <Icon component={personSVG} {...props} />;
-const pixiv = (props) => <Icon component={pixivSVG} {...props} />;
+  fanju,
+  movie,
+  anime,
+  image,
+  novel,
+  video,
+  posts,
+  music,
+  zixun,
+  foods,
+  comic,
+  life,
+  person,
+  pixiv,
+}
 
 const Wrap = styled.span`
   display: flex;
@@ -211,8 +229,9 @@ const Wrap = styled.span`
 export default function Acon({ icon, size = 24, color, spin = false, rotate, title, hidden, onClick, ...props }) {
   const Icon = Map[icon] || CircleQuestionMark;
   if (!hidden) {
-    return <Wrap style={{ ...props.style, color: color || 'white' }} {...(browser.getPlatformType() === 'pc' ? { onClick: onClick } : { onTouchEnd: onClick })} >
-      <Icon name={icon} style={{ transform: `rotate(${props.rotate || 0})`, color: color || 'black' }} {...props} size={props.size || 18} /> {props.title}
+    return <Wrap style={{ color: color || 'white', ...props.style }} {...(browser.getPlatformType() === 'pc' ? { onClick: onClick } : { onTouchEnd: onClick })} >
+      <Icon name={icon} style={{ transform: `rotate(${props.rotate || 0})`, color: color || 'black' }} {...props} size={size} />
+      {title}
     </Wrap>
   }
   return null;

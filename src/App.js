@@ -44,6 +44,9 @@ function App() {
     window.addEventListener('orientationchange', () => {
       store.app.setOrientation(window.screen.orientation.angle)
     })
+    window.addEventListener('resize', () => {
+      store.app.setDirection(window.innerWidth > window.innerHeight ? 'landscape' : 'portrait')
+    })
   })
   return (
     <Observer>{() => {

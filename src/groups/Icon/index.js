@@ -7,7 +7,7 @@ import { toJS } from "mobx";
 export default function Icon({ self }) {
   const router = useRouter();
   return <Observer>{() => (
-    <Acon icon={self.icon} title={self.title} color={'black'} style={toJS(self.style)} onClick={() => {
+    <Acon icon={self.icon} title={self.title} color={'black'} style={toJS(self.style)} size={self.attrs.size || 20} onClick={() => {
       if (self.widget.action === 'GOTO_PAGE') {
         if (self.attrs.auth && !store.user.isLogin) {
           const handler = Dialog.show({

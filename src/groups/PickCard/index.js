@@ -1,13 +1,17 @@
 import { Fragment } from 'react'
 import { Observer, useLocalObservable } from "mobx-react-lite";
 import styled from 'styled-components'
-import { ResourceItem } from '@/global.js';
+import { ResourceItem, useRouter } from '@/global.js';
+import { Acon } from '@/components';
 
 const Header = styled.div`
  font-weight: 600;
  font-size: 16px;
  padding: 10px;
  color: #555;
+ display: flex;
+ flex-direction: row;
+ justify-content: space-between;
 `
 const Content = styled.div`
   border-radius: 4px;
@@ -47,6 +51,7 @@ const ItemTitle = styled.div`
   margin: 5px 0;
 `
 export default function CCard({ self, children }) {
+  const router = useRouter()
   const local = useLocalObservable(() => ({
     show: false,
     close() {
@@ -68,12 +73,20 @@ export default function CCard({ self, children }) {
       {children}
       <Header>
         {self.title}
+        {self.attrs.more && <div
+          style={{ display: 'flex', alignItems: 'center', fontSize: 14, color: '#999' }}
+          onClick={() => {
+            router.pushView('compilations', {})
+          }}
+        >
+          更多
+          <Acon icon={'ChevronRight'} size={18} color={'#999'} /></div>}
       </Header>
       <Content>
         <ScrollWrap>
           {self.resources?.map(item => (<Fragment key={item._id}>
             <ItemWrap>
-              <ResourceItem item={item} display={self.attrs.display}/>
+              <ResourceItem item={item} display={self.attrs.display} />
             </ItemWrap>
           </Fragment>))}
         </ScrollWrap>

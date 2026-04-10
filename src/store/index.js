@@ -16,7 +16,7 @@ const store = Store.create({
     debug: true,
     baseURL: '',
     orientation: window.orientation,
-    landscape: window.innerWidth > window.innerHeight,
+    direction: window.innerWidth > window.innerHeight ? 'landscape' : 'portrait',
   },
   user: {
     access_token: storage.getValue('access_token') || '',

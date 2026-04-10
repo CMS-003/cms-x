@@ -215,9 +215,6 @@ export default function VideoPage(props) {
   const toggleStar = useCallback(async () => {
     const collected = local.resource.counter.collected
     try {
-      runInAction(() => {
-        local.resource.counter.collected = !collected
-      })
       const resp = collected
         ? await apis.fetchAPI('post', '/gw/api/gatling/pJFc2GC9W', { resource_id: local.resource._id })
         : await apis.fetchAPI('post', '/gw/api/gatling/jw-KAgBzI', {
@@ -226,13 +223,9 @@ export default function VideoPage(props) {
           title: local.resource.title,
           cover: local.resource.poster,
         });
-      if (resp.code === 0) {
-
-      } else {
-        runInAction(() => {
-          local.resource.counter.collected = collected
-        })
-      }
+      runInAction(() => {
+        local.resource.counter.collected = resp.code === 0 ? !collected : collected;
+      })
     } catch (e) {
       runInAction(() => {
         local.resource.counter.collected = collected
@@ -288,7 +281,7 @@ export default function VideoPage(props) {
   return <Observer>{() => (
     <SafeArea topBGC="black" bot="0">
       <div data-angel={store.app.orientation} data-id='test' style={{ display: 'flex', flexDirection: 'row', width: '100%', height: '100%', position: 'relative', overflow: 'hidden' }}>
-        <FullHeight style={store.app.landscape ? { width: '60%', overflow: 'hidden' } : { width: '100%', height: '100%', position: 'relative' }}>
+        <FullHeight style={store.app.direction === 'portrait' ? { width: '100%', height: '100%', position: 'relative' } : { width: '70%', overflow: 'hidden' }}>
           <FullHeightFix style={{ flexDirection: 'column', backgroundColor: 'black' }}>
             <Player
               resource={local.resource}
@@ -325,7 +318,7 @@ export default function VideoPage(props) {
                 setActiveIndex(index)
               }}
             >
-              <Swiper.Item style={{ overflow: 'hidden', width: '100%' }}>
+              <Swiper.Item style={{ overflow: 'auto', width: '100%' }}>
                 {
                   local.resource ? (<Fragment>
                     <Title>
@@ -345,7 +338,7 @@ export default function VideoPage(props) {
                         <TxtOmit>{local.resource.uname}</TxtOmit>
                       </ItemWrap>
                       <span>{dayjs(local.resource.publishedAt).format('YYYY年MM月日DD HH:mm')}</span>
-                      <Acon icon='Star' color='pink' size={24} fill={local.resource.counter.collected ? 'pink' : 'transparent'} onClick={toggleStar} onTouchEnd={toggleStar} />
+                      <Acon icon='Star' color='pink' size={24} fill={local.resource.counter.collected ? 'pink' : 'transparent'} onClick={toggleStar} />
                     </FullWidth>
                     <Ellipsis content={local.resource.content} rows={2}
                       expandText='展开'
@@ -408,7 +401,7 @@ export default function VideoPage(props) {
                     </Visible>
                   </Fragment>) : null
                 }
-                {!store.app.landscape && <Recommend recommends={local.recommends} />}
+                {store.app.direction === 'portrait' && <Recommend recommends={local.recommends} style={{ height: 'auto' }} />}
               </Swiper.Item>
               <Swiper.Item style={{ display: 'flex', flexDirection: 'column' }}>
                 <div style={{ flex: 1, overflow: 'auto' }}>
@@ -493,7 +486,7 @@ export default function VideoPage(props) {
             </Swiper>
           </FullHeightAuto>
         </FullHeight>
-        {store.app.landscape && <Recommend recommends={local.recommends} style={{ flex: 1, width: 450 }} />}
+        {store.app.direction === 'landscape' && <Recommend recommends={local.recommends} style={{ flex: '1 1 30%', }} />}
       </div>
     </SafeArea>
   )}</Observer>
