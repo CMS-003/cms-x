@@ -5,7 +5,7 @@ import { runInAction } from "mobx";
 import { apis, store, } from '@/global.js';
 import { default as dayjs } from "dayjs";
 import { Space, Tag } from "antd-mobile";
-import Comment, { CommentInput, CommentList } from "@/components/Comment/index.js";
+import Comment, { CommentInput, CommentList } from "@/components/Comment/index.jsx";
 
 export default function ArticlePage(props) {
   const local = useLocalObservable(() => ({

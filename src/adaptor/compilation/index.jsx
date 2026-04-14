@@ -1,7 +1,7 @@
 import { Observer } from 'mobx-react-lite';
 import { readableTime, useRouter } from '@/global.js'
 import { ItemWrap } from '../style'
-import { FullWidth, FullWidthAuto } from '@/components/index.js';
+import { FullWidth, FullWidthAuto } from '@/components/index.jsx';
 
 export default function Compilation({ item }) {
   const router = useRouter()

@@ -1,7 +1,7 @@
 import { Observer } from 'mobx-react-lite';
 import { readableTime, useRouter } from '@/global.js'
 import { ItemWrap, ItemTitle, Uname } from '../style'
-import { FullHeightAuto, FullWidth, FullWidthAuto } from '@/components/index.js';
+import { FullHeightAuto, FullWidth, FullWidthAuto } from '@/components';
 import { Tag } from 'antd-mobile';
 
 export default function Article({ item }) {

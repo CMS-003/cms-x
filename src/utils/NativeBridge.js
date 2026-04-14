@@ -47,7 +47,6 @@ const NativeBridge = {
    * @param {bool} lock 
    */
   async lockScreen(lock) {
-    console.log('lock??', lock)
     return this.call('lockScreen', { lock })
   },
   /**

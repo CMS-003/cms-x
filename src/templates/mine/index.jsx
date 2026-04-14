@@ -3,7 +3,7 @@ import { apis, store, useRouter } from '@/global.js';
 import { Button, List } from "antd-mobile";
 import styled from "styled-components";
 import { Observer } from "mobx-react-lite";
-import Auto from "@/groups/auto.js";
+import Auto from "@/groups/auto";
 import { Acon, AlignCenter, CenterXY, FullHeight, FullHeightFix, FullWidth, FullWidthAuto } from "@/components";
 
 const Btn = styled.div`

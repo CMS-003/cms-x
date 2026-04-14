@@ -1,7 +1,7 @@
 import { Fragment, useCallback } from "react";
 import { useEffectOnce } from "react-use";
 import { apis } from '@/global.js';
-import Auto from "../../groups/auto.js";
+import Auto from "../../groups/auto";
 import { SpinLoading } from 'antd-mobile'
 import { Observer, useLocalObservable } from "mobx-react-lite";
 import { SafeArea, Nav, CenterXY } from "@/components";

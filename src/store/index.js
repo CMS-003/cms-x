@@ -3,7 +3,7 @@ import User from './user';
 import App from './app'
 import storage from '../utils/storage';
 
-storage.prefix = `${APP}_`
+storage.prefix = `${App}_`
 
 const Store = types.model('store', {
   app: App,

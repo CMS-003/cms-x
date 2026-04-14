@@ -5,7 +5,7 @@ import apis from './apis'
 import { useEffectOnce } from 'react-use';
 import { CenterXY } from './components'
 import { Button } from 'antd-mobile';
-import Router from './router.js'
+import Router from './router.jsx'
 import NativeBridge from './utils/NativeBridge'
 
 function App() {

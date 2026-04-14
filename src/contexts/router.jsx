@@ -2,7 +2,7 @@ import React from 'react'
 
 import { set } from 'lodash'
 import { types } from 'mobx-state-tree';
-import Template from '@/templates/index.js';
+import Template from '@/templates/index.jsx';
 
 const ViewPages = {
 
