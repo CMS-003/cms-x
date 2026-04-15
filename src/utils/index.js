@@ -1,9 +1,9 @@
-import * as bowser from 'bowser';
+import Bowser from 'bowser';
 
 export { default as shttp } from './shttp.js'
 export { default as storage } from './storage.js'
 
-export const browser = bowser.getParser(window.navigator.userAgent);
+export const browser = Bowser.getParser(window.navigator.userAgent);
 
 export function formatDuration(n) {
   let time = '',

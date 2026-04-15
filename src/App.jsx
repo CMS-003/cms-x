@@ -58,7 +58,7 @@ function App() {
           left: 0,
           right: 0,
           height: '100vh',
-          backgroundImage: `url(/${APP}/logo.png)`
+          backgroundImage: `url(/${AppName}/logo.png)`
         }}>
 
         </CenterXY>
