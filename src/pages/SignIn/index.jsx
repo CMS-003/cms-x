@@ -33,9 +33,6 @@ export default function SignIn() {
             onClick={() => {
               router.backView();
             }}
-            onTouchEnd={() => {
-              router.backView();
-            }}
           />
           登录
         </FullHeightFix>

@@ -20,6 +20,6 @@ module.exports = {
     "react-hooks/exhaustive-deps": "off"
   },
   globals: {
-    APP: "readonly"
+    AppName: "readonly"
   }
 };

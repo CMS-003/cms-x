@@ -2,10 +2,10 @@ import React, { useContext, useEffect } from 'react';
 import { BrowserRouter, Route, Routes, Navigate, useNavigate } from 'react-router';
 import store from './store';
 import { Observer } from 'mobx-react-lite';
-import RouterContext from './contexts/router.js';
+import RouterContext from './contexts/router.jsx';
 import styled from 'styled-components';
 import { motion, AnimatePresence } from "motion/react"
-import Template from './templates/index.js';
+import Template from './templates/index.jsx';
 
 const LayerWrap = styled.div`
   position: relative;
@@ -41,7 +41,7 @@ function Adaptor() {
         <AnimatePresence>
           {router.views.map((view, n) => {
             if (n === 0) {
-              return <Template view={APP} key={n} />;
+              return <Template view={AppName} key={n} />;
             }
             const View = router.getViewPage(view.view, view.query['id'])
             return <motion.div
@@ -63,9 +63,9 @@ function Adaptor() {
 
 function NoMatch() {
   if (store.user.isLogin) {
-    return <Navigate replace={process.env.PUBLIC_URL + '/home'}></Navigate>;
+    return <Navigate replace={AppName + '/home'}></Navigate>;
   } else {
-    return <Navigate replace={process.env.PUBLIC_URL + '/login'}></Navigate>;
+    return <Navigate replace={AppName + '/login'}></Navigate>;
   }
 }
 
@@ -73,7 +73,7 @@ export default function Router() {
   return (
     <BrowserRouter >
       <Routes>
-        <Route path={process.env.PUBLIC_URL + '/*'} element={<Adaptor />}></Route>
+        <Route path={AppName + '/*'} element={<Adaptor />}></Route>
         <Route element={<NoMatch />} />
       </Routes>
     </BrowserRouter>

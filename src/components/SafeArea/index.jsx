@@ -4,8 +4,8 @@ import { FullHeight, FullHeightFix } from "@/components";
 
 export default function SafeArea({
   height = '100%',
-  top = 'env(safe-area-inset-top)',
-  bot = 'env(safe-area-inset-bottom)',
+  top = 'max(var(--safe-padding-top), env(safe-area-inset-top)',
+  bot = 'max(var(--safe-padding-bottom), env(safe-area-inset-bottom)',
   topBGC = 'transparent',
   botBGC = 'transparent',
   children,

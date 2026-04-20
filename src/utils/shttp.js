@@ -15,7 +15,7 @@ shttp.interceptors.request.use(
     if (store.app.debug) {
       console.log(`${config.method} ${config.url}`);
     }
-    config.headers['x-project-id'] = APP;
+    config.headers['x-project-id'] = AppName;
     if (store.user.access_token) {
       config.headers['Authorization'] = 'Bearer ' + store.user.access_token;
     }

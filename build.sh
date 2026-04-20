@@ -23,26 +23,6 @@ if [ ! -f "$TARGET_FILE" ]; then
   echo "❌ 文件不存在: $TARGET_FILE"
   exit 1
 fi
-
-# 使用 sed 替换所有 demo 为 APP_NAME（兼容 macOS 和 Linux）
-if [[ "$OSTYPE" == "darwin"* ]]; then
-  sed -i '' "s/demo/$APP_NAME/g" "$TARGET_FILE"
-else
-  sed -i "s/demo/$APP_NAME/g" "$TARGET_FILE"
-fi
-TARGET_FILE="public/manifest.json"
-if [ ! -f "$TARGET_FILE" ]; then
-  echo "❌ 文件不存在: $TARGET_FILE"
-  exit 1
-fi
-
-# 使用 sed 替换所有 demo 为 APP_NAME（兼容 macOS 和 Linux）
-if [[ "$OSTYPE" == "darwin"* ]]; then
-  sed -i '' "s/demo/$APP_NAME/g" "$TARGET_FILE"
-else
-  sed -i "s/demo/$APP_NAME/g" "$TARGET_FILE"
-fi
-
 echo "✅ 已将 demo 替换为 $APP_NAME"
 
 # 3. 构建项目
@@ -56,7 +36,5 @@ fi
 mv build "$APP_NAME"
 
 git checkout .env
-git checkout .gitignore
-git checkout public/manifest.json
 
 echo "✅ 构建完成，输出目录已重命名为：$APP_NAME"

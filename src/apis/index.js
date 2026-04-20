@@ -25,7 +25,7 @@ function getApi(rawUrl, additionalQuery) {
 
 function boot() {
   return shttp({
-    url: '/gw/api/v1/public/boot/' + APP
+    url: '/gw/api/v1/public/boot/' + AppName
   })
 }
 
@@ -49,7 +49,7 @@ function getResourceDetail(id) {
 
 function getResourceList(query) {
   return shttp({
-    url: `/gw/api/v1/public/${APP}/resources${qs.stringify(query, { addQueryPrefix: true })}`,
+    url: `/gw/api/v1/public/${AppName}/resources${qs.stringify(query, { addQueryPrefix: true })}`,
   });
 }
 

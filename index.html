@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <link rel="icon" href="/logo.png" />
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <!-- 让状态栏背景变白或你想要的颜色 -->
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#000000" />
+  <meta name="description" content="Web site created using create-react-app" />
+  <link rel="apple-touch-icon" href="/logo.png" />
+  <!-- <script src="https://cdn.jsdelivr.net/npm/eruda"></script>
+  <script>eruda.init();</script> -->
+  <title>demo</title>
+  <script>
+    function updateSafeAreaPadding() {
+      let angle;
+      // 优先使用现代API
+      if (screen.orientation && typeof screen.orientation.angle === 'number') {
+        angle = screen.orientation.angle;
+      } else if (typeof window.orientation === 'number') {
+        angle = window.orientation;
+      } else {
+        angle = 0; // fallback
+      }
+    }
+    // 初始化
+    updateSafeAreaPadding();
+    // 监听方向变化
+    window.addEventListener('orientationchange', updateSafeAreaPadding);
+    if (screen.orientation) {
+      screen.orientation.addEventListener('change', updateSafeAreaPadding);
+    }
+  </script>
+</head>
+
+<body>
+  <noscript>You need to enable JavaScript to run this app.</noscript>
+  <div id="root"></div>
+  <script type="module" src="/src/index.jsx"></script>
+  <!--
+      This HTML file is a template.
+      If you open it directly in the browser, you will see an empty page.
+
+      You can add webfonts, meta tags, or analytics to this file.
+      The build step will place the bundled scripts into the <body> tag.
+
+      To begin the development, run `npm start` or `yarn start`.
+      To create a production bundle, use `npm run build` or `yarn build`.
+    -->
+</body>
+
+</html>

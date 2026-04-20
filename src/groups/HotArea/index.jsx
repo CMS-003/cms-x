@@ -1,7 +1,7 @@
 import { chunk } from "lodash";
 import { Observer } from "mobx-react-lite";
 import styled from "styled-components";
-import { Component } from "../auto.js";
+import { Component } from "../auto";
 import { toJS } from "mobx";
 
 const Row = styled.div`

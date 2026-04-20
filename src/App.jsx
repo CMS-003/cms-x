@@ -5,7 +5,8 @@ import apis from './apis'
 import { useEffectOnce } from 'react-use';
 import { CenterXY } from './components'
 import { Button } from 'antd-mobile';
-import Router from './router.js'
+import Router from './router.jsx'
+import NativeBridge from './utils/NativeBridge'
 
 function App() {
   const local = useLocalObservable(() => ({
@@ -33,6 +34,7 @@ function App() {
   }), [local])
   useEffectOnce(() => {
     biu();
+    window.NativeBridge = NativeBridge;
     window.addEventListener('online', () => {
       if (local.isError) {
         local.isError = false
@@ -50,7 +52,13 @@ function App() {
     <Observer>{() => {
       if (store.app.isBooting) {
         return <CenterXY style={{
-          backgroundImage: `url(/${APP}/logo.png)`
+          position: 'fixed',
+          top: 0,
+          bottom: 0,
+          left: 0,
+          right: 0,
+          height: '100vh',
+          backgroundImage: `url(/${AppName}/logo.png)`
         }}>
 
         </CenterXY>

@@ -1,10 +1,13 @@
 import { Observer, useLocalObservable } from "mobx-react-lite";
 import { useRouter } from '@/global.js';
 import styled from "styled-components";
-import Auto from "@/groups/auto.js";
+import Auto from "@/groups/auto.jsx";
 import { Input } from "antd-mobile";
 import { Nav, SafeArea, FullHeight, FullHeightAuto } from "@/components";
 import { useQuery } from "@/contexts";
+import QueryContext from "@/contexts/query";
+import events from "@/utils/event";
+import { omit } from "lodash";
 
 const Btn = styled.div`
   background-color: lightblue;
@@ -15,12 +18,12 @@ const Btn = styled.div`
   font-size: 14px;
 `
 
-export default function SearchEntry({ template }) {
+export default function SearchResult({ template }) {
   const router = useRouter()
-  const query = useQuery()
+  const query = useQuery();
   const local = useLocalObservable(() => ({
     compositing: false,
-    q: query.q || '',
+    q: decodeURI(query.q || ''),
     setComposition(b) {
       local.compositing = b;
     },
@@ -33,8 +36,8 @@ export default function SearchEntry({ template }) {
       <FullHeight>
         <Nav
           left={<Input
-            placeholder="请输入"
             defaultValue={local.q}
+            placeholder="请输入"
             style={{
               '--font-size': 14,
               display: 'flex',
@@ -52,20 +55,14 @@ export default function SearchEntry({ template }) {
             }}
             onChange={(txt) => {
               local.setQ(txt)
-            }}
-            onKeyUp={(e) => {
-              if (e.key === 'Enter' && !local.compositing && local.q.trim()) {
-                router.pushView('search-result', { q: local.q })
-              }
-            }}
-          />}
+            }} />}
           right={<span style={{ color: '#1677ff' }} onClick={() => {
-            if (local.q.trim()) {
-              router.pushView('search-result', { q: local.q })
-            }
+            events.emit('reset', { template: omit(template, ['children']) })
           }}>搜索</span>} />
         <FullHeightAuto style={{ overflow: 'hidden auto' }}>
-          <Auto template={template} />
+          <QueryContext.Provider value={local}>
+            <Auto template={template} />
+          </QueryContext.Provider>
         </FullHeightAuto>
       </FullHeight>
     </SafeArea>
