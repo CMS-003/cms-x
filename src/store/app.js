@@ -34,7 +34,7 @@ const App = types
   }))
   .views(self => ({
     get imageLine() {
-      return '';
+      return self.baseURL;
     },
     get videoLine() {
       return '';

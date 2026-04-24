@@ -63,7 +63,7 @@ export default function Template({ view, id, active, query }) {
       const resp = await apis.getTemplate(view)
 
       if (resp.code === 0) {
-        local.setValue('template', resp.data);
+        local.setValue('template', resp.data || { attrs: {}, name: view, children: [] });
       } else {
         local.setValue('template', { attrs: {}, name: view, children: [] })
         // local.isError = true;
