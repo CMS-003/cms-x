@@ -16,6 +16,7 @@
     "bowser": "^2.14.1",
     "date-fns": "^4.1.0",
     "dayjs": "^1.11.13",
+    "drawer-menu": "github:ruanjiayou/DrawerMenu",
     "event-emitter": "^0.3.5",
     "lodash": "^4.18.1",
     "lucide-react": "^0.561.0",

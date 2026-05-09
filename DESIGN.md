@@ -36,7 +36,7 @@
   - auth 要求先登陆
   - ❌ content_type 页面类型
   - 子组件属性
-> 优化方式. style,attrs(layout,selected,left/right,holder,confirm,columns,display,auth,template_id)
+> 优化方式. style,attrs(layout,more,selected,left/right,holder,confirm,columns,display,auth,template_id)
 1. align,flex,gap,style 统一使用 style
 2. path 改到 url 和 widget 中
 3. selected_id/改为 selected
@@ -44,6 +44,8 @@
 
 - Follow: _id,follower_id,followee_id,createdAt,
 - ✅ QueryContext/useQuery
+- ❌ (改用事件)PageContext/usePage ：搜索按钮需要控制Filter重新请求
+- ✅ 用户数据同步到es
 
 推送: 发不发通知  免打扰: 来了通知要不要打扰用户
 - global: push,mute,show_hidden,block_stranger,
