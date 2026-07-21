@@ -35,7 +35,7 @@ export default function Mine({ template }) {
         <FullWidthAuto>
           {store.user.isLogin ? store.user.info.nickname : <Btn type='button' onClick={() => { router.pushView('sign-in') }}>登陆</Btn>}
         </FullWidthAuto>
-        {store.user.isLogin && <CenterXY style={{ color: 'goldenrod', marginRight: 20 }} onClick={() => { router.pushView('user', { id: store.user.info.name }) }}><span >个人主页</span> <Acon icon='right' style={{ fontSize: 16 }} /></CenterXY>}
+        {store.user.isLogin && <CenterXY style={{ color: 'goldenrod', marginRight: 20 }} onClick={() => { router.pushView('user', { id: store.user.info.name }) }}><span >个人主页</span> <Acon icon='right' innerStyle={{ fontSize: 16 }} /></CenterXY>}
       </FullWidth>
       <FullWidthAuto style={{ flex: 0 }}>
         <Auto template={template} />

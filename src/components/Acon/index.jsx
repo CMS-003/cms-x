@@ -7,6 +7,7 @@ import svgComment from '@/theme/icon/comment.svg'
 import svgThumb from '@/theme/icon/thumb.svg'
 import svgExpression from '@/theme/icon/expression.svg'
 import svgVoice from '@/theme/icon/voice.svg'
+import svgVideoBroken from '@/theme/icon/video-broken.svg?react'
 
 import fanjuSVG from '@/theme/channel/fanju.svg'
 import movieSVG from '@/theme/channel/movie.svg'
@@ -94,6 +95,7 @@ import {
   Star,
   LoaderPinwheel,
   Library,
+  VideoOff,
 } from 'lucide-react';
 import styled from 'styled-components';
 
@@ -103,6 +105,7 @@ const Thumb = (props) => <Icon component={svgThumb} {...props} />;
 const Comment = (props) => <Icon component={svgComment} {...props} />;
 const expression = (props) => <Icon component={svgExpression} {...props} />;
 const voice = (props) => <Icon component={svgVoice} {...props} style={{ width: 50, height: 50 }} />;
+const videoBroken = (props) => <Icon component={svgVideoBroken} {...props} />;
 const fanju = (props) => <Icon component={fanjuSVG} style={{ fontSize: 50 }}>{props.children}</Icon>;
 const movie = (props) => <Icon component={movieSVG} style={{ fontSize: 50 }}>{props.children}</Icon>;
 const anime = (props) => <Icon component={animeSVG} style={{ fontSize: 50 }} />;
@@ -178,6 +181,7 @@ const Map = {
   SquareLibrary,
   ImagePlay,
   Video,
+  VideoOff,
   Image,
   Album,
   Captions,
@@ -212,6 +216,7 @@ const Map = {
   life,
   person,
   pixiv,
+  videoBroken,
 }
 
 const Wrap = styled.span`
@@ -229,8 +234,8 @@ const Wrap = styled.span`
 export default function Acon({ icon, size = 24, color, spin = false, rotate, title, hidden, onClick, ...props }) {
   const Icon = Map[icon] || CircleQuestionMark;
   if (!hidden) {
-    return <Wrap style={{ color: color || 'white', ...props.style }} {...(browser.getPlatformType() === 'pc' ? { onClick: onClick } : { onTouchEnd: onClick })} >
-      <Icon name={icon} style={{ transform: `rotate(${props.rotate || 0})`, color: color || 'black' }} {...props} size={size} />
+    return <Wrap style={{ color: color || 'white', ...props.outerStyle }} {...(browser.getPlatformType() === 'pc' ? { onClick: onClick } : { onTouchEnd: onClick })} >
+      <Icon name={icon} style={{ transform: `rotate(${props.rotate || 0})`, color: color || 'black', ...props.innerStyle }} size={size} />
       {title}
     </Wrap>
   }

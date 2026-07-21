@@ -4,7 +4,6 @@
   "private": true,
   "scripts": {
     "start": "vite",
-    "dev": "vite start",
     "build": "vite build",
     "analyze": "ANALYZE=true react-app-rewired build"
   },

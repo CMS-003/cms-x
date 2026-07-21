@@ -62,7 +62,7 @@ function CommentReply({ comment }) {
             {v.content}
             <Space style={{ margin: '5px 0 10px', gap: 10 }}>
               <Acon icon='ThumbsUp' size={18} color={'grey'} />
-              <Acon icon='ThumbsUp' size={18} color={'grey'} style={{ transform: 'rotate(180deg)' }} />
+              <Acon icon='ThumbsUp' size={18} color={'grey'} outerStyle={{ transform: 'rotate(180deg)' }} />
               <Acon icon='MessageCircleMore' size={18} color={'grey'} onClick={() => {
                 runInAction(() => {
                   local.reply_pid = v._id;
@@ -71,7 +71,7 @@ function CommentReply({ comment }) {
               }} />
             </Space>
             {v.counter && v.counter.comments ? <ReplyWrap>
-              共{v.counter.comments}条回复 <Acon icon={'ChevronRight'} size={10} style={{ marginTop: 2, marginLeft: 5 }} color={'grey'} />
+              共{v.counter.comments}条回复 <Acon icon={'ChevronRight'} size={10} innerStyle={{ marginTop: 2, marginLeft: 5 }} color={'grey'} />
             </ReplyWrap> : null}
           </FullWidthAuto>
         </FullWidth>
@@ -136,7 +136,7 @@ export function CommentInput(props) {
               local.setValue('reply_user', null)
             }
           }} />
-        <Acon icon="Smile" style={{ margin: '0 5px' }} />
+        <Acon icon="Smile" outerStyle={{ margin: '0 5px' }} />
       </FullWidth>
       <div style={{ height: 'var(--safe-padding-bottom)' }}></div>
     </Fragment>
@@ -192,7 +192,7 @@ export function CommentList(props) {
               {v.content}
               <Space style={{ margin: '5px 0 10px', gap: 10 }}>
                 <Acon icon='ThumbsUp' size={18} color={'grey'} />
-                <Acon icon='ThumbsUp' size={18} color={'grey'} style={{ transform: 'rotate(180deg)' }} />
+                <Acon icon='ThumbsUp' size={18} color={'grey'} outerStyle={{ transform: 'rotate(180deg)' }} />
                 <Acon icon='MessageCircleMore' size={18} color={'grey'} onClick={() => {
                   runInAction(() => {
                     local.reply_pid = v._id;
@@ -201,7 +201,7 @@ export function CommentList(props) {
                 }} />
               </Space>
               {v.counter && v.counter.comments ? <ReplyWrap onClick={() => local.setValue('pop_comment', v)}>
-                共{v.counter.comments}条回复 <Acon icon={'ChevronRight'} size={10} style={{ marginTop: 2, marginLeft: 5 }} color={'grey'} />
+                共{v.counter.comments}条回复 <Acon icon={'ChevronRight'} size={10} outerStyle={{ marginTop: 2, marginLeft: 5 }} color={'grey'} />
               </ReplyWrap> : null}
             </FullWidthAuto>
           </FullWidth>

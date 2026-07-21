@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import DrawerMenu from 'drawer-menu'
 import App from './App';
 import StoreContext from './contexts/store';
 import { Observer } from 'mobx-react-lite';
@@ -61,7 +60,6 @@ if (extraClass) {
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.Fragment>
-    <DrawerMenu />
     <Context>
       <App />
     </Context>

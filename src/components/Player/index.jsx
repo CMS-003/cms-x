@@ -400,7 +400,7 @@ export default function Player({
         {local.showControl && (
           <VBack>
             <AlignAside style={{ fontSize: 18, width: '100%' }}>
-              <Acon icon="ChevronLeft" color='#fff' style={{ padding: '0 10px' }} onClick={() => {
+              <Acon icon="ChevronLeft" color='#fff' innerStyle={{ padding: '0 10px' }} onClick={() => {
                 if (local.fullscreen) {
                   local.setValue('fullscreen', false)
                 } else {

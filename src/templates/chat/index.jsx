@@ -181,7 +181,7 @@ export default function ChatPage(props) {
                 })
               }
             }} />
-          <Acon icon="expression" style={{ margin: '0 5px' }} />
+          <Acon icon="expression" outerStyle={{ margin: '0 5px' }} />
           <Acon icon="PlusCircleOutlined" size={26} />
         </FullWidth>
       </SafeArea>

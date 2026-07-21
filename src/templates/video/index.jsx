@@ -130,7 +130,7 @@ function CommentReply({ comment }) {
             {v.content}
             <Space style={{ margin: '5px 0 10px', gap: 10 }}>
               <Acon icon='ThumbsUp' size={18} color={'grey'} />
-              <Acon icon='ThumbsUp' size={18} color={'grey'} style={{ transform: 'rotate(180deg)' }} />
+              <Acon icon='ThumbsUp' size={18} color={'grey'} outerStyle={{ transform: 'rotate(180deg)' }} />
               <Acon icon='Comment' size={18} color={'grey'} onClick={() => {
                 runInAction(() => {
                   local.reply_pid = v._id;
@@ -139,7 +139,7 @@ function CommentReply({ comment }) {
               }} />
             </Space>
             {v.counter && v.counter.comments ? <ReplyWrap>
-              共{v.counter.comments}条回复 <Acon icon={'ChervonRight'} size={10} style={{ marginTop: 2, marginLeft: 5 }} color={'grey'} />
+              共{v.counter.comments}条回复 <Acon icon={'ChervonRight'} size={10} innerStyle={{ marginTop: 2, marginLeft: 5 }} color={'grey'} />
             </ReplyWrap> : null}
           </FullWidthAuto>
         </FullWidth>
@@ -422,7 +422,7 @@ export default function VideoPage(props) {
                           {v.content}
                           <Space style={{ margin: '5px 0 10px', gap: 10 }}>
                             <Acon icon='ThumbsUp' size={18} color={'grey'} />
-                            <Acon icon='ThumbsUp' size={18} color={'grey'} style={{ transform: 'rotate(180deg)' }} />
+                            <Acon icon='ThumbsUp' size={18} color={'grey'} outerStyle={{ transform: 'rotate(180deg)' }} />
                             <Acon icon='MessageCircleMore' size={18} color={'grey'} onClick={() => {
                               runInAction(() => {
                                 local.reply_pid = v._id;
@@ -431,7 +431,7 @@ export default function VideoPage(props) {
                             }} />
                           </Space>
                           {v.counter && v.counter.comments ? <ReplyWrap onClick={() => local.setValue('pop_comment', v)}>
-                            共{v.counter.comments}条回复 <Acon icon={'ChervonRight'} size={10} style={{ marginTop: 2, marginLeft: 5 }} color={'grey'} />
+                            共{v.counter.comments}条回复 <Acon icon={'ChervonRight'} size={10} innerStyle={{ marginTop: 2, marginLeft: 5 }} color={'grey'} />
                           </ReplyWrap> : null}
                         </FullWidthAuto>
                       </FullWidth>
@@ -479,7 +479,7 @@ export default function VideoPage(props) {
                         local.setValue('reply_user', null)
                       }
                     }} />
-                  <Acon icon="MessageCircleMore" color={'black'} style={{ margin: '0 5px' }} />
+                  <Acon icon="MessageCircleMore" color={'black'} innerStyle={{ margin: '0 5px' }} />
                 </FullWidth>
                 <div style={{ height: 'var(--safe-padding-bottom)' }}></div>
               </Swiper.Item>
