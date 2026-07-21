@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "vite",
+    "start": "vite --host",
     "build": "vite build",
     "analyze": "ANALYZE=true react-app-rewired build"
   },
