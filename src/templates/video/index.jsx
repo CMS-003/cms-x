@@ -9,6 +9,7 @@ import { apis, store, ResourceItem, readableTime, shttp } from '@/global.js';
 import { Acon, PageList, Player, SafeArea, Visible, FullHeight, FullHeightAuto, FullHeightFix, FullWidth, FullWidthAuto, FullWidthFix } from "@/components";
 import { isLandscape } from "@/utils";
 import { useRouter } from '@/global.js';
+import ShowLogin from "../../components/ShowLogin";
 
 const Title = styled.h1`
   font-size: 1.4em;
@@ -213,6 +214,9 @@ export default function VideoPage(props) {
 
   }, [local, props.id])
   const toggleStar = useCallback(async () => {
+    if (!store.user.isLogin) {
+      return ShowLogin({ router })
+    }
     const collected = local.resource.counter.collected
     try {
       const resp = collected
@@ -223,6 +227,9 @@ export default function VideoPage(props) {
           title: local.resource.title,
           cover: local.resource.poster,
         });
+      if (resp.code !== 0) {
+        return ShowLogin({ router })
+      }
       runInAction(() => {
         local.resource.counter.collected = resp.code === 0 ? !collected : collected;
       })

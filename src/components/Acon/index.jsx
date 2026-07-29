@@ -231,11 +231,11 @@ const Wrap = styled.span`
     color: var(--ant-primary-color-hover);
   }
 `;
-export default function Acon({ icon, size = 24, color, spin = false, rotate, title, hidden, onClick, ...props }) {
+export default function Acon({ icon, size = 24, color, fill, spin = false, rotate, title, hidden, onClick, ...props }) {
   const Icon = Map[icon] || CircleQuestionMark;
   if (!hidden) {
     return <Wrap style={{ color: color || 'white', ...props.outerStyle }} {...(browser.getPlatformType() === 'pc' ? { onClick: onClick } : { onTouchEnd: onClick })} >
-      <Icon name={icon} style={{ transform: `rotate(${props.rotate || 0})`, color: color || 'black', ...props.innerStyle }} size={size} />
+      <Icon name={icon} style={{ transform: `rotate(${props.rotate || 0})`, color: color || 'black', fill: fill, ...props.innerStyle }} size={size} />
       {title}
     </Wrap>
   }
