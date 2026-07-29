@@ -47,6 +47,12 @@ function getResourceDetail(id) {
   });
 }
 
+function getResourceByQuery(query) {
+  return shttp({
+    url: `/gw/api/v1/public/search-by-query${qs.stringify(query, { addQueryPrefix: true })}`,
+  });
+}
+
 function getResourceList(query) {
   return shttp({
     url: `/gw/api/v1/public/${AppName}/resources${qs.stringify(query, { addQueryPrefix: true })}`,
@@ -155,6 +161,7 @@ const apis = {
   },
   getResourceDetail,
   getResourceList,
+  getResourceByQuery,
   fetchAPI,
   signIn,
   signOut,

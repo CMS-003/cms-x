@@ -73,7 +73,7 @@ export default function CFilter({ self }) {
     const qid = local.getQuery()
     try {
       local.setData('loading', true)
-      const resp = self.widget.action === 'FETCH' ? await apis.fetchAPI(self.widget.method, apis.getApi(self.url, { page: local.page, q: query.q })) : await apis.getResourceList({ qid, page: local.page, size: 20 });
+      const resp = self.widget.action === 'FETCH' ? await apis.fetchAPI(self.widget.method, apis.getApi(self.url, { page: local.page, q: query.q })) : await apis.getResourceByQuery({ qid, page: local.page, size: 20 });
       if (resp.code === 0) {
         local.page === 1 ? local.setResources(resp.data.items) : local.setResources(local.resources.concat(resp.data.items))
         local.setData('hasMore', resp.data.items.length === (resp.data.size || 20))
