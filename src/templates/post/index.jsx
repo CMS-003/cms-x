@@ -79,7 +79,7 @@ export default function PostPage(props) {
             align="left"
             style={{ color: 'initial', backgroundColor: 'lightblue' }}
             right={local.resource
-              ? <Acon icon={local.resource.counter.collected ? 'stared' : 'unstar'} color='#f66a83' size={24} onClick={toggleStar} onTouchEnd={toggleStar} />
+              ? <Acon icon={local.resource.counter.collected ? 'stared' : 'unstar'} color='#f66a83' size={24} onPointerDown={toggleStar} />
               : null}
           />
         </FullHeightFix>

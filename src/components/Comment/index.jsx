@@ -63,7 +63,7 @@ function CommentReply({ comment }) {
             <Space style={{ margin: '5px 0 10px', gap: 10 }}>
               <Acon icon='ThumbsUp' size={18} color={'grey'} />
               <Acon icon='ThumbsUp' size={18} color={'grey'} outerStyle={{ transform: 'rotate(180deg)' }} />
-              <Acon icon='MessageCircleMore' size={18} color={'grey'} onClick={() => {
+              <Acon icon='MessageCircleMore' size={18} color={'grey'} onPointerDown={() => {
                 runInAction(() => {
                   local.reply_pid = v._id;
                   local.reply_user = v.user;

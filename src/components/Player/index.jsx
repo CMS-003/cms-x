@@ -99,6 +99,20 @@ export default function Player({
     onDTap() {
       local.playing = !local.playing
     },
+    playOrpause(play) {
+      if (local.playing) {
+        if (local.status === VIDEO_STATUS.BUFFERING) {
+          return;
+        }
+        local.setValue('playing', false)
+        local.setValue('status', VIDEO_STATUS.CANPLAY)
+      } else {
+        if (local.status === VIDEO_STATUS.BUFFERING) {
+          return;
+        }
+        local.setValue('playing', true)
+      }
+    }
   }));
   const seekTo = useCallback((time) => {
     if (playerRef.current) {
@@ -259,7 +273,111 @@ export default function Player({
       filterTaps: true, tapsThreshold: 3, delay: 0, axis: 'x'
     },
     eventOptions: { capture: true }
-  })
+  });
+  // 判断是否在编辑状态
+  const isEditing = useRef(false);
+
+  // 检查当前焦点是否在可编辑元素上
+  const isElementEditable = useCallback((element) => {
+    if (!element) return false;
+
+    const tagName = element.tagName?.toLowerCase();
+    // 检查输入框、文本域、可编辑div
+    if (tagName === 'input' || tagName === 'textarea') {
+      return true;
+    }
+    if (element.isContentEditable) {
+      return true;
+    }
+    // 检查是否有编辑相关的属性
+    if (element.getAttribute('contenteditable') === 'true') {
+      return true;
+    }
+    // 检查是否在表单内且可输入
+    if (element.closest?.('form') && element.closest?.('input, textarea, [contenteditable]')) {
+      return true;
+    }
+    return false;
+  }, []);
+  // 键盘事件处理
+  const handleKeyDown = useCallback((e) => {
+    const activeElement = document.activeElement;
+
+    // 检查是否在编辑状态
+    if (isElementEditable(activeElement)) {
+      // 在编辑状态，让默认行为继续（输入文字）
+      return;
+    }
+
+    // 只处理方向键
+    const key = e.key;
+    if (!key.startsWith('Arrow')) return;
+
+    e.preventDefault(); // 阻止页面滚动
+
+    // 快进/快退（左右键）
+    const SEEK_STEP = 10; // 每次跳转10秒
+    // 音量调节（上下键）
+    const VOLUME_STEP = 0.1; // 每次调节10%
+
+    switch (key) {
+      case 'ArrowRight':
+        console.log(`⏩ 快进 ${SEEK_STEP}秒`);
+        seekTo(local.realtime + SEEK_STEP)
+        break;
+
+      case 'ArrowLeft':
+        console.log(`⏪ 快退 ${SEEK_STEP}秒`);
+        seekTo(local.realtime - SEEK_STEP)
+        break;
+
+      // case 'ArrowUp':
+      //   video.volume = Math.min(video.volume + VOLUME_STEP, 1);
+      //   console.log(`🔊 音量: ${(video.volume * 100).toFixed(0)}%`);
+      //   break;
+
+      // case 'ArrowDown':
+      //   video.volume = Math.max(video.volume - VOLUME_STEP, 0);
+      //   console.log(`🔉 音量: ${(video.volume * 100).toFixed(0)}%`);
+      //   break;
+
+      default:
+        break;
+    }
+  }, [isElementEditable]);
+
+  // 监听焦点变化，更新编辑状态
+  useEffect(() => {
+    const handleFocusIn = (e) => {
+      const target = e.target;
+      if (isElementEditable(target)) {
+        isEditing.current = true;
+      }
+    };
+
+    const handleFocusOut = (e) => {
+      // 延迟检查，防止焦点在可编辑元素间切换
+      setTimeout(() => {
+        const activeElement = document.activeElement;
+        if (!isElementEditable(activeElement)) {
+          isEditing.current = false;
+        }
+      }, 0);
+    };
+
+    document.addEventListener('focusin', handleFocusIn);
+    document.addEventListener('focusout', handleFocusOut);
+
+    // 键盘事件监听
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.removeEventListener('focusin', handleFocusIn);
+      document.removeEventListener('focusout', handleFocusOut);
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [handleKeyDown, isElementEditable]);
+
   useEffect(() => {
     if (!local.duration && video) {
       local.setValue('duration', parseFloat(_.get(video, 'more.duration', 0)))
@@ -400,7 +518,7 @@ export default function Player({
         {local.showControl && (
           <VBack>
             <AlignAside style={{ fontSize: 18, width: '100%' }}>
-              <Acon icon="ChevronLeft" color='#fff' innerStyle={{ padding: '0 10px' }} onClick={() => {
+              <Acon icon="ChevronLeft" color='#fff' innerStyle={{ padding: '0 10px' }} onPointerDown={() => {
                 if (local.fullscreen) {
                   local.setValue('fullscreen', false)
                 } else {
@@ -408,7 +526,7 @@ export default function Player({
                 }
               }} />
               <div style={{ paddingRight: 15, zIndex: 15 }}>
-                <Acon icon='Info' color={'#fff'} onClick={() => {
+                <Acon icon='Info' color={'#fff'} onPointerDown={() => {
                   if (isFetchCodec.current) return;
                   isFetchCodec.current = true;
                   apis.fetchAPI('post', '/gw/download/ffmpeg/video-info-full', { filepath: video.path }).then(resp => {
@@ -455,38 +573,15 @@ export default function Player({
         <Visible visible={local.showControl}>
           <VControl style={{ paddingBottom: local.fullscreen ? 'var(--safe-padding-bottom)' : '5px' }} ref={controlRef}>
             {/* 播放中,已暂停,缓冲中 */}
-            {local.playing
-              ? <Icon
-                style={{ width: 24, height: 24, margin: 0 }}
-                onTouchEndCapture={(e) => {
-                  e.stopPropagation();
-                  if (local.status === VIDEO_STATUS.BUFFERING) {
-                    return;
-                  }
-                  local.setValue('playing', false)
-                  local.setValue('status', VIDEO_STATUS.CANPLAY)
-                }}
-                // onClick={e => {
-                //   e.stopPropagation();
-                //   if (local.status === VIDEO_STATUS.BUFFERING) {
-                //     return;
-                //   }
-                //   local.setValue('playing', false)
-                //   local.setValue('status', VIDEO_STATUS.CANPLAY)
-                // }}
-                src={svgSuspended}
-              />
-              : <Icon
-                style={{ width: 24, height: 24, margin: 0 }}
-                src={svgPlay}
-                onTouchEndCapture={(e) => {
-                  e.stopPropagation();
-                  if (local.status === VIDEO_STATUS.BUFFERING) {
-                    return;
-                  }
-                  local.setValue('playing', true)
-                }}
-              />}
+            <Icon
+              style={{ width: 24, height: 24, margin: 0, touchAction: 'manipulation' }}
+              onPointerDown={e => {
+                e.stopPropagation();
+                e.preventDefault();
+                local.playOrpause(false)
+              }}
+              src={local.playing ? svgSuspended : svgPlay}
+            />
             <ProgressWrap className='progress'
               ref={progressRef}
               {...bindProgress()}

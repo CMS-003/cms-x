@@ -72,7 +72,7 @@ export default function ArticlePage(props) {
             align="left"
             style={{ color: 'initial', backgroundColor: 'transparent' }}
             right={local.resource
-              ? <Acon icon='Star' color='#f66a83' fill={local.resource.counter.collected ? 'pink' : ''} size={24} onClick={toggleStar} onTouchEnd={toggleStar} />
+              ? <Acon icon='Star' color='#f66a83' fill={local.resource.counter.collected ? 'pink' : ''} size={24} onPointerDown={toggleStar} onTouchEnd={toggleStar} />
               : null}
           />
         </FullHeightFix>
