@@ -180,6 +180,8 @@ export default function Player({
       active,
       event
     }) => {
+      // 移动后关闭长按检测
+      cancelLongPress()
       event.preventDefault()
       const w = containerRef.current.offsetWidth * 0.8;
       if (!active && !local.isLongPressing) {
@@ -191,18 +193,24 @@ export default function Player({
             const add = Math.max(5, (Math.min(60, Math.round(60 * mx / w))))
             console.log('右', add)
             seekTo(local.realtime + add)
+            local.setValue('peekValue', formatDuration(local.realtime + add))
           }
           else if (angle >= 157.5 || angle < -157.5) console.log('上')
           else if (angle >= -112.5 && angle < -67.5) {
             const add = Math.max(5, (Math.min(60, Math.round(60 * mx / w))))
             console.log('左', add)
             seekTo(local.realtime - add)
+            local.setValue('peekValue', formatDuration(local.realtime - add))
           }
         }
       }
     },
-    onPointerDown: (state) => startLongPress(state.event),
+    onPointerDown: (state) => {
+      local.setValue('showPeek', true)
+      startLongPress(state.event)
+    },
     onPointerUp: ({ event }) => {
+      local.setValue('showPeek', false)
       if (local.isLongPressing) {
         return cancelLongPress();
       }
@@ -229,7 +237,9 @@ export default function Player({
         }, DOUBLE_TAP_MS);
       }
     },
-    onPointerLeave: () => cancelLongPress(),
+    onPointerLeave: () => {
+      cancelLongPress()
+    },
   }, {
     eventOptions: { passive: false },
     drag: { threshold: 5 },
@@ -240,6 +250,7 @@ export default function Player({
       event.preventDefault()
       event.stopPropagation();
       progressPercent.current = 0;
+      local.setValue('showPeek', true)
     },
     onClick: ({ event }) => {
       const offset = event.clientX - progressRef.current.getBoundingClientRect().left;
@@ -260,8 +271,11 @@ export default function Player({
         local.setValue('dragtime', real_percent * local.duration / 100)
         local.setValue('displayPercent', real_percent);
       }
+      local.setValue('peekValue', formatDuration(local.dragtime))
     },
     onDragEnd: ({ event }) => {
+      local.setValue('showPeek', false)
+      local.setValue('peekValue', '')
       const realtime = local.duration * local.displayPercent / 100;
       local.setValue('realtime', realtime)
       seekTo(realtime)
@@ -551,7 +565,7 @@ export default function Player({
             {local.status === VIDEO_STATUS.BUFFERING && <Icon src={svgLoading} />}
           </VGestrue>
         </Visible>
-        <Visible visible={local.showPeek}>
+        <Visible visible={!local.isLongPressing && local.showPeek && local.peekValue !== ''}>
           <VPeek>
             {local.peekValue}
           </VPeek>

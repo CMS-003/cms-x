@@ -4,7 +4,7 @@ import _ from 'lodash'
 import { runInAction } from "mobx";
 import { Observer, useLocalObservable } from "mobx-react-lite";
 import styled from "styled-components";
-import { Ellipsis, Space, Tag, Tabs, Swiper, Empty, Input, Popup } from "antd-mobile";
+import { Ellipsis, Space, Tag, Tabs, Swiper, Empty, Input, Popup, Dialog } from "antd-mobile";
 import { apis, store, ResourceItem, readableTime, shttp } from '@/global.js';
 import { Acon, PageList, Player, SafeArea, Visible, FullHeight, FullHeightAuto, FullHeightFix, FullWidth, FullWidthAuto, FullWidthFix } from "@/components";
 import { isLandscape } from "@/utils";
@@ -345,7 +345,34 @@ export default function VideoPage(props) {
                         <TxtOmit>{local.resource.uname}</TxtOmit>
                       </ItemWrap>
                       <span>{dayjs(local.resource.publishedAt).format('YYYY年MM月日DD HH:mm')}</span>
-                      <Acon icon='Star' color='pink' size={24} fill={local.resource.counter.collected ? 'pink' : 'transparent'} onClick={toggleStar} />
+                      <Acon icon='Star' color='pink' size={24} fill={local.resource.counter.collected ? 'pink' : 'transparent'} onPointerDown={() => {
+                        if (!store.user.isLogin) {
+                          const handler = Dialog.show({
+                            content: '需要登录',
+                            actions: [[
+                              {
+                                key: 'cancel',
+                                text: '取消',
+                                style: { color: '#9b9b9b', backgroundColor: '#eee' },
+                                onClick() {
+                                  handler.close()
+                                }
+                              },
+                              {
+                                key: 'confirm',
+                                text: '去登录',
+                                style: { color: '#2097c7' },
+                                onClick() {
+                                  handler.close()
+                                  router.pushView('sign-in')
+                                }
+                              },
+                            ]]
+                          })
+                          return;
+                        }
+                        toggleStar()
+                      }} />
                     </FullWidth>
                     <Ellipsis content={local.resource.content} rows={2}
                       expandText='展开'
