@@ -102,7 +102,7 @@ export default defineConfig(({ command, mode }) => {
       },
     },
     build: {
-      outDir: 'build',  // 构建输出目录
+      outDir: env.APP_NAME,  // 构建输出目录
       sourcemap: false  // 生成 sourcemap
     }
   }

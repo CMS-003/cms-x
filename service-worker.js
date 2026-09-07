@@ -27,7 +27,7 @@ registerRoute(
 // 🌐 缓存 API 接口
 registerRoute(
   ({ url }) => url.pathname.startsWith('/api/') || url.pathname.startsWith('/gw/api'),
-  new StaleWhileRevalidate({
+  new NetworkFirst({
     cacheName: 'api-cache',
     networkTimeoutSeconds: 3,
   })
