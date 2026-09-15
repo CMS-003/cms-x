@@ -79,6 +79,7 @@ export default defineConfig(({ command, mode }) => {
     server: {
       port: 3000,  // 开发服务器端口
       open: true,   // 自动打开浏览器
+      allowedHosts: ['max.local'],
       proxy: {
         '/gw': {
           target: 'https://jiayou.work',
