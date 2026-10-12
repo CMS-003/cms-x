@@ -45,7 +45,7 @@ export default function Dynamic(props) {
     }
     return (
       <Fragment>
-        {local.template.attrs.embed === 0
+        {local.template?.attrs?.embed === 0
           ? (
             <SafeArea>
               <Nav title={local.template.title} />

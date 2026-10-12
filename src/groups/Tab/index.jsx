@@ -16,7 +16,7 @@ export default function Tab({ self }) {
   const router = useRouter()
   const local = useLocalObservable(() => ({
     inited: false,
-    selectedId: self.children[0]._id,
+    selectedId: self.attrs.selected_id || self.children[0]._id,
     setInited() {
       local.inited = true
     },

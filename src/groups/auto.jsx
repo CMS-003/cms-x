@@ -50,7 +50,7 @@ export default function Auto({ template }) {
     }
   }));
   return <Observer>{() => (
-    <div style={toJS(template.style)} data-tid={template._id}>
+    <div style={{ height: '100%', ...toJS(template.style) }} data-tid={template._id}>
       {local.infinite
         ? <PullToRefresh onRefresh={local.onRefresh}>
           <List style={{

@@ -19,7 +19,7 @@ export function Hidden({ visible, children }) {
 
 export default function TabBarPage({ self }) {
   const local = useLocalObservable(() => ({
-    activeKey: self.children[0]._id,
+    activeKey: self.attrs.selected_id || self.children[0]._id,
     mount_ids: {},
     setMounted(id) {
       local.mount_ids[id] = true;
@@ -40,7 +40,7 @@ export default function TabBarPage({ self }) {
             </Fragment>
           ))}
         </div>
-        <TabBar>
+        <TabBar activeKey={local.activeKey}>
           {self.children.map(child => (
             <TabBar.Item
               key={child._id}

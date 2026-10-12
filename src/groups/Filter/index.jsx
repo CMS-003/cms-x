@@ -5,7 +5,7 @@ import { Observer, useLocalObservable } from 'mobx-react-lite';
 import styled from 'styled-components';
 import { apis } from '@/global.js';
 import { PageList, FullHeightFix } from '@/components';
-import { isLandscape } from '@/utils';
+import { isLandscape, mapFields } from '@/utils';
 import { useQuery } from '@/contexts';
 import events from '@/utils/event';
 
@@ -68,15 +68,23 @@ export default function CFilter({ self }) {
       local[key] = value;
     },
   }));
-  const query = useQuery();
+  const query = useQuery() || {};
   const getData = useCallback(async () => {
     const qid = local.getQuery()
+    console.log('getData', query, '?')
     try {
       local.setData('loading', true)
-      const resp = self.widget.action === 'FETCH' ? await apis.fetchAPI(self.widget.method, apis.getApi(self.url, { page: local.page, q: query.q || '' })) : await apis.getResourceByQuery({ qid, page: local.page, size: 20 });
+      const raw = self.widget.action === 'FETCH' ? await apis.fetchAPI(self.widget.method, apis.getApi(self.url, { page: local.page, q: query.q || '' })) : await apis.getResourceByQuery({ qid, page: local.page, size: 20 });
+      // 第三方接口字段映射：widget.mapping 存在时按映射规则把原始响应转换为内部结构
+      // key 支持点路径，值以 $ 开头表示取原始响应的字段（仅 `$` 表示整个 body）
+      // 例：body 是数组 [{...}]  =>  { code: 0, 'data.items': '$' }
+      // 例：body 是 { data: { resources: [...] } }  =>  { code: 0, 'data.items': '$data.resources' }
+      // 例：body 是 { resources: { items, size } }  =>  { code: 0, data: '$resources' }
+      const resp = self.widget.mapping ? mapFields(raw, self.widget.mapping) : raw;
       if (resp.code === 0) {
-        local.page === 1 ? local.setResources(resp.data.items) : local.setResources(local.resources.concat(resp.data.items))
-        local.setData('hasMore', resp.data.items.length === (resp.data.size || 20))
+        const { items = [], size } = resp.data || {};
+        local.page === 1 ? local.setResources(items) : local.setResources(local.resources.concat(items))
+        local.setData('hasMore', items.length === (size || 20))
       }
     } catch (e) {
       local.setData('hasMore', false)
