@@ -13,6 +13,12 @@ function getApi(rawUrl, additionalQuery) {
   const params = new URLSearchParams(url.search);
   for (const [key, value] of Object.entries(additionalQuery)) {
     params.set(key, value); // 会覆盖已有 key
+    if (key === 'page' && (value === 1 || value === '1')) {
+      params.delete(key)
+    }
+    if (value === '') {
+      params.delete(key)
+    }
   }
 
   url.search = params.toString();

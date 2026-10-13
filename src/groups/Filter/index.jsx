@@ -45,6 +45,7 @@ export default function CFilter({ self }) {
     loading: true,
     resources: [],
     page: 1,
+    size: self.attrs.size || 20,
     hasMore: true,
     // 顶部高度
     headHeight: 'auto',
@@ -84,7 +85,7 @@ export default function CFilter({ self }) {
       if (resp.code === 0) {
         const { items = [], size } = resp.data || {};
         local.page === 1 ? local.setResources(items) : local.setResources(local.resources.concat(items))
-        local.setData('hasMore', items.length === (size || 20))
+        local.setData('hasMore', items.length === local.size)
       }
     } catch (e) {
       local.setData('hasMore', false)
@@ -159,6 +160,8 @@ export default function CFilter({ self }) {
           </div>
           <PageList
             display={self.attrs.display}
+            disabled={!self.attrs.refresh}
+            infinite={self.attrs.infinite}
             multi={self.attrs.columns !== 1}
             items={chunk(local.resources, (self.attrs.columns || 1) * (isLandscape() ? 2 : 1))}
             onRefresh={async () => {

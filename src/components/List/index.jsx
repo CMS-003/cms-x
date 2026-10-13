@@ -1,6 +1,6 @@
 import { PullToRefresh, List, InfiniteScroll } from 'antd-mobile'
 import { Observer } from 'mobx-react-lite'
-import ResourceItem from '@/adaptor'
+import ResourceItem from '@app/adaptor'
 import { FullWidth } from '@/components'
 
 export default function PageList({ disabled = false, display = '', style = {}, items, onRefresh, loadMore, hasMore = false, infinite = true, renderItems }) {

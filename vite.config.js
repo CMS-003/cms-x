@@ -1,6 +1,7 @@
 import { defineConfig, loadEnv } from 'vite'
 import react from '@vitejs/plugin-react'
 import path from 'path'
+import fs from 'fs'
 import svgr from 'vite-plugin-svgr';
 import { VitePWA } from 'vite-plugin-pwa';
 
@@ -11,6 +12,15 @@ export default defineConfig(({ command, mode }) => {
   console.log('构建模式:', mode);
   console.log('命令:', command);
   console.log('应用名称:', env.APP_NAME);
+
+  // 统一的项目代码目录：默认 src/apps/default，某个项目要覆盖时放 src/apps/<APP_NAME>/
+  const appName = env.APP_NAME || 'default';
+  const appDir = path.resolve(__dirname, 'src/apps', appName);
+  const hasOwnAppDir = fs.existsSync(appDir);
+  const appAliasDir = hasOwnAppDir ? appDir : path.resolve(__dirname, 'src/apps/default');
+  if (!hasOwnAppDir && appName !== 'default') {
+    console.warn(`⚠️  未找到 src/apps/${appName}，已回退到 src/apps/default`);
+  }
 
   const manifest = {
     name: env.APP_NAME,
@@ -66,6 +76,7 @@ export default defineConfig(({ command, mode }) => {
       alias: {
         // 配置别名（根据你的项目调整）
         '@': path.resolve(__dirname, 'src'),
+        '@app': appAliasDir, // 项目代码：默认 default，有同名目录时自动覆盖
         '@components': path.resolve(__dirname, 'src/components'),
         '@utils': path.resolve(__dirname, 'src/utils'),
       }

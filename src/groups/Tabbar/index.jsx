@@ -45,7 +45,7 @@ export default function TabBarPage({ self }) {
             <TabBar.Item
               key={child._id}
               title={child.title}
-              icon={child.icon ? <Acon icon={child.icon} /> : null}
+              icon={child.icon ? <Acon icon={child.icon} /> : <img src={(local.activeKey === child._id ? child.attrs.selected_icon : child.attrs.unselected_icon)} alt="" style={{ width: 20, height: 20 }} /> || null}
               onClick={e => {
                 runInAction(() => {
                   local.activeKey = child._id;

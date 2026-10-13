@@ -5,6 +5,8 @@ import Tab from './Tab'
 import TabItem from "./TabItem"
 import PickCard from './PickCard'
 import RandomCard from './RandomCard'
+import Card from './Card'
+import Banner from './Banner'
 import Filter from './Filter'
 import FilterRow from './FilterRow'
 import FilterTag from './FilterTag'
@@ -18,6 +20,8 @@ const groups = {
   TabItem,
   PickCard,
   RandomCard,
+  Card,
+  Banner,
   Filter,
   FilterRow,
   FilterTag,

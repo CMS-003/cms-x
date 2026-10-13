@@ -23,7 +23,9 @@ export default function Auto({ template }) {
   const local = useLocalObservable(() => ({
     components: template.children,
     ended: false,
-    infinite: get(template, 'attrs.pagination', 0),
+    paginate: get(template, 'attrs.paginate', false),
+    refresh: get(template, 'attrs.refresh', false),
+    infinite: get(template, 'attrs.infinite', false),
     page: 1,
     onRefresh: async () => {
       local.page = 1;
@@ -51,8 +53,8 @@ export default function Auto({ template }) {
   }));
   return <Observer>{() => (
     <div style={{ height: '100%', ...toJS(template.style) }} data-tid={template._id}>
-      {local.infinite
-        ? <PullToRefresh onRefresh={local.onRefresh}>
+      {local.paginate
+        ? <PullToRefresh disabled={!local.refresh} onRefresh={local.onRefresh}>
           <List style={{
             "--border-top": "none",
             "--border-bottom": "none",
@@ -60,7 +62,7 @@ export default function Auto({ template }) {
             "--padding-right": 0,
             "--border-inner": "none",
             "--adm-color-background": "transparent",
-            overflowX: 'hidden'
+            overflowX: 'hidden',
           }}>
             {local.components.map((component, i) => (
               <List.Item key={i}>
@@ -68,10 +70,9 @@ export default function Auto({ template }) {
               </List.Item>
             ))}
           </List>
-          <InfiniteScroll loadMore={local.loadMore} hasMore={!local.ended} threshold={10} />
+          {local.infinite && <InfiniteScroll loadMore={local.loadMore} hasMore={!local.ended} threshold={10} />}
         </PullToRefresh>
-        : local.components.map(component => <Component key={component._id} self={component} />)
-      }
+        : local.components.map((component, i) => <Component key={component._id} self={component} />)}
     </div>
   )}</Observer>
 }
