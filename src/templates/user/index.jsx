@@ -103,20 +103,23 @@ export default function User({ template, id }) {
               <div style={{ fontSize: 18 }}>{local.user.nickname}</div>
               <div style={{ fontSize: 12, color: 'grey', marginTop: 5 }}>注册于{dayjs(local.user.createdAt).format('YYYY-MM-DD')}</div>
             </FullWidthAuto>
-            {store.user.isLogin && store.user.info.id !== local.user._id && local.user.counted &&
-              <Button
-                size='mini'
-                color={local.user.counted.followed ? 'warning' : 'primary'}
-                style={{ marginRight: 10 }}
-                onClick={async (e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  await apis.toggleFollow(local.user.counted.followed, local.user._id)
-                  runInAction(() => {
-                    local.user.counted.followed = local.user.counted.followed ? 0 : 1;
-                  })
-                }}
-              >{local.user.counted.followed ? '取消关注' : '关注'}</Button>}
+            <Observer>{() => {
+              if (store.user.info._id !== local.user._id) {
+                return <Button
+                  size='mini'
+                  color={local.user.counted.followed ? 'warning' : 'primary'}
+                  style={{ marginRight: 10 }}
+                  onClick={async (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    await apis.toggleFollow(local.user.counted.followed, local.user._id)
+                    runInAction(() => {
+                      local.user.counted.followed = local.user.counted.followed ? 0 : 1;
+                    })
+                  }}
+                >{local.user.counted.followed ? '取消关注' : '关注'}</Button>
+              }
+            }}</Observer>
           </FullWidth>
           <FullHeightAuto style={{ overflow: 'hidden auto' }}>
             <PageList

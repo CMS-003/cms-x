@@ -7,8 +7,11 @@ import { Observer } from 'mobx-react-lite';
 import RouterContext, { getViews } from './contexts/router.jsx';
 import store from './store'
 import { isPWA, isPWAorMobile } from './utils';
+// ⚠️ 临时关闭 workbox / service worker —— 恢复时取消下面这行注释
 import { registerSW } from 'virtual:pwa-register';
 
+// ⚠️ 临时关闭 workbox / service worker（注册逻辑）
+// 恢复时：取消下面整段注释，并同时恢复上方 registerSW 的 import
 // 注册 Service Worker
 const updateSW = registerSW({
   onNeedRefresh() {

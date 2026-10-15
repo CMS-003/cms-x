@@ -1,5 +1,5 @@
 import { Fragment, useCallback, useEffect } from 'react';
-import { chunk } from 'lodash'
+import { chunk, isEmpty } from 'lodash'
 import { toJS } from 'mobx';
 import { Observer, useLocalObservable } from 'mobx-react-lite';
 import styled from 'styled-components';
@@ -72,16 +72,15 @@ export default function CFilter({ self }) {
   const query = useQuery() || {};
   const getData = useCallback(async () => {
     const qid = local.getQuery()
-    console.log('getData', query, '?')
     try {
       local.setData('loading', true)
-      const raw = self.widget.action === 'FETCH' ? await apis.fetchAPI(self.widget.method, apis.getApi(self.url, { page: local.page, q: query.q || '' })) : await apis.getResourceByQuery({ qid, page: local.page, size: 20 });
+      const raw = self.widget.action === 'FETCH' ? await apis.fetchAPI(self.widget.method, apis.getApi(self.url, { page: local.page, size: local.size, q: query.q || '' })) : await apis.getResourceByQuery({ qid, page: local.page, size: local.size });
       // 第三方接口字段映射：widget.mapping 存在时按映射规则把原始响应转换为内部结构
       // key 支持点路径，值以 $ 开头表示取原始响应的字段（仅 `$` 表示整个 body）
       // 例：body 是数组 [{...}]  =>  { code: 0, 'data.items': '$' }
       // 例：body 是 { data: { resources: [...] } }  =>  { code: 0, 'data.items': '$data.resources' }
       // 例：body 是 { resources: { items, size } }  =>  { code: 0, data: '$resources' }
-      const resp = self.widget.mapping ? mapFields(raw, self.widget.mapping) : raw;
+      const resp = !isEmpty(toJS(self.widget.mapping)) ? mapFields(raw, self.widget.mapping) : raw;
       if (resp.code === 0) {
         const { items = [], size } = resp.data || {};
         local.page === 1 ? local.setResources(items) : local.setResources(local.resources.concat(items))

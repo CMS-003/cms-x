@@ -16,6 +16,7 @@
 - Random请求数据
 - ✅ 组件分页加载设置
 - ✅ ipad 支持touch和click两种事件导致播放按钮失效
+- 横屏 分栏为4 播放页左右
 - 模板attrs属性：
   - embed 是否是内嵌页面,控制显示安全区和返回导航
   - pagination 分页

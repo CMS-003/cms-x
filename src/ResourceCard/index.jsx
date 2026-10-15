@@ -16,8 +16,8 @@ import layouts, { LAYOUT } from './layout';
  * @property {(item: any) => Array<{ type: string, src: string }>} [getMedia]
  * @property {(item: any) => string}   [getAvatar]
  * @property {(item: any) => string}   [getMeta]
- * @property {(item: any) => string[]} [getTags]
  * @property {(item: any) => string[]} [getBadges]
+ * @property {(item: any) => React.ReactNode} [getAction] 右侧操作区（关注按钮等）
  * @property {(item: any) => number|string|null} [getProgress]
  * @property {(item: any) => { view: string, query: Object }|null} [getRoute]
  */
@@ -48,8 +48,8 @@ export default function ResourceCard({ item, adapter, layout = LAYOUT.LEFT_TEXT_
       media={call('getMedia', [])}
       avatar={call('getAvatar', '')}
       meta={call('getMeta', '')}
-      tags={call('getTags', [])}
       badges={call('getBadges', [])}
+      action={call('getAction', null)}
       progress={call('getProgress', null)}
       onClick={onClick}
       style={style}

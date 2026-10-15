@@ -278,8 +278,8 @@ export default function VideoPage(props) {
     getDetail();
     return () => {
       apis.createHistory({
-        resource_id: props.id,
-        resource_type: local.resource.type,
+        res_id: props.id,
+        res_type: local.resource.type,
         total: local.resource.size,
         watched: local.latest_time,
       })

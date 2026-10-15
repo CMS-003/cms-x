@@ -47,7 +47,7 @@ shttp.interceptors.response.use(
       isRefreshing = true;
       try {
         const resp = await axios.post(`${store.app.baseURL}/gw/user/oauth/refresh`, null, {
-          headers: { Authorization: store.user.refresh_token, }
+          headers: { Authorization: 'Bearer ' + store.user.refresh_token, }
         });
         if (resp && resp.data && resp.data.code === 0) {
           const tokens = resp.data.data;
