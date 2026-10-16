@@ -10,7 +10,6 @@ import channel from "./channel";
 import mine from "./mine";
 import timeline from "./timeline";
 import notify from "./notify";
-import followee from "./followee";
 import searchEntry from "./search-entry";
 import searchResult from "./search-result";
 import chat from "./chat";
@@ -35,7 +34,6 @@ export const Templates = {
   channel,
   mine,
   notify,
-  followee,
   'search-entry': searchEntry,
   'search-result': searchResult,
   chat,

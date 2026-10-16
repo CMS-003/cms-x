@@ -75,8 +75,8 @@ const ScrollWrap = styled.div`
   }
 `;
 const ItemWrap = styled.div`
-  width: 120px;
   display: flex;
+  flex: 0 0 120px;
   flex-direction: column;
   margin-left: 10px;
 `

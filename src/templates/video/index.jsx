@@ -262,7 +262,7 @@ export default function VideoPage(props) {
   })
   const sendComment = useCallback(async (data) => {
     try {
-      const resp = await shttp.post(`/gw/express/comment`, data)
+      const resp = await shttp.post(`/gw/message/comment`, data)
       if (resp.code === 0) {
         await getComments();
       }

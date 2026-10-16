@@ -410,8 +410,10 @@ export const VIEW_OF = {
 export function resolveType(item) {
   if (!item) return null;
   if (item.res_type) return item.res_type;
+  const type = item.res_type || item.type;
   // if (item.type != null && LEGACY_TYPE[item.type]) return LEGACY_TYPE[item.type];
   // if (Array.isArray(item.images) || Array.isArray(item.videos)) return RESOURCE_TYPE.POST;
+  if (['movie', 'anime', 'video'].includes(type)) return 'video';
   return item.type;
 }
 

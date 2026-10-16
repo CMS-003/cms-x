@@ -34,7 +34,7 @@ import layouts, { LAYOUT } from './layout';
 export default function ResourceCard({ item, adapter, layout = LAYOUT.LEFT_TEXT_RIGHT_IMAGE, display, onClick, style }) {
   if (!item || !adapter) return null;
 
-  const Layout = layouts[layout] || layouts[LAYOUT.LEFT_TEXT_RIGHT_IMAGE];
+  const Layout = layouts[display] || layouts[layout] || layouts[LAYOUT.LEFT_TEXT_RIGHT_IMAGE];
   const call = (name, fallback) => (typeof adapter[name] === 'function' ? adapter[name](item) : fallback);
 
   return (

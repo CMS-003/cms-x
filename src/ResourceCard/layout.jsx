@@ -148,7 +148,7 @@ const fixedCover = (url, width, height) => ({
 const wideCover = url => ({
   ...coverBase(url),
   width: '100%',
-  aspectRatio: '16 / 9',
+  aspectRatio: '3 / 2',
 });
 
 const overlayStyle = {

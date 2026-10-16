@@ -34,10 +34,10 @@ const ScrollWrap = styled.div`
   }
 `;
 const ItemWrap = styled.div`
-  width: 120px;
   display: flex;
   flex-direction: column;
   margin-left: 10px;
+  flex: 0 0 120px;
 `
 
 const ItemTitle = styled.div`

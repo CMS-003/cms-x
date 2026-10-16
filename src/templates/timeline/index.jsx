@@ -81,7 +81,7 @@ export default function Followee({ template }) {
     try {
       local.setData('loading', true)
       const resp = await shttp({
-        url: `/gw/user/interaction/followees?latest=1&size=${local.size}`,
+        url: `/gw/user/follow/followees?latest=1&size=${local.size}`,
       });
       if (resp.code === 0) {
         local.setData('hasMore', resp.data.list.length === local.size)
@@ -99,14 +99,14 @@ export default function Followee({ template }) {
     try {
       local.setData('loading', true)
       const resp = await shttp({
-        url: `/gw/api/v1/public/timeline?page=${local.page}&size=${local.size}`,
+        url: `/gw/user/feed?page=${local.page}&size=${local.size}`,
       });
       if (resp.code === 0) {
-        local.setData('hasMore', resp.data.items.length === local.size)
+        local.setData('hasMore', resp.data.list.length === local.size)
         if (local.page === 1) {
-          local.setData('items', resp.data.items);
+          local.setData('items', resp.data.list);
         } else {
-          local.setData('items', local.items.concat(resp.data.items));
+          local.setData('items', local.items.concat(resp.data.list));
         }
 
       } else {
@@ -137,7 +137,7 @@ export default function Followee({ template }) {
             }}>
               <div style={{ position: 'relative', padding: 5 }}>
                 <Avatar style={{ backgroundImage: `url('${v.avatar}')` }} />
-                {v.counted.unread ? <Dot /> : null}
+                {v.unread ? <Dot /> : null}
               </div>
               <TxtOmit>{v.nickname}</TxtOmit>
             </ItemWrap>
@@ -150,7 +150,7 @@ export default function Followee({ template }) {
           multi={false}
           infinite={true}
           hasMore={local.hasMore}
-          display="lprt"
+          display="coverTopTextBottom"
           onRefresh={async () => {
             local.setData('page', 1)
             local.setData('loading', true)

@@ -131,10 +131,10 @@ async function toggleFollow(follow, user_id) {
 }
 
 async function createHistory(data) {
-  return shttp.post('/gw/api/v1/public/history', data)
+  return shttp.post('/gw/user/history', data)
 }
 async function removeHistory(id) {
-  return shttp.delete(`/gw/api/v1/public/history/${id}`);
+  return shttp.delete(`/gw/user/history/${id}`);
 }
 
 function getCompilationList(query) {
