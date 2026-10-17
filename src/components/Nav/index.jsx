@@ -22,7 +22,7 @@ export default function Nav({ style, title = '', align = 'center', left, right }
     >
       <CenterXY style={{ paddingLeft: 30, position: 'relative', flex: 1, minHeight: 40 }}>
         <div style={{ position: 'absolute', left: 10, top: '50%', transform: 'translateY(-50%)', display: 'flex', }}
-          onClick={() => {
+          onPointerUp={() => {
             router.backView();
           }}>
           <Acon icon="ChevronLeft" size={18} />
