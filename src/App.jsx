@@ -20,6 +20,12 @@ function App() {
         local.isError = true
         console.log(resp, '启动失败')
       } else {
+        resp.data.list.forEach(template => {
+          store.setTemplate(template._id, template)
+          if (template.name) {
+            store.setTemplate(template.name, template)
+          }
+        })
         if (store.user.access_token) {
           const resp_profile = await apis.getProfile()
           if (resp_profile) {

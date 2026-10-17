@@ -2,7 +2,7 @@ import { useCallback, useEffect } from "react";
 import apis from '@/apis'
 import { CenterXY } from "@/components";
 import { SpinLoading } from 'antd-mobile'
-import { action } from "mobx";
+import { action, toJS } from "mobx";
 import { Observer, useLocalObservable } from "mobx-react-lite";
 
 import dynamic from "./dynamic";
@@ -24,6 +24,7 @@ import gallery from "./gallery";
 
 import SignIn from "@/pages/SignIn";
 import QueryContext from "@/contexts/query";
+import store from "../store";
 
 export const Templates = {
   dynamic,
@@ -58,13 +59,18 @@ export default function Template({ view, id, active, query }) {
   const getData = useCallback(async () => {
     local.isLoading = true;
     try {
-      const resp = await apis.getTemplate(view)
-
-      if (resp.code === 0) {
-        local.setValue('template', resp.data || { attrs: {}, name: view, children: [] });
+      const cache = store.templates.get(view);
+      if (cache) {
+        local.setValue('template', toJS(cache))
       } else {
-        local.setValue('template', { attrs: {}, name: view, children: [] })
-        // local.isError = true;
+        const resp = await apis.getTemplate(view)
+
+        if (resp.code === 0) {
+          local.setValue('template', resp.data || { attrs: {}, name: view, children: [] });
+        } else {
+          local.setValue('template', { attrs: {}, name: view, children: [] })
+          // local.isError = true;
+        }
       }
     } catch (e) {
 

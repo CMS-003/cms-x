@@ -150,7 +150,8 @@ export default function Followee({ template }) {
           multi={false}
           infinite={true}
           hasMore={local.hasMore}
-          display="coverTopTextBottom"
+          display="dynamic"
+          style={{ padding: 0 }}
           onRefresh={async () => {
             local.setData('page', 1)
             local.setData('loading', true)

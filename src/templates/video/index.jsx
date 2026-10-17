@@ -252,7 +252,7 @@ export default function VideoPage(props) {
   const inputRef = useRef(null)
   const getComments = useCallback(async () => {
     try {
-      const resp = await shttp.get(`/gw/express/comment/resource/${props.id}`)
+      const resp = await shttp.get(`/gw/message/comment/resource/${props.id}`)
       if (resp.code === 0) {
         local.setValue('comments', resp.data.list)
       }

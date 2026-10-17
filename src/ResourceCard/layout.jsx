@@ -51,6 +51,7 @@ export const LAYOUT = {
   MEDIA_SCROLL: 'mediaScroll',
   /** 左圆形头像 + 中标题/描述 + 右操作区 —— 关注列表 */
   AVATAR_LEFT_TEXT_RIGHT_ACTION: 'avatarLeftTextRightAction',
+  DYNAMIC: 'dynamic'
 };
 
 const root = {
@@ -151,6 +152,12 @@ const wideCover = url => ({
   aspectRatio: '3 / 2',
 });
 
+const LongCover = url => ({
+  ...coverBase(url),
+  width: '100%',
+  aspectRatio: '16 / 9',
+});
+
 const overlayStyle = {
   position: 'absolute',
   left: 0,
@@ -213,8 +220,8 @@ export function CoverTopTextBottom({ title, cover, meta, badges, progress, onCli
       <div style={{ ...textColStyle, gap: 4 }}>
         <div style={titleStyle}>{title}</div>
         <Badges badges={badges} />
-        <Progress value={progress} />
-        <div style={metaStyle}>{meta}</div>
+        {/* <Progress value={progress} />
+        <div style={metaStyle}>{meta}</div> */}
       </div>
     </div>
   );
@@ -306,11 +313,11 @@ export function MediaScroll({ title, brief, media = [], meta, badges, onClick, s
         <div style={scrollRowStyle}>
           {media.map((m, i) => (m.type === 'video'
             ? <video
-                key={i}
-                src={m.src}
-                preload="metadata"
-                style={{ width: 120, height: 90, flexShrink: 0, borderRadius: 3, backgroundColor: '#000' }}
-              />
+              key={i}
+              src={m.src}
+              preload="metadata"
+              style={{ width: 120, height: 90, flexShrink: 0, borderRadius: 3, backgroundColor: '#000' }}
+            />
             : <div key={i} style={{ ...coverBase(m.src), width: 120, height: 90, flexShrink: 0, borderRadius: 3 }} />
           ))}
         </div>
@@ -346,6 +353,27 @@ export function AvatarLeftTextRightAction({ avatar, title, brief, meta, action, 
   );
 }
 
+export function Dynamic({ title, cover, brief, meta, onClick, style = {}, user }) {
+  return (
+    <div
+      style={{ ...root, backgroundColor: '#efefef', flexDirection: 'column', alignItems: 'center', gap: 5, padding: 10, ...style, borderRadius: 0 }}
+      onClick={onClick}
+    >
+      <div style={{ display: 'flex', 'flexDirection': 'row', width: '100%' }}>
+        <div style={{ ...coverBase(user?.avatar), width: 40, height: 40, borderRadius: '50%', flexShrink: 0 }} />
+        <div style={{ flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', paddingLeft: 10 }}>
+          <div style={{ ...titleStyle, WebkitLineClamp: 1 }}>{user?.name || 'None'}</div>
+          {meta ? <div style={metaStyle}>{meta}</div> : null}
+        </div>
+      </div>
+      <div style={LongCover(cover)} />
+      <div style={{ ...textColStyle, gap: 4, padding: 0, width: '100%' }}>
+        <div style={briefStyle}>{title}</div>
+      </div>
+    </div>
+  );
+}
+
 const layouts = {
   [LAYOUT.LEFT_TEXT_RIGHT_IMAGE]: LeftTextRightImage,
   [LAYOUT.COVER_TOP_TEXT_BOTTOM]: CoverTopTextBottom,
@@ -355,6 +383,7 @@ const layouts = {
   [LAYOUT.BANNER]: Banner,
   [LAYOUT.MEDIA_SCROLL]: MediaScroll,
   [LAYOUT.AVATAR_LEFT_TEXT_RIGHT_ACTION]: AvatarLeftTextRightAction,
+  [LAYOUT.DYNAMIC]: Dynamic,
 };
 
 export default layouts;

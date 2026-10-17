@@ -49,6 +49,7 @@ export const RESOURCE_TYPE = {
   ARTICLE: 'article',
   TICKER: 'ticker',
   VIDEO: 'video',
+  MOVIE: 'movie',
   AD: 'ad',
   GALLERY: 'gallery',
   POST: 'posts',
@@ -393,6 +394,7 @@ export const VIEW_OF = {
   [RESOURCE_TYPE.ARTICLE]: 'article',
   [RESOURCE_TYPE.TICKER]: 'article',
   [RESOURCE_TYPE.VIDEO]: 'video',
+  [RESOURCE_TYPE.MOVIE]: 'video',
   [RESOURCE_TYPE.AD]: 'dynamic',
   [RESOURCE_TYPE.GALLERY]: 'gallery',
   [RESOURCE_TYPE.POST]: 'post',
@@ -425,7 +427,7 @@ export function resolveType(item) {
 export function routeOf(item) {
   if (!item) return null;
   const type = resolveType(item);
-  const view = VIEW_OF[type] || 'dynamic';
+  const view = VIEW_OF[type] || 'video';
   const id = item.resource_id || item._id;
   return id ? { view, query: { id } } : null;
 }
@@ -511,6 +513,10 @@ export const adapters = {
     getBadges: () => [],
     getAction: item => <FollowButton item={item} />,
   }),
+
+  dynamic: create({
+
+  })
 };
 
 /**
